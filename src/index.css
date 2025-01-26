@@ -1,0 +1,187 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background: url('/src/assets/พทมีวงกลม.png') no-repeat center center fixed;
+  background-size: cover; /* Makes the image cover the whole background */
+  color: #ffffff;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #3c009d;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+p1 {
+  font-size: 1.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 2em;
+  width: 100%;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #4600af;
+  color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Login & Register */
+
+.form-container {
+  display: flex;
+  max-width: 840px;
+  margin: 00 auto;
+  flex-direction: column;
+}
+
+.form-container .container {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  row-gap: 1.5rem;
+  text-align: left;
+}
+
+.form-container input {
+  padding: 0.5rem;
+}
+
+.error-message {
+  color: #ff0400;
+}
+
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: rgba(18, 0, 128, 1);
+  padding: 40px;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-register {
+  background-color:  #555454;
+  color: #ffffff;
+}
+
+.btn-login {
+  background-color: #ffffff;
+  color: #4600af;
+}
+
+
+/* src/pages/ErrorPage.css */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.error-page h1 {
+  font-size: 48px;
+  color: #ff4f4f;
+}
+
+.error-page p {
+  font-size: 18px;
+}
+
+/* Add to your existing CSS */
+.form-container p {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.form-container a {
+  color: #0080ff; /* Bootstrap primary color */
+  text-decoration: none;
+}
+
+.form-container a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.form-wrapper {
+  background-color: #ffffff; /* White background */
+  border-radius: 15px; /* Rounded corners */
+  padding: 20px; /* Inner spacing */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Keep your existing styles */
+.form-container {
+  display: flex;
+  max-width: 840px;
+  margin: 0 auto;
+  flex-direction: column;
+}
+
+.form-container .container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  row-gap: 1.5rem;
+  text-align: left;
+}
+
+.form-container input {
+  padding: 0.5rem;
+}
+
+/* Other existing styles... */

@@ -1,0 +1,84 @@
+.forget-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+    position: relative;
+  }
+  
+  .forget-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #28159B; 
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+  
+  .input-icon {
+    margin-right: 0.5rem;
+    color: #28159B;
+  }
+  
+  input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+  }
+  
+  
+  .resend-text {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .resend-link {
+    color: #28159B;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .resend-link:hover {
+    text-decoration: underline;
+  }
+  
+  
+  .confirm-button {
+    background: linear-gradient(to right, #2500fa, #28159B); /* Gradient button */
+    color: white;
+    border: none;
+    padding: 0.5rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .confirm-button:hover {
+    background: linear-gradient(to right, #8e2de2, #4a00e0); /* Hover effect */
+  }
+  
+  
+  .login-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #2500fa;
+  }
+  
+  .login-link a {
+    color: #2500fa;
+    text-decoration: none;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,84 @@
+.card{
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+    position: relative;
+  }
+  .terms {
+    display: flex;
+    align-items: center;
+    margin: 1rem ;
+    font-size: 0.9rem;
+  }
+  .login-button {
+    background: linear-gradient(to right, #2500fa,#28159B);
+    color: white;
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .login-button:hover {
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+  }
+  
+  .title {
+    color: #4A4A4A;
+    margin : 0.5rem;
+    font-size: 2rem;
+  }
+  .subtitle {
+    color: #808080;
+    margin-bottom: 1rem;
+  }
+  .iconContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .iconWrapper{
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    background-color: #F9F9F9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .orText {
+    color: #808080;
+    margin: 1rem 0;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .input{
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #E0E0E0;
+    font-size: 1rem;
+  }
+  .options-center {
+    display: flex;
+    justify-content: center;
+    gap: 16px; 
+    margin: 8px 0;
+    font-size: 14px; 
+    align-items: center;
+  }
+  .link {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  
+  .signup {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  

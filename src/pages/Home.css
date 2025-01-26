@@ -1,0 +1,44 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background: none; 
+  }
+
+  .text-container {
+    z-index: 2;
+    text-align: center;
+  }
+
+  .main-title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #28159b;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: #28159b;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .btn-login {
+    padding: 0.5rem 1.5rem; 
+    font-size: 1rem; 
+    font-weight: bold;
+    color: #28159b;
+    border: 2px solid #28159b;
+    border-radius: 50px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-login:hover {
+    background: #28159b;
+    color: white;
+  }
