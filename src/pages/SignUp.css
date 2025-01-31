@@ -10,10 +10,8 @@
     position: relative;
   }
   
-  
-  
   .signup-title {
-    font-size: 2rem;
+    font-size: 35pt;
     margin-bottom: 1rem;
     color: #28159B;
   }
@@ -41,7 +39,7 @@
   
   .terms {
     display: flex;
-    align-items: center;
+    float: left;
     margin: 1rem ;
     font-size: 0.9rem;
   }
@@ -60,13 +58,13 @@
     background: linear-gradient(to right, #8e2de2, #4a00e0);
   }
   
-  .login-link {
+  .alreadyTxt{
     margin-top: 1rem;
     font-size: 0.9rem;
-    color: #4a00e0;
+    text-decoration: none;
   }
   
-  .login-link a {
+  .alreadyTxt a {
     color: #2500fa;
     text-decoration: none;
   }

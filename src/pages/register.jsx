@@ -82,8 +82,8 @@ const SignUp = () => {
           Sign up
         </button>
       </form>
-      <p className="login-link">
-        Already have an account? <a href="/login">Login</a>
+      <p className="alreadyTxt">
+        Already have an account? <a href="/login" >Login</a>
       </p>
     </div>
   );

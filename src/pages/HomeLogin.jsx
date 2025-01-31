@@ -40,7 +40,7 @@ const HomeLogin = () => {
       <main className="content">
         <h1 className="title">SAFE ZONE</h1>
         <p className="subtitle">
-          เพื่อนเสียงข้างกายในวันที่คุณอยากคุยกับใครสักคน <br />
+          เพื่อนเคียงข้างกายในวันที่คุณอยากคุยกับใครสักคน <br />
           และเราสามารถช่วยคุณในการประเมินระดับโรคซึมเศร้า
         </p>
         <button onClick={goToDepressionScreening} className="quiz-button">
