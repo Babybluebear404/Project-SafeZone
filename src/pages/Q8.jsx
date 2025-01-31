@@ -5,12 +5,12 @@ import "./Q8.css";
 const Q8 = () => {
   const questions = [
     "ช่วง 1 เดือนที่ผ่านมา คิดอยากตาย หรือคิดว่าตายไปจะดีกว่า",
-    "ช่วง 1 เดือนที่ผ่านมา อยากท าร้ายตัวเอง หรือท าให้ตัวเองบาดเจ็บ",
+    "ช่วง 1 เดือนที่ผ่านมา อยากทำร้ายตัวเอง หรือทำให้ตัวเองบาดเจ็บ",
     "ช่วง 1 เดือนที่ผ่านมา คิดเกี่ยวกับการฆ่าตัวตาย",
-    "ท่านสามารถควบคุมความอยากฆ่าตัวตายที่ท่านคิดอยู่นั้นได้หรือไม่ หรือบอกได้ไหมว่าคงจะไม่ท าตามความคิดนั้นในขณะนี้ได้",
+    "ท่านสามารถควบคุมความอยากฆ่าตัวตายที่ท่านคิดอยู่นั้นได้หรือไม่ หรือบอกได้ไหมว่าคงจะไม่ ทำตามความคิดนั้นในขณะนี้ได้",
     "ช่วง 1 เดือนที่ผ่านมา มีแผนการที่จะฆ่าตัวตาย",
-    "ช่วง 1 เดือนที่ผ่านมา ได้เตรียมการที่จะท าร้ายตนเอง หรือเตรียมการจะฆ่าตัวตาย โดยตั้งใจว่าจะให้ตายจริงๆ",
-    "ช่วง 1 เดือนที่ผ่านมา ได้ท าให้ตนเองบาดเจ็บ แต่ไม่ตั้งใจที่จะท าให้เสียชีวิต",
+    "ช่วง 1 เดือนที่ผ่านมา ได้เตรียมการที่จะ ทำร้ายตนเอง หรือเตรียมการจะฆ่าตัวตาย โดยตั้งใจว่าจะให้ตายจริงๆ",
+    "ช่วง 1 เดือนที่ผ่านมา ได้ทำให้ตนเองบาดเจ็บ แต่ไม่ตั้งใจที่จะทำให้เสียชีวิต",
     "ช่วง 1 เดือนที่ผ่านมา ได้พยายามฆ่าตัวตาย โดยคาดหวัง/ตั้งใจที่จะให้ตาย",
     "ตลอดชีวิตที่ผ่านมา ท่านเคยพยายามฆ่าตัวตาย"
   ];
@@ -30,14 +30,15 @@ const Q8 = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [scores, setScores] = useState(Array(questions.length).fill(null));
   const [result, setResult] = useState(null);
-  const navigate = useNavigate(); // ใช้ useNavigate เพื่อทำการเปลี่ยนหน้า
+  const [showPopup, setShowPopup] = useState(false); 
+  const navigate = useNavigate(); 
 
   const handleAnswer = (index, score) => {
     const updatedScores = [...scores];
     updatedScores[index] = score;
     setScores(updatedScores);
 
-    // คำนวณผลเมื่อผู้ใช้ตอบคำถามเสร็จ
+   
     if (index < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -58,20 +59,22 @@ const Q8 = () => {
       setResult("ไม่มีแนวโน้มจะฆ่าตัวตายในปัจจุบัน");
     } else if (totalScore <= 8) {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับน้อย");
+      setShowPopup(true); 
     } else if (totalScore <= 16) {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับปานกลาง");
+      setShowPopup(true); 
     } else {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับรุนแรง");
+      setShowPopup(true); 
     }
   };
 
+  const closePopup = () => {
+    setShowPopup(false); 
+  };
+
   const handleNext = () => {
-    // ตรวจสอบผลและนำทางไปหน้า HomeLogin หรือ Psychiatrist
-    if (result === "ไม่มีแนวโน้มจะฆ่าตัวตายในปัจจุบัน") {
-      navigate("/HomeLogin");
-    } else {
-      navigate("/Psychiatrist");
-    }
+    navigate("/HomeLogin");
   };
 
   return (
@@ -79,7 +82,7 @@ const Q8 = () => {
       {result === null ? (
         <div className="question-card">
           <h1 className="title">แบบประเมินการฆ่าตัวตาย (8Q)</h1>
-          <p className="question">{questions[currentQuestionIndex]}</p>
+          <p className="question">ข้อ {currentQuestionIndex + 1} : {questions[currentQuestionIndex]}</p>
           <div className="answers-row">
             {scoring[currentQuestionIndex].map((score, scoreIndex) => (
               <button
@@ -109,6 +112,23 @@ const Q8 = () => {
           <button onClick={handleNext} className="nav-button next">
             Next
           </button>
+        </div>
+      )}
+
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>ช่องทางปรึกษาจิตแพทย์</h2>
+            <p>
+              สายด่วนสุขภาพจิต: 1323 <br /><br />
+              ติดต่อ: ภาควิชาจิตเวชศาสตร์ <br />
+              ที่อยู่: ชั้น 3 อาคารสิรินธร โรงพยาบาลมหาวิทยาลัยนเรศวร มหาวิทยาลัยนเรศวร
+              ตำบลท่าโพธิ์ อำเภอเมือง จังหวัดพิษณุโลก 65000. 
+              คลินิกจิตเวช: 0-5596-5702-3 <br /><br />
+              ศูนย์สุขภาวะนิสิต มหาวิทยาลัยนเรศวร
+            </p>
+            <button onClick={closePopup} className="close-popup">ปิด</button>
+          </div>
         </div>
       )}
     </div>

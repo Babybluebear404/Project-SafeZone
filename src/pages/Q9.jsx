@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // เพิ่มการนำทาง
+import { useNavigate } from "react-router-dom"; 
 import "./Q9.css";
 
 const Q9 = () => {
@@ -18,7 +18,7 @@ const Q9 = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [scores, setScores] = useState(Array(questions.length).fill(null));
   const [result, setResult] = useState(null);
-  const navigate = useNavigate(); // ใช้ useNavigate สำหรับการนำทาง
+  const navigate = useNavigate(); 
 
   const handleAnswer = (score) => {
     const updatedScores = [...scores];
@@ -65,9 +65,9 @@ const Q9 = () => {
 
   const handleNextButton = () => {
     if (result === "ไม่มีภาวะซึมเศร้า") {
-      navigate("/HomeLogin"); // ไปหน้า HomeLogin
+      navigate("/HomeLogin"); 
     } else {
-      navigate("/Q8"); // ไปหน้า Q8
+      navigate("/Q8"); 
     }
   };
 
@@ -76,7 +76,9 @@ const Q9 = () => {
       {result === null ? (
         <div className="question-card">
           <h1 className="title">แบบคัดกรองโรคซึมเศร้า (9Q)</h1>
-          <p className="question">ใน 2 สัปดาห์ที่ผ่านมา "{questions[currentQuestionIndex]}"</p>
+          <p className="question">
+            ข้อ {currentQuestionIndex + 1} :
+            ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน <br /> "{questions[currentQuestionIndex]}"</p>
           <div className="answers-row">
             <div className="answer-column">
               <button
