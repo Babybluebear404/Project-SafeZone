@@ -35,7 +35,7 @@ const DepressionScreening = () => {
         <h1 className="title">แบบคัดกรองโรคซึมเศร้าด้วย 2 คำถาม (2Q)</h1>
 
         
-          <p className="question">ใน 2 สัปดาห์ที่ผ่านมา "ท่านรู้สึกหดหู่ เศร้าหรือสิ้นหวังหรือไม่?"</p>
+          <p className="question">ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน<br /> "ท่านรู้สึกหดหู่ เศร้าหรือสิ้นหวังหรือไม่?"</p>
           <div className="answers-row">
             <button
               className={`answer-button ${answers.question1 === "yes" ? "selected" : ""}`}
@@ -53,7 +53,7 @@ const DepressionScreening = () => {
         
 
         
-          <p className="question">ใน 2 สัปดาห์ที่ผ่านมา "ท่านรู้สึกเบื่อ ทำอะไร ๆ ก็ไม่เพลินหรือไม่?"</p>
+          <p className="question">ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน <br />"ท่านรู้สึกเบื่อ ทำอะไร ๆ ก็ไม่เพลินหรือไม่?"</p>
           <div className="answers-row">
             <button
               className={`answer-button ${answers.question2 === "yes" ? "selected" : ""}`}

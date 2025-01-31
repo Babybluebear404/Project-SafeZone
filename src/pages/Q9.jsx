@@ -78,7 +78,7 @@ const Q9 = () => {
           <h1 className="title">แบบคัดกรองโรคซึมเศร้า (9Q)</h1>
           <p className="question">
             ข้อ {currentQuestionIndex + 1} :
-            ใน 2 สัปดาห์ที่ผ่านมา "{questions[currentQuestionIndex]}"</p>
+            ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน <br /> "{questions[currentQuestionIndex]}"</p>
           <div className="answers-row">
             <button
               onClick={() => handleAnswer(0)}
