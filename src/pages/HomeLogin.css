@@ -119,3 +119,56 @@
     margin-top: 10px;
   }
 }
+
+.consult-button {
+  display: inline-block;
+  padding: 15px 30px;
+  margin-top: 30px;
+  background-color: white;
+  color: #28159b; 
+  border: 2px solid #28159b; 
+  border-radius: 25px;
+  text-align: center;
+  font-size: 18px;
+  text-decoration: none;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.consult-button:hover {
+  color: orange; 
+  border-color: orange; 
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.close-popup {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.close-popup:hover {
+  background-color: darkred;
+}

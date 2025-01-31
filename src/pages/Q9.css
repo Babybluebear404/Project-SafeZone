@@ -9,7 +9,7 @@
   
   .question-card, .result-card {
     width: 100%;
-    max-width: 750px; /* ให้การ์ดไม่กว้างเกินไป */
+    max-width: 750px; 
     padding: 20px;
     background: #fff;
     border-radius: 12px;
@@ -34,7 +34,7 @@
     align-items: center;
     width: 100%;
     margin-top: 40px;
-    flex-wrap: wrap; /* เพิ่มให้ปุ่มปรับตัวเองได้ในกรณีที่หน้าจอเล็ก */
+    flex-wrap: wrap; 
   }
   
   .answer-button {
@@ -85,7 +85,7 @@
     border: none;
     border-radius: 60px;
     cursor: pointer;
-    flex-grow: 1; /* ให้ปุ่มขยายให้เต็มพื้นที่ */
+    flex-grow: 1; 
   }
   
   .nav-button.back {

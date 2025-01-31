@@ -1,26 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { SiLine } from "react-icons/si";  
-import { useNavigate } from "react-router-dom"; 
+import { SiLine } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 import "./Login.css";
+import liff from '@line/liff' ;
+
 
 const Login = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked");
-    
-  };
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log("Google Token:", tokenResponse);
+
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
+        );
+        const user = await res.json();
+        console.log("Google User Info:", user);
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        navigate("/HomeLogin");
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    },
+    onError: () => console.log("Google Login Failed"),
+  });
+
+  useEffect(()=>{
+    liff.init({liffId:'2006838508-WR0kK6DG'})
+  },[])
 
   const handleLineLogin = () => {
-    console.log("Line login clicked");
-    
-  };
+    try{
+      liff.login()
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   const handleEmailLogin = (e) => {
     e.preventDefault();
     console.log("Email login submitted");
-    
     navigate("/HomeLogin");
   };
 
@@ -45,9 +70,7 @@ const Login = () => {
           <input type="password" placeholder="Password" className="input" required />
           <div className="options-center">
             <span>Remember me</span>
-            <a href="/forget" className="link">
-              Forget Password
-            </a>
+            <a href="/forget" className="link">Forget Password</a>
           </div>
           <button type="submit" className="login-button">Log in</button>
         </form>

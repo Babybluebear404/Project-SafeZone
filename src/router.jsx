@@ -19,7 +19,6 @@ import Diary from './pages/Diary'
 import Notification from './pages/Notification'
 import Dashboard from './pages/dashboard'
 import Profile from './pages/Profile'
-import Psychiatrist from './pages/Psychiatrist'
 import ErrorPage from './pages/errorpage'
 
 const elements = createRoutesFromElements (
@@ -38,7 +37,6 @@ const elements = createRoutesFromElements (
         <Route path="/Diary" element={<Diary />} />
         <Route path="/Notification" element={<Notification />} />
         <Route path="/Profile" element={<Profile />} />
-        <Route path="/Psychiatrist" element={<Psychiatrist />} />
         <Route path="/dashboard" element={<Dashboard />} />
     </Route>
 )
