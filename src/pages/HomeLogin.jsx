@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRegNewspaper, FaRegBell } from "react-icons/fa"; 
-import { AiOutlineDashboard } from "react-icons/ai"; 
 import "./HomeLogin.css";
 
 const HomeLogin = () => {
@@ -29,19 +27,16 @@ const HomeLogin = () => {
           <span className="logo-text">SafeZone</span>
         </div>
         <nav className="nav-links">
-          <a href="/" className="nav-item active">Home</a>
+          <a href="/HomeLogin" className="nav-item active">Home</a>
           <a href="/AboutUs" className="nav-item">About Us</a>
           <a href="/diary" className="nav-item">Diary</a>
-          <a href="/info" className="nav-item">Info</a>
-          <a href="/dashboard" className="nav-item">Dashboard</a>
-          <a href="/notification" className="nav-item">Notification</a>
+          <a href="/info" className="icon-info"></a>
+          <a href="/dashboard" className="icon-dashboard"></a>
+          <a href="/notification" className="icon-notification"></a>
         </nav>
-        <div className="user-section">
-          <AiOutlineDashboard className="icon dashboard" />
-          <FaRegNewspaper className="icon info" />
-          <FaRegBell className="icon notification" />
+       
           <a href="/Profile"> <div className="profile-picture-placeholder"></div> </a>
-        </div>
+       
       </header>
 
       <main className="content">
