@@ -1,4 +1,122 @@
 .screening-container {
+<<<<<<< HEAD
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.question-card,
+.result-card {
+  width: 100%;
+  max-width: 750px;
+  /* ให้การ์ดไม่กว้างเกินไป */
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.answers-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 10px;   
+}
+
+
+.answer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  height: 100%;
+}
+
+.answers-row .answer-button {
+  margin: 5px;
+  padding: 10px;
+  width: 50px;
+  border-radius: 50%; 
+  background-color: #f0f0f0; 
+  border: none; 
+  outline: none; 
+  font-size: 20px; 
+}
+
+.answer-button:focus {
+  outline: none; 
+}
+.answer-button:hover {
+  background-color: #28159b;
+  color: white;
+  border-color: #28159b;
+}
+
+.answer-button.selected {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  width: 20%;
+}
+
+.nav-button {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: white;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  flex-grow: 1;
+  /* ให้ปุ่มขยายให้เต็มพื้นที่ */
+}
+
+.nav-button.back {
+  background-color: #6c757d;
+}
+
+.nav-button.back:hover {
+  background-color: #5a6268;
+}
+
+.nav-button.next {
+  background-color: #28159b;
+}
+
+.nav-button.next:hover {
+  background-color: #000000;
+}
+
+.result {
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+=======
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,3 +227,4 @@
     margin-top: 20px;
   }
   
+>>>>>>> 5b88830d80c699e99718548bed181ffd165f8fea

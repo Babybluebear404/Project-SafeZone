@@ -80,35 +80,44 @@ const Q9 = () => {
             ข้อ {currentQuestionIndex + 1} :
             ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน <br /> "{questions[currentQuestionIndex]}"</p>
           <div className="answers-row">
-            <button
-              onClick={() => handleAnswer(0)}
-              className={`answer-button ${scores[currentQuestionIndex] === 0 ? "selected" : ""}`}
-            >
-              😃
-            </button>
-            <p className="subtitle"> ไม่มีเลย  </p>
-            <button
-              onClick={() => handleAnswer(1)}
-              className={`answer-button ${scores[currentQuestionIndex] === 1 ? "selected" : ""}`}
-            >
-              😐
-            </button>
-            <p className="subtitle"> เป็นบางวัน (1-7 วัน)  </p>
-            <button
-              onClick={() => handleAnswer(2)}
-              className={`answer-button ${scores[currentQuestionIndex] === 2 ? "selected" : ""}`}
-            >
-              😞
-            </button>
-            <p className="subtitle"> เป็นบ่อย (มากกว่า 7 วัน)  </p>
-            <button
-              onClick={() => handleAnswer(3)}
-              className={`answer-button ${scores[currentQuestionIndex] === 3 ? "selected" : ""}`}
-            >
-              😭
-            </button>
-            <p className="subtitle"> เป็นทุกวัน  </p>
+            <div className="answer-column">
+              <button
+                onClick={() => handleAnswer(0)}
+                className={`answer-button ${scores[currentQuestionIndex] === 0 ? "selected" : ""}`}
+              >
+                😃
+              </button>
+              <p className="subtitle"> ไม่มีเลย </p>
+            </div>
+            <div className="answer-column">
+              <button
+                onClick={() => handleAnswer(1)}
+                className={`answer-button ${scores[currentQuestionIndex] === 1 ? "selected" : ""}`}
+              >
+                😐
+              </button>
+              <p className="subtitle"> เป็นบางวัน (1-7 วัน) </p>
+            </div>
+            <div className="answer-column">
+              <button
+                onClick={() => handleAnswer(2)}
+                className={`answer-button ${scores[currentQuestionIndex] === 2 ? "selected" : ""}`}
+              >
+                😞
+              </button>
+              <p className="subtitle"> เป็นบ่อย (มากกว่า 7 วัน) </p>
+            </div>
+            <div className="answer-column">
+              <button
+                onClick={() => handleAnswer(3)}
+                className={`answer-button ${scores[currentQuestionIndex] === 3 ? "selected" : ""}`}
+              >
+                😭
+              </button>
+              <p className="subtitle"> เป็นทุกวัน </p>
+            </div>
           </div>
+
           <div className="navigation-buttons">
             {currentQuestionIndex > 0 && (
               <button

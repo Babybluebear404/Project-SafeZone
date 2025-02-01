@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./DepressionScreening.css"; 
-
+import { useNavigate } from "react-router-dom"; 
+import "./DepressionScreening.css";
 const DepressionScreening = () => {
   const [answers, setAnswers] = useState({ question1: null, question2: null });
   const [result, setResult] = useState(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleAnswerChange = (question, answer) => {
     setAnswers({ ...answers, [question]: answer });
@@ -32,53 +31,76 @@ const DepressionScreening = () => {
   return (
     
       <div className="signup-box">
-        <h1 className="title">แบบคัดกรองโรคซึมเศร้าด้วย 2 คำถาม (2Q)</h1>
+        {result === null ? (
+          <>
+            <h1 className="title">แบบคัดกรองโรคซึมเศร้าด้วย 2 คำถาม (2Q)</h1>
+            <div className="mb-6">
+              <p className="mb-4">
+                ใน 2 สัปดาห์ที่ผ่านมา " ท่านรู้สึกหดหู่ เศร้าหรือสิ้นหวังหรือไม่? "
+              </p>
+              <div className="flex gap-4">
+                <label>
+                  <input
+                    type="radio"
+                    name="question1"
+                    value="yes"
+                    onChange={() => handleAnswerChange("question1", "yes")}
+                  />
+                  <span className="yN">มี</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="question1"
+                    value="no"
+                    onChange={() => handleAnswerChange("question1", "no")}
+                  />
+                  <span className="yN">ไม่มี</span>
+                </label>
+              </div>
+            </div>
 
-        
-          <p className="question">ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน<br /> "ท่านรู้สึกหดหู่ เศร้าหรือสิ้นหวังหรือไม่?"</p>
-          <div className="answers-row">
-            <button
-              className={`answer-button ${answers.question1 === "yes" ? "selected" : ""}`}
-              onClick={() => handleAnswerChange("question1", "yes")}
-            >
-              มี
-            </button>
-            <button
-              className={`answer-button ${answers.question1 === "no" ? "selected" : ""}`}
-              onClick={() => handleAnswerChange("question1", "no")}
-            >
-              ไม่มี
-            </button>
-          </div>
-        
+            <div className="mb-6">
+              <p className="mb-4">
+                ใน 2 สัปดาห์ที่ผ่านมา " ท่านรู้สึกเบื่อ ทำอะไร ๆ ก็ไม่เพลินหรือไม่? "
+              </p>
+              <div className="flex gap-4">
+                <label>
+                  <input
+                    type="radio"
+                    name="question2"
+                    value="yes"
+                    onChange={() => handleAnswerChange("question2", "yes")}
+                  />
+                  <span className="yN">มี</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="question2"
+                    value="no"
+                    onChange={() => handleAnswerChange("question2", "no")}
+                  />
+                  <span className="yN">ไม่มี</span>
+                </label>
+              </div>
+            </div>
 
-        
-          <p className="question">ใน 2 สัปดาห์ที่ผ่านมารวมวันนี้ท่านมีอาการเหล่านี้บ่อยแค่ไหน <br />"ท่านรู้สึกเบื่อ ทำอะไร ๆ ก็ไม่เพลินหรือไม่?"</p>
-          <div className="answers-row">
             <button
-              className={`answer-button ${answers.question2 === "yes" ? "selected" : ""}`}
-              onClick={() => handleAnswerChange("question2", "yes")}
+              onClick={handleSubmit}
+              className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
-              มี
+              Submit
             </button>
+          </>
+        ) : (
+          <div className="mt-6 p-4 bg-gray-100 rounded-md shadow-sm">
+            <h2 className="text-lg font-bold mb-2 text-center">สรุปผลการทดสอบ</h2>
+            <p className="text-center">{result}</p>
             <button
-              className={`answer-button ${answers.question2 === "no" ? "selected" : ""}`}
-              onClick={() => handleAnswerChange("question2", "no")}
+              onClick={handleNext}
+              className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 mt-4"
             >
-              ไม่มี
-            </button>
-          </div>
-        
-
-        <button onClick={handleSubmit} className="nav-button submit">
-          Submit
-        </button>
-
-        {result && (
-          <div className="result-card">
-            <h2 className="result-title">สรุปผลการทดสอบ</h2>
-            <p className="result">{result}</p>
-            <button onClick={handleNext} className="nav-button next">
               Next
             </button>
           </div>
