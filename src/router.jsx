@@ -20,6 +20,7 @@ import Notification from './pages/Notification'
 import Dashboard from './pages/dashboard'
 import Profile from './pages/Profile'
 import ErrorPage from './pages/errorpage'
+import Tab from './pages/Tab'
 
 const elements = createRoutesFromElements (
     <Route errorElement={<ErrorPage />}>  {/* Parent route with errorElement */}
@@ -38,6 +39,7 @@ const elements = createRoutesFromElements (
         <Route path="/Notification" element={<Notification />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/Tab" element={<Tab />} />
     </Route>
 )
 

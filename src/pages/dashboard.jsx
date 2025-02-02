@@ -1,6 +1,9 @@
+import React, { useState } from "react";
+import Tab from "./Tab";
 const Dashboard = () => {
     return (
-        <h2>Dashboard</h2>
+        <Tab />
+        
     )
 } 
 

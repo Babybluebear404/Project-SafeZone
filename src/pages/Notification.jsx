@@ -1,14 +1,9 @@
 import React from 'react';
+import Tab from "./Tab";
 
 const Notification = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-      <div className="signup-box">
-        <h1 className="text-xl font-bold mb-6 text-center">Notification</h1>
-        <p className="text-center">Notification</p>
-        <p className="text-center mt-4">Notification</p>
-      </div>
-    </div>
+    <Tab />
   );
 };
 
