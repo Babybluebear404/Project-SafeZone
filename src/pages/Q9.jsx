@@ -19,7 +19,9 @@ const Q9 = () => {
   const [scores, setScores] = useState(Array(questions.length).fill(null));
   const [result, setResult] = useState(null);
   const navigate = useNavigate(); 
-
+  
+  const [isActive, setIsActive] = useState(false);
+  
   const handleAnswer = (score) => {
     const updatedScores = [...scores];
     updatedScores[currentQuestionIndex] = score;
@@ -27,7 +29,7 @@ const Q9 = () => {
   };
 
   useEffect(() => {
-    if (scores[currentQuestionIndex] !== null) {
+    if (scores[currentQuestionIndex] !== null && !isActive) {
       const timeout = setTimeout(() => {
         handleNext();
       }, 200);
@@ -35,18 +37,27 @@ const Q9 = () => {
     }
   }, [scores, currentQuestionIndex]);
 
+
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
+      setIsActive(true);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       calculateResult(scores);
     }
+    setTimeout(() => {
+      setIsActive(false);
+    }, 200);
   };
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setIsActive(true); 
+      setCurrentQuestionIndex(currentQuestionIndex -1);
     }
+    setTimeout(() => {
+      setIsActive(false);
+    }, 200);
   };
 
   const calculateResult = (scores) => {
