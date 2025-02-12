@@ -1,149 +1,160 @@
 .diary-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    
-  }
-  
-  .diary-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    max-width: 1200px;
-    height: 500px;
-    width: 900px;
-  }
-  
-  .calendar-section, .diary-section {
-    flex: 1;
-    min-width: 300px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .calendar-title, .diary-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .calendar-month {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #666;
-  }
-  
-  .calendar-navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .icon-button {
-    width: 30px;
-    height: 30px;
-    border-radius: 10%;
-    background-size: cover;
-    background-position: center;
-    background-color: white;
-    background-image: url('/src/assets/left-arrow.png');
-  }
-  .icon-button2 {
-    width: 30px;
-    height: 30px;
-    border-radius: 10%;
-    background-size: cover;
-    background-position: center;
-    background-color: white;
-    background-image: url('/src/assets/right-arrow.png');
-  }
-  
-  .icon-button:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-  
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-  }
-  
-  .calendar-day {
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-  }
-  
-  .calendar-date {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #ffffff;
-    color: #6a6a6a;
-    transition: background-color 0.3s ease;
-  }
-  
-  .calendar-date.highlighted {
-    background: #ffa4a4;
-    color: #fff;
-  }
-  
-  .calendar-date:hover {
-    background-color: #dcdcdc;
-  }
-  
-  
-  
-  .diary-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .add-friends-button, .close-friends-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 15px;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .add-friends-button {
-    background-color: #4caf50;
-    color: #fff;
-  }
-  
-  .add-friends-button:hover {
-    background-color: #45a049;
-  }
-  
-  .close-friends-button {
-    background-color: #2196f3;
-    color: #fff;
-  }
-  
-  .close-friends-button:hover {
-    background-color: #1e88e5;
-  }
-  
-  .icon {
-    margin-right: 8px;
-    font-size: 16px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.diary-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  height: 500px;
+  width: 900px;
+}
+
+.calendar-section,
+.diary-section {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-section h3 {
+  font-size: 18px;
+  color: #28159B;
+}
+.calendar-title h2{
+  margin: 0px;
+}
+.calendar-title {
+  font-size: 30px;
+  color: #212121;
+  margin: 30px 0px 0px 0px;
+  justify-items: flex-start;
+  padding-left: 15px;
+}
+.calendar-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 50px;
+  justify-items: left  ;
+  padding-left: 20px;
+}
+
+.arrow-month{
+  display: flex;
+  gap: 20px;
+  align-self: center;
+  justify-content: space-between;
+  width: 100px;
+}
+.days-container {
+  display: grid;
+  grid-template-columns: repeat(7, 0.5fr);
+  font-size: 5px;
+  text-align: center;
+  place-content: center;
+  color: #6b7280;
+  user-select: none;
+}
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(7, 0.5fr);
+  font-size: 5px;
+  text-align: center;
+  place-content: center;
+  color: #3F6262;
+  user-select: none;
+}
+
+.current-cycle {
+  border-top: 1px solid #e5e7eb;
+}
+
+.base-style {
+  margin: 10px;
+  height: 2rem; 
+  width: 2rem; 
+  border-radius: 9999px; 
+  display: grid;
+  place-content: center;
+  transition: all 0.2s ease-in-out; 
+  cursor: pointer;
+  user-select: none; 
+}
+
+.base-style:hover {
+  background-color: black; 
+  color: white; 
+}
+
+.text-gray {
+  color: #b1b1b1; /* text-gray-400 */
+}
+
+.bg-red {
+  background-color: #dc2626; /* bg-red-600 */
+  color: white; /* text-white */
+}
+
+.bg-black {
+  background-color: black; /* bg-black */
+  color: white; /* text-white */
+}
+
+.diary-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.diary-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add-friends-button,
+.close-friends-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-friends-button {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.add-friends-button:hover {
+  background-color: #45a049;
+}
+
+.close-friends-button {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.close-friends-button:hover {
+  background-color: #1e88e5;
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 16px;
+}

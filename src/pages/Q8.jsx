@@ -81,6 +81,16 @@ const Q8 = () => {
     <div className="screening-container">
       {result === null ? (
         <div className="question-card">
+          <div className="step-process">
+            {questions.map((_, index) => (
+              <div
+                key={index}
+                className={`step-circle ${currentQuestionIndex === index ? "active" : currentQuestionIndex > index ? "completed" : ""}`}
+              >
+                {index + 1}
+              </div>
+            ))}
+          </div>
           <h1 className="title">แบบประเมินการฆ่าตัวตาย (8Q)</h1>
           <p className="question">ข้อ {currentQuestionIndex + 1} : {questions[currentQuestionIndex]}</p>
           <div className="answers-row">
@@ -107,7 +117,7 @@ const Q8 = () => {
         </div>
       ) : (
         <div className="result-card">
-          <h1 className="title">สรุปผลการทดสอบ</h1>
+          <h1 className="title">สรุปผลการทดสอบ<br />แบบประเมินการฆ่าตัวตายด้วย 8 คำถาม (8Q)</h1>
           <p className="result">{result}</p>
           <button onClick={handleNext} className="nav-button next">
             Next

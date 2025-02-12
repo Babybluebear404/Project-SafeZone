@@ -9,7 +9,7 @@
   
   .question-card, .result-card {
     width: 100%;
-    max-width: 750px; /* ให้การ์ดไม่กว้างเกินไป */
+    max-width: 750px; 
     padding: 20px;
     background: #fff;
     border-radius: 12px;
@@ -42,7 +42,7 @@
     align-items: center;
     background-color: #fff;
     border: 2px solid #cfcfcf;
-    color: #007bff;
+    color: #5A00CC;
     border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
@@ -87,7 +87,6 @@
     margin-top: 20px;
   }
   
-  /* Popup Container */
 .popup {
   position: fixed;
   top: 0;

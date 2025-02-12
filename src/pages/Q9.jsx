@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import "./Q9.css";
 
 const Q9 = () => {
@@ -18,10 +18,10 @@ const Q9 = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [scores, setScores] = useState(Array(questions.length).fill(null));
   const [result, setResult] = useState(null);
-  const navigate = useNavigate(); 
-  
+  const navigate = useNavigate();
+
   const [isActive, setIsActive] = useState(false);
-  
+
   const handleAnswer = (score) => {
     const updatedScores = [...scores];
     updatedScores[currentQuestionIndex] = score;
@@ -52,8 +52,8 @@ const Q9 = () => {
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setIsActive(true); 
-      setCurrentQuestionIndex(currentQuestionIndex -1);
+      setIsActive(true);
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
     setTimeout(() => {
       setIsActive(false);
@@ -76,16 +76,27 @@ const Q9 = () => {
 
   const handleNextButton = () => {
     if (result === "ไม่มีภาวะซึมเศร้า") {
-      navigate("/HomeLogin"); 
+      navigate("/HomeLogin");
     } else {
-      navigate("/Q8"); 
+      navigate("/Q8");
     }
   };
+
 
   return (
     <div className="screening-container">
       {result === null ? (
         <div className="question-card">
+          <div className="step-process">
+            {questions.map((_, index) => (
+              <div
+                key={index}
+                className={`step-circle ${currentQuestionIndex === index ? "active" : currentQuestionIndex > index ? "completed" : ""}`}
+              >
+                {index + 1}
+              </div>
+            ))}
+          </div>
           <h1 className="title">แบบคัดกรองโรคซึมเศร้า (9Q)</h1>
           <p className="question">
             ข้อ {currentQuestionIndex + 1} :

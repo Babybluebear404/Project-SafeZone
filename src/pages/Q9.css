@@ -5,15 +5,19 @@
   justify-content: center;
   min-height: 100vh;
   padding: 20px;
+  overflow: hidden;
+}
+
+body {
+  overflow: hidden;
 }
 
 .question-card,
 .result-card {
   width: 100%;
   max-width: 750px;
-  /* ให้การ์ดไม่กว้างเกินไป */
   padding: 20px;
-  background: #fff;
+  background: #1d1919;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -27,7 +31,9 @@
 
 .question {
   font-size: 1rem;
+  margin-left: 20px;
   margin-bottom: 20px;
+  width: 550px;
 }
 
 .answers-row {
@@ -91,7 +97,6 @@
   border-radius: 60px;
   cursor: pointer;
   flex-grow: 1;
-  /* ให้ปุ่มขยายให้เต็มพื้นที่ */
 }
 
 .nav-button.back {
@@ -104,6 +109,7 @@
 
 .nav-button.next {
   background-color: #28159b;
+  width: 300px;
 }
 
 .nav-button.next:hover {
@@ -112,6 +118,36 @@
 
 .result {
   font-size: 1.2rem;
-  margin-top: 20px;
+  padding: 20px; ;
 }
 
+.step-process {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 25px;
+}
+
+.step-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.step-circle.active {
+  background-color: #da8067; 
+}
+
+
+.step-circle.completed {
+  background-color: #4A00AA; 
+}

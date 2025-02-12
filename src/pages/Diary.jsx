@@ -1,38 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
+import { generateDate, months } from "./calendar";
 import Tab from "./Tab";
+import dayjs from "dayjs";
 import "./Diary.css";
 
 const Diary = () => {
+  const days = ["S", "M", "T", "W", "T", "F", "S"];
+  const currentDate = dayjs();
+  const [today, setToday] = useState(currentDate);
+  const [selectDate, setSelectDate] = useState(currentDate);
+
   return (
     <div className="diary-container">
       <Tab />
       <div className="diary-wrapper">
         {/* Calendar Section */}
         <div className="calendar-section">
-          <h2 className="calendar-title">Calendar</h2>
-          <h3 className="calendar-month">August 2024</h3>
-          <div className="calendar-navigation">
-            <button className="icon-button ghost">
-            </button>
-            <button className="icon-button2">
-            </button>
+          <div className="calendar-title"><h2>Calendar</h2></div>
+          <div className="calendar-header" >
+            <h3 className="calendar-month">
+              {months[today.month()]}, {today.year()}
+            </h3>
+            <div className="arrow-month">
+              <SlArrowLeft
+                onClick={() => {
+                  setToday(today.month(today.month() - 1));
+                }}
+              />
+              <SlArrowRight
+                onClick={() => {
+                  setToday(today.month(today.month() + 1));
+                }}
+              />
+            </div>
           </div>
-          <div className="calendar-grid">
-            {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-              <span key={index} className="calendar-day">
-                {day}
-              </span>
-            ))}
-            {Array.from({ length: 31 }, (_, index) => (
-              <button
-                key={index}
-                className={`calendar-date ${
-                  [4, 5, 6, 8, 9, 10].includes(index + 1) ? "highlighted" : ""
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
+          <div className="days-container">
+            {days.map((day, index) => {
+              return <h1 key={index}>{day}</h1>;
+            })}
+          </div>
+          <div className="calendar-container">
+            {generateDate(today.month(), today.year()).map(
+              ({ date, currentMonth, today: isTodayFlag }, index) => {
+                const isGray = currentMonth ? "" : "text-gray";
+                const isToday = isTodayFlag ? "bg-red" : "";
+                const isSelected =
+                  selectDate.toDate().toDateString() === date.toDate().toDateString()
+                    ? "bg-black"
+                    : "";
+
+                return (
+                  <div key={index} className="current-cycle">
+                    <h1
+                      className={`base-style ${isGray} ${isToday} ${isSelected}`}
+                      onClick={() => setSelectDate(date)}
+                    >
+                      {date.toDate().getDate()}
+                    </h1>
+                  </div>
+                );
+              }
+            )}
           </div>
         </div>
 
@@ -40,12 +69,8 @@ const Diary = () => {
         <div className="diary-section">
           <h2 className="diary-title">Diary</h2>
           <div className="diary-buttons">
-            <button className="add-friends-button">
-              Add Friends
-            </button>
-            <button className="close-friends-button">
-              Close Friends
-            </button>
+            <button className="add-friends-button">Add Friends</button>
+            <button className="close-friends-button">Close Friends</button>
           </div>
         </div>
       </div>
