@@ -19,7 +19,7 @@
 .diary-section {
   flex: 1;
   min-width: 300px;
-  padding: 20px;
+  padding: 20px 30px 20px 20px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -67,7 +67,7 @@
 .calendar-container {
   display: grid;
   grid-template-columns: repeat(7, 0.5fr);
-  font-size: 5px;
+  font-size: 4px;
   text-align: center;
   place-content: center;
   color: #3F6262;
