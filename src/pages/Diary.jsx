@@ -5,11 +5,40 @@ import Tab from "./Tab";
 import dayjs from "dayjs";
 import "./Diary.css";
 
+const CloseFriendsPopup = ({ onClose }) => {
+  return (
+    <div className="popup-overlay">
+      <div className="popup-content">
+        <h2>Friends</h2>
+        <input type="text" placeholder="Search..." className="search-box" />
+        <div className="friends-list">
+          {Array(7).fill("SafeZone").map((friend, index) => (
+            <div key={index} className="friend-item">
+              <div className="logo-friends"></div>
+              <span>{friend}</span>
+              <button className="delete-button">🗑</button>
+            </div>
+          ))}
+        </div>
+        <button className="close-button" onClick={onClose}>✖</button>
+      </div>
+    </div>
+  );
+};
+
 const Diary = () => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  console.log("Popup state:", isPopupOpen);
+  const togglePopup = () => {
+    console.log("Toggle clicked!");
+    setIsPopupOpen(!isPopupOpen);
+  };
+
 
   return (
     <div className="diary-container">
@@ -68,12 +97,14 @@ const Diary = () => {
         {/* Diary Section */}
         <div className="diary-section">
           <h2 className="diary-title">Diary</h2>
+          <button className="diary-button"></button>
           <div className="diary-buttons">
             <button className="add-friends-button">Add Friends</button>
-            <button className="close-friends-button">Close Friends</button>
+            <button className="close-friends-button"onClick={togglePopup}>Friends</button>
           </div>
         </div>
       </div>
+      {isPopupOpen && <CloseFriendsPopup onClose={togglePopup} />}
     </div>
   );
 };
