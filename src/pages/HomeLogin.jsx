@@ -32,13 +32,11 @@ const HomeLogin = () => {
           แบบทดสอบโรคซึมเศร้า
         </button>
 
-        {/* เพิ่มปุ่มสำหรับช่องทางปรึกษาจิตแพทย์ */}
         <button onClick={openPopup} className="consult-button">
           ช่องทางปรึกษาจิตแพทย์
         </button>
       </main>
 
-      {/* Popup สำหรับแสดงช่องทางการปรึกษาจิตแพทย์ */}
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
@@ -51,7 +49,7 @@ const HomeLogin = () => {
               คลินิกจิตเวช: 0-5596-5702-3 <br /><br />
               ศูนย์สุขภาวะนิสิต มหาวิทยาลัยนเรศวร
             </p>
-            <button onClick={closePopup} className="close-popup">ปิด</button>
+            <button onClick={closePopup} className="close-popup">Close</button>
           </div>
         </div>
       )}

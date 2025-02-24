@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaCircleInfo } from "react-icons/fa6";
+import { IoNotifications } from "react-icons/io5"
 import "./Tab.css";
 
 const Tab = () => {
@@ -12,11 +14,11 @@ const Tab = () => {
         </div>
         <nav className="nav-links">
           <a href="/HomeLogin" className="nav-item active">Home</a>
-          <a href="/AboutUs" className="nav-item">About Us</a>
+          <a href="/dashboard" className="nav-item">DashBoard</a>
           <a href="/diary" className="nav-item">Diary</a>
-          <a href="/info" className="icon-info"></a>
-          <a href="/dashboard" className="icon-dashboard"></a>
-          <a href="/notification" className="icon-notification"></a>
+          <a href="/AboutUs" className="nav-item">About Us</a>
+          <a href="/info" className="nav-item"><FaCircleInfo /></a>
+          <a href="/notification" className="nav-item"><IoNotifications /></a>
         </nav>
 
         <a href="/Profile"> <div className="profile-picture-placeholder"></div> </a>

@@ -1,131 +1,82 @@
 .navbar {
-    position: fixed;  
-    width: 1400px;
-    height: 40px;
-    top: 13px;  
-    display: flex;
-    justify-content: space-between;  
-    align-items: center; 
-    padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.5);  
-    backdrop-filter: blur(2px);  
-    z-index: 1000; 
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-  
-  }
-  
-  
-  .home-container {
-    padding-top: 60px; 
-  }
-  
-  
-  .logo-section {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;  
-  }
-  
-  
-  .logo-text {
+  position: fixed;
+  width: 90%;
+  min-width: 1000px;
+  height: 40px;
+  top: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(255, 255s, 255, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+
+}
+
+
+.home-container {
+  padding-top: 60px;
+}
+
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+
+.logo-text {
   position: absolute;
   width: 183px;
   height: 60px;
   left: 50px;
   top: 20px;
   font-weight: bold;
-  }
-  
-  
-  .user-section {
-    display: flex;
-    align-items: center;
-    margin-right: 40px;  
-  }
-  
-  
-  .logo-placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-image: url('/src/assets/LogoSafeZone.png');
-  }
-  
-  .profile-picture-placeholder {
-    width: 40px;
-    height: 40px;
-    background-color: black;
-    border-radius: 50%;
-    margin-right: 20px; 
-  }
-  
-  .icon-info {
-    width: 25px;
-    height: 25px;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-image: url('/src/assets/info.png');
-  }
-  .icon-dashboard {
-    width: 25px;
-    height: 25px;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-image: url('/src/assets/diagram.png');
-  }
-  .icon-notification{
-    width: 25px;
-    height: 25px;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-image: url('/src/assets/notification.png');
-  }
-  
-  
-  .nav-links {
-    display: flex;
-    margin-right: 20px;
-  }
-  
-  .nav-item {
-    color: rgb(21, 10, 10);
-    margin: 0 15px;
-    text-decoration: none;
-  }
-  
-  .nav-item.active {
-    font-weight: bold;
-  }
+}
 
-  
-  @media (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .nav-links {
-      flex-direction: column;
-    }
-  
-    .nav-item {
-      margin: 10px 0;
-    }
-  
-    .user-section {
-      margin-top: 10px;
-    }
-  }
+
+.user-section {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+
+.logo-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-image: url('/src/assets/LogoSafeZone.png');
+}
+
+.profile-picture-placeholder {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.nav-links {
+  display: flex;
+  margin-right: 20px;
+}
+
+.nav-item {
+  color: rgb(21, 10, 10);
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  color: white;
+}
+
+

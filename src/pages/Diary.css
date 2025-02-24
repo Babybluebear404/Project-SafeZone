@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
 .diary-wrapper {
@@ -13,6 +12,18 @@
   max-width: 1200px;
   height: 500px;
   width: 900px;
+}
+
+.cover-page {
+  display: grid;
+  position: absolute;
+  grid-template-columns: repeat(2, 1fr);
+  top: 15%;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: radial-gradient(circle closest-side, #7d7d7d, #5f5d5d);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .calendar-section,
@@ -96,86 +107,76 @@
 }
 
 .text-gray {
-  color: #b1b1b1; /* text-gray-400 */
+  color: #b1b1b1; 
 }
 
 .bg-red {
-  background-color: #dc2626; /* bg-red-600 */
-  color: white; /* text-white */
+  background-color: #ec609a; 
+  color: white; 
 }
 
 .bg-black {
-  background-color: black; /* bg-black */
-  color: white; /* text-white */
+  background-color: black;
+  color: white;
+}
+
+/*Diary Section*/
+.diary-page{
+  display: grid;
+  grid-template-columns: 1fr; 
+  grid-template-rows: 17fr 0.1fr 0.1fr ; 
+  align-items: center;
+  gap:10px;
 }
 
 .diary-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 140px;
   color: #333;
+  font-family: 'Nanum Pen Script', serif;
+  background: linear-gradient(90deg, #28159B, #1A0E67, #0E0735);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 50px;
 }
 
-.diary-buttons {
+.add-friends-button,.close-friends-button{
+  font-size: 18px;
+  color: #28159B;
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.diary-button {
-  width: 150px;
-  height: 150px;
-  background-size: contain;
-  background-position: center;
-  background-color: white;
-  background-repeat: no-repeat;
-  background-image: url('/src/assets/notebook.png');
-}
-
-.add-friends-button,
-.close-friends-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 15px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
+  justify-content: flex-end;
+  gap: 20px;
+  padding-right: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-style: normal;
 }
 
-.add-friends-button {
-  background-color: #4caf50;
-  color: #fff;
+.diary-display{
+  display: grid;
+  font-family: 'Nanum Pen Script', serif;
+  grid-template-rows: 2fr 1fr;
 }
 
-.add-friends-button:hover {
-  background-color: #45a049;
+.diary-header {
+  font-size: 100px;
+  background: linear-gradient(180deg, #781A1A, #FEFFBD, #FFCFFD, #AC9FFF, #402FA7, #0E0735);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.5px #000000;
 }
 
-.close-friends-button {
-  background-color: #2196f3;
-  color: #fff;
+.day-selected h1{
+  font-size: 26px;
+  margin-top: -10px;
 }
 
-.close-friends-button:hover {
-  background-color: #1e88e5;
+input::placeholder {
+  font-family: 'Nanum Pen Script', sans-serif;
+  font-size: 14px; 
+  color: gray;
+  font-style: italic; 
 }
-
-.icon {
-  margin-right: 8px;
-  font-size: 16px;
-}
-
-
-
-
-
-
-
-
 
 .popup-overlay {
   position: fixed;
@@ -190,42 +191,24 @@
   z-index: 9999;
 }
 
-.popup {
-  background: #94c3e9;
-  padding: 20px;
-  width: 350px;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  position: relative;
-}
-
-.popup h2 {
-  color: #212121;
-  font-size: 22px;
-  font-weight: bold;
-}
-
 .close-button {
   position: absolute;
   background: #ffffff;
-  border: none;
-  width: 40px;       
-  height: 40px;     
+  border: none;     
   cursor: pointer;
   top: 80%;          
-  left: 67%;        
+  left: 65%;        
   transform: translate(-50%, 0%); 
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 40px;       
+  height: 40px; 
 }
 
 .close-button:hover {
-  background: #3b2b91;
+  background: #f44336;
 }
-
-
 
 
 .search-bar {
