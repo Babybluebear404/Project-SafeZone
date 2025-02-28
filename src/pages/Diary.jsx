@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 import { FcPlus, FcLike } from "react-icons/fc";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
@@ -7,39 +7,112 @@ import Tab from "./Tab";
 import dayjs from "dayjs";
 import "./Diary.css";
 
-const CloseFriendsPopup = ({ onClose }) => {
-  return (
-    <div className="popup-overlay">
-      <div className="popup-content">
-        <h2>Friends</h2>
-        <input type="text" placeholder="Search..." className="search-box" />
-        <div className="friends-list">
-          {Array(7).fill("SafeZone").map((friend, index) => (
-            <div key={index} className="friend-item">
-              <div className="logo-friends"></div>
-              <span>{friend}</span>
-              <button className="delete-button">🗑</button>
-            </div>
-          ))}
-        </div>
-        <button className="close-button" onClick={onClose}>✖</button>
-      </div>
-    </div>
-  );
-};
-
 const Diary = () => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
-  const [selectDate, setSelectDate] = useState(currentDate);
+  const [selectDate, setSelectDate] = useState(null);
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  console.log("Popup state:", isPopupOpen);
-  const togglePopup = () => {
-    console.log("Toggle clicked!");
-    setIsPopupOpen(!isPopupOpen);
+  const [friendSection, setFriendSection] = useState(false);
+  const [addfriendSec, setAddfrienSec] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [isShared, setIsShared] = useState(false);
+
+  const [friends, setFriends] = useState([
+    { id: "test1", name: "Aren" },
+    { id: "test2", name: "Mikasa" },
+    { id: "test3", name: "Armin" },
+    { id: "test4", name: "Levi" }
+  ]);
+
+  const user = [
+    { id: "test5", name: "Himmel" },
+    { id: "test6", name: "Frieren" },
+    { id: "test7", name: "Heiter" },
+    { id: "test8", name: "Eisen" }
+  ];
+
+  const filteredFriends = friends.filter((friend) =>
+    friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredUser = user.filter((friend) =>
+    friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const addFriend = (friend) => {
+    setFriends([...friends, friend]);
   };
+
+  const FriendSection = () => {
+    return (
+      addfriendSec ? (
+        <div className="friend-display">
+          <div className="header-friend">
+            <SlArrowLeft
+              onClick={() => setFriendSection(!friendSection) & setAddfrienSec(!addfriendSec)}
+            />
+            <h2>Add Friends</h2>
+          </div>
+          <input type="text"
+            placeholder="Search..."
+            className="search-box"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            autoFocus />
+          {searchTerm.trim() !== "" && (
+            <div className="friends-list">
+              {filteredUser.length > 0 ? (
+                filteredUser.map((friend) => (
+                  <div key={friend.id} className="friend-item">
+                    <div className="logo-friends"></div>
+                    <span>{friend.name}</span>
+                    <FcPlus className="delete-button" onClick={() => addFriend(friend)} />
+                  </div>
+                ))
+              ) : (
+                <p>ไม่พบเพื่อนที่ค้นหา</p>
+              )}
+            </div>
+          )}
+
+        </div>
+      ) : (
+        <div className="friend-display">
+          <div className="header-friend">
+            <SlArrowLeft
+              onClick={() => setFriendSection(!friendSection)}
+            />
+            <h2>Friends</h2>
+          </div>
+          <input type="text"
+            placeholder="Search..."
+            className="search-box"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            autoFocus />
+          <div className="friend-content">
+            <div className="friends-list">
+              {filteredFriends.length > 0 ? (
+                filteredFriends.map((friend) => (
+                  <div key={friend.id} className="friend-item">
+                    <div className="logo-friends"></div>
+                    <span>{friend.name}</span>
+                    <button className="delete-button">🗑</button>
+                  </div>
+                ))
+              ) : (
+                <p>ไม่พบเพื่อนที่ค้นหา</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )
+    )
+  }
+
 
   //text box write message
   const [messages, setMessages] = useState([]);
@@ -49,7 +122,8 @@ const Diary = () => {
     if (input.trim() !== "") {
       const newMessage = {
         text: input,
-        timestamp: selectDate.toDate().toDateString()
+        timestamp: selectDate.toDate().toDateString(),
+        emojiRating: selectedEmoji.rating,
       };
 
       setMessages([...messages, newMessage]);
@@ -57,10 +131,69 @@ const Diary = () => {
     }
   };
 
+  //check selected date have message(no filterred message on this date)
   const filteredMessages = messages.filter(
     (msg) => selectDate && msg.timestamp === selectDate.toDate().toDateString()
   );
-  
+  const [selectedEmoji, setSelectedEmoji] = useState({});
+  const getRatingClass = (rating) => {
+    switch (rating) {
+      case 5:
+        return "awesome-rating";
+      case 4:
+        return "good-rating";
+      case 3:
+        return "alright-rating";
+      case 2:
+        return "bad-rating";
+      case 1:
+        return "awful-rating";
+      default:
+        return "";
+    }
+  };
+
+  const getEmojiIcon = (rating) => {
+    switch (rating) {
+      case 5:
+        return <BsEmojiLaughingFill className="awesome-selected" />;
+      case 4:
+        return <BsEmojiSmileFill className="good-selected" />;
+      case 3:
+        return <BsEmojiNeutralFill className="alright-selected" />;
+      case 2:
+        return <BsEmojiFrownFill className="bad-selected" />;
+      case 1:
+        return <BsEmojiTearFill className="awful-selected" />;
+      default:
+        return null;
+    }
+  };
+
+  const showMessages = messages
+    .filter((msg) => selectDate && msg.timestamp === selectDate.toDate().toDateString())
+    .map((msg, index) => {
+      const emojiRating = selectedEmoji[msg.timestamp] || null;
+
+      return (
+        <div key={index} className="showMessages">
+          {emojiRating && getEmojiIcon(emojiRating)}
+          <p className="display-text">{msg.text}</p>
+        </div>
+      );
+    });
+
+  const handleAnswer = (emojiRating) => {
+    if (selectDate) {
+      const dateKey = selectDate.toDate().toDateString();
+
+      setSelectedEmoji((prev) => ({
+        ...prev,
+        [dateKey]: emojiRating,
+      }));
+    }
+  };
+
 
   return (
     <div className="diary-container">
@@ -102,20 +235,26 @@ const Diary = () => {
                       ? "bg-black"
                       : "";
 
+                  const dateString = date.toDate().toDateString();
+                  const emojiRating = selectedEmoji[dateString] || null;
+                  const ratingClass = emojiRating ? getRatingClass(emojiRating) : "";
+
                   const handleDateClick = () => {
                     if (selectDate && selectDate.toDate().toDateString() === date.toDate().toDateString()) {
                       // If the same date is clicked, unselect it
                       setSelectDate(null);
+                      setInput("");
                     } else {
                       setSelectDate(date);
+                      setInput("");
                     }
                   };
 
                   return (
                     <div key={index} className="current-cycle">
                       <h1
-                        className={`base-style ${isGray} ${isToday} ${isSelected}`}
-                        onClick={handleDateClick}
+                        className={`base-style ${isGray} ${isToday} ${isSelected} ${ratingClass}`}
+                        onClick={() => handleDateClick(date)}
                       >
                         {date.toDate().getDate()}
                       </h1>
@@ -128,70 +267,96 @@ const Diary = () => {
 
           {/* Diary Section */}
           <div className="diary-section">
-            {selectDate === null ? (
-              <div className="diary-page">
-                <a className="diary-title">Diary</a>
-                <a className="add-friends-button">Add Friend <FcPlus /></a>
-                <a className="close-friends-button" onClick={togglePopup}>Friends <FcLike /></a>
-              </div>
-            ) : (
-              filteredMessages.length > 0 ? (
-                <div className="diary-display">
-                  <a className="diary-header">Diary</a>
-                  <div className="day-selected">
-                    <h1>
-                      Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
-                    </h1>
-                  </div>
-                  {messages.map((msg, index) => (
-                      <div key={index}>
-                        <p>{msg.text}</p>
-                        <p>{msg.timestamp}</p>
-                      </div>
-                    ))}
+            {
+              selectDate === null && !friendSection ? (
+                <div className="diary-page">
+                  <a className="diary-title">Diary</a>
+                  <a className="add-friends-button" onClick={() => setFriendSection(!friendSection) & setAddfrienSec(!addfriendSec)}>Add Friend <FcPlus /></a>
+                  <a className="close-friends-button" onClick={() => setFriendSection(!friendSection)}>Friends <FcLike /></a>
                 </div>
               ) : (
-                <div className="diary-display">
-                  <a className="diary-header">Diary</a>
-                  <div className="day-selected">
-                    <h1>
-                      Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
-                    </h1>
+                friendSection ? (
+                  <div className="friends-section">
+                    <FriendSection />
                   </div>
-                  <div className="emoji-selected">
-                    <a className="text-general">How are you?</a>
-                    <div className="emoji-icon">
-                      <BsEmojiLaughingFill />
-                      <BsEmojiSmileFill />
-                      <BsEmojiNeutralFill />
-                      <BsEmojiFrownFill />
-                      <BsEmojiTearFill />
+                ) : (
+                  filteredMessages.length > 0 ? (
+                    <div className="diary-display">
+                      <a className="diary-header">Diary</a>
+                      <div className="day-selected">
+                        <h1>
+                          Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
+                        </h1>
+                      </div>
+                      {showMessages}
                     </div>
-                    <div className="emoji-text">
-                      <a className="text-general">Awesome</a>
-                      <a className="text-general">Good</a>
-                      <a className="text-general">Alright</a>
-                      <a className="text-general">Bad</a>
-                      <a className="text-general">Awful</a>
+                  ) : (
+                    <div className="diary-display">
+                      <a className="diary-header">Diary</a>
+                      <div className="day-selected">
+                        <h1>
+                          Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
+                        </h1>
+                      </div>
+                      <div className="emoji-selected">
+                        <a className="text-general">How are you?</a>
+                        <div className="emoji-icon" key={selectDate?.toDate().toDateString()}>
+                          <BsEmojiLaughingFill
+                            className={`awesome-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 5 ? 'selected' : ''}`}
+                            onClick={() => handleAnswer(5)}
+                          />
+                          <BsEmojiSmileFill
+                            className={`good-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 4 ? 'selected' : ''}`}
+                            onClick={() => handleAnswer(4)}
+                          />
+                          <BsEmojiNeutralFill
+                            className={`alright-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 3 ? 'selected' : ''}`}
+                            onClick={() => handleAnswer(3)}
+                          />
+                          <BsEmojiFrownFill
+                            className={`bad-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 2 ? 'selected' : ''}`}
+                            onClick={() => handleAnswer(2)}
+                          />
+                          <BsEmojiTearFill
+                            className={`awful-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 1 ? 'selected' : ''}`}
+                            onClick={() => handleAnswer(1)}
+                          />
+                        </div>
+
+                        <div className="emoji-text">
+                          <a className="text-general">Awesome</a>
+                          <a className="text-general">Good</a>
+                          <a className="text-general">Alright</a>
+                          <a className="text-general">Bad</a>
+                          <a className="text-general">Awful</a>
+                        </div>
+                      </div>
+
+                      <div className="messageBox">
+                        <textarea
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          placeholder="text here..."
+                          className="meassage-textarea"
+                        ></textarea>
+                        <input
+                          type="checkbox"
+                          checked={isShared}
+                          onChange={() => setIsShared(!isShared)}
+                        />
+                        <button onClick={sendMessage} className="save-message"
+                          disabled={input.trim() === "" || !selectedEmoji[selectDate?.toDate().toDateString()]}>
+                          Save
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="messageBox">
-                    <input
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="text here..."
-                    />
-                    <button onClick={sendMessage} className="save-message">
-                      Save
-                    </button>
-                  </div>
-                </div>
+                  )
+                )
               )
-            )}
+            }
           </div> {/*End of Diary Section*/}
         </div>
-        {isPopupOpen && <CloseFriendsPopup onClose={togglePopup} />}
+        {/*{isPopupOpen && <CloseFriendsPopup onClose={togglePopup} />}*/}
         )
       </div>
     </div>

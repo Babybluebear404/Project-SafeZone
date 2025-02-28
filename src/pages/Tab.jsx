@@ -14,7 +14,7 @@ const Tab = () => {
         </div>
         <nav className="nav-links">
           <a href="/HomeLogin" className="nav-item active">Home</a>
-          <a href="/dashboard" className="nav-item">DashBoard</a>
+          <a href="/dashboard" className="nav-item ">DashBoard</a>
           <a href="/diary" className="nav-item">Diary</a>
           <a href="/AboutUs" className="nav-item">About Us</a>
           <a href="/info" className="nav-item"><FaCircleInfo /></a>
