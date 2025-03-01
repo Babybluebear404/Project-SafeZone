@@ -1,5 +1,4 @@
 import React from 'react';
-import Tab from "./Tab";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Notification.css';
@@ -12,7 +11,6 @@ const Notification = () => {
 
   return (
     <div className="page-container">
-      <Tab /> {/* Add Tab component here */}
       <div className="notification-list">
         <div className="notification-item">
           <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />

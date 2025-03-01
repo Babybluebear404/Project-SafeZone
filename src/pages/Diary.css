@@ -2,7 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 100vh; 
   padding: 20px;
+  width: 100%; 
 }
 
 .diary-wrapper {
@@ -85,7 +88,7 @@
   user-select: none;
 }
 
-.current-cycle {
+.current-circle{
   border-top: 1px solid #e5e7eb;
 }
 
@@ -293,15 +296,14 @@ textarea::placeholder {
   resize: none; 
 }
 
-.meassage-textarea.typing{
-  padding-left: 30px;
-  width: 80%; 
-  height: 122px;
-  outline: none;       
-  border: none;       
-  resize: none; 
-}
 
+.save-footer{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr 6fr;
+  place-items: center;
+}
 
 /*Friend Popup*/
 .friend-display {
@@ -395,12 +397,23 @@ textarea::placeholder {
   font-weight: bold;
 }
 
-.delete-button {
-  background: #b6e6fa;
-  color: white;
+.friend-icon {
   border: none;
-  width: 40px;
-  height: 40px;
+  color: #3b5745;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-left: auto; 
+}
+
+.delete-button,.add-button {
+  border: none;
+  color: #c20606;
+  width: 35px;
+  height: 35px;
   border-radius: 20%;
   display: flex;
   align-items: center;
@@ -410,7 +423,6 @@ textarea::placeholder {
   margin-left: auto; 
 }
 
-.delete-button:hover {
-  background: #3b2b91;
-}
+
+
 /*End Friend popup Section*/

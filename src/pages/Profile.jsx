@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Tab from "./Tab";
 import { FaUser, FaEnvelope, FaLock, FaTimes, FaCamera } from "react-icons/fa";
 import "./Profile.css";
 
@@ -12,7 +11,6 @@ const Profile = () => {
     };
   return (
     <div className="home-container">
-      <Tab />
     <div className="profile-container">
       <div className="profile-card">
         {/* ปุ่มปิด */}

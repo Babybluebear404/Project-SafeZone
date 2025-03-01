@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 import { FcPlus, FcLike } from "react-icons/fc";
+import { FaUserFriends } from "react-icons/fa";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
+import { TiDelete } from "react-icons/ti";
 import { generateDate, months } from "./calendar";
-import Tab from "./Tab";
 import dayjs from "dayjs";
 import "./Diary.css";
+import { toast } from 'react-toastify';
 
 const Diary = () => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
@@ -28,6 +30,10 @@ const Diary = () => {
   ]);
 
   const user = [
+    { id: "test1", name: "Aren" },
+    { id: "test2", name: "Mikasa" },
+    { id: "test3", name: "Armin" },
+    { id: "test4", name: "Levi" },
     { id: "test5", name: "Himmel" },
     { id: "test6", name: "Frieren" },
     { id: "test7", name: "Heiter" },
@@ -38,13 +44,30 @@ const Diary = () => {
     friend.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredUser = user.filter((friend) =>
-    friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUser = user.filter((user) =>
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const addFriend = (friend) => {
     setFriends([...friends, friend]);
+    toast.success(`คำขอเป็นเพื่อนกับ ${friend.name} ถูกส่งไปแล้ว`, {
+      position: "top-center",
+      autoClose: 2000,
+      closeButton: false,
+    });
   };
+
+  const removeFriend = (id) => {
+    const removedFriend = friends.find((friend) => friend.id === id);
+    setFriends(friends.filter((friend) => friend.id !== id));
+    toast.error(`${removedFriend.name} ถูกลบออกจากเพื่อนแล้ว!`, {
+      position: "top-center",
+      autoClose: 2000,
+      closeButton: false,
+    });
+  };
+
+
 
   const FriendSection = () => {
     return (
@@ -52,7 +75,7 @@ const Diary = () => {
         <div className="friend-display">
           <div className="header-friend">
             <SlArrowLeft
-              onClick={() => setFriendSection(!friendSection) & setAddfrienSec(!addfriendSec)}
+              onClick={() => setFriendSection(!friendSection) & setAddfrienSec(!addfriendSec) & setSearchTerm("") & setSelectDate(null)}
             />
             <h2>Add Friends</h2>
           </div>
@@ -65,15 +88,29 @@ const Diary = () => {
           {searchTerm.trim() !== "" && (
             <div className="friends-list">
               {filteredUser.length > 0 ? (
-                filteredUser.map((friend) => (
-                  <div key={friend.id} className="friend-item">
-                    <div className="logo-friends"></div>
-                    <span>{friend.name}</span>
-                    <FcPlus className="delete-button" onClick={() => addFriend(friend)} />
-                  </div>
-                ))
+                filteredUser.map((friend) => {
+                  const isFriend = friends.some((f) => f.id === friend.id);
+
+                  return (
+                    <div key={friend.id} className="friend-item">
+                      <div className="logo-friends"></div>
+                      <span>{friend.name}</span>
+                      {isFriend ? (
+                        <FaUserFriends className="friend-icon" />
+                      ) : (
+                        <FcPlus
+                          className="add-button"
+                          onClick={() => {
+                            addFriend(friend);
+                          }}
+                        />
+                      )}
+                    </div>
+                  );
+                })
+
               ) : (
-                <p>ไม่พบเพื่อนที่ค้นหา</p>
+                <p>No friends found.</p>
               )}
             </div>
           )}
@@ -83,7 +120,7 @@ const Diary = () => {
         <div className="friend-display">
           <div className="header-friend">
             <SlArrowLeft
-              onClick={() => setFriendSection(!friendSection)}
+              onClick={() => setFriendSection(!friendSection) & setSearchTerm("") & setSelectDate(null)}
             />
             <h2>Friends</h2>
           </div>
@@ -100,11 +137,14 @@ const Diary = () => {
                   <div key={friend.id} className="friend-item">
                     <div className="logo-friends"></div>
                     <span>{friend.name}</span>
-                    <button className="delete-button">🗑</button>
+                    <TiDelete
+                      className="delete-button"
+                      onClick={() => removeFriend(friend.id)}
+                    />
                   </div>
                 ))
               ) : (
-                <p>ไม่พบเพื่อนที่ค้นหา</p>
+                <p>No friends found.</p>
               )}
             </div>
           </div>
@@ -194,10 +234,8 @@ const Diary = () => {
     }
   };
 
-
   return (
     <div className="diary-container">
-      <Tab />
       <div className="diary-wrapper">
         <div className="cover-page">
           {/* Calendar Section */}
@@ -235,9 +273,13 @@ const Diary = () => {
                       ? "bg-black"
                       : "";
 
+                  const hasMessages = messages.some(
+                    (msg) => msg.timestamp === date.toDate().toDateString()
+                  );
+
                   const dateString = date.toDate().toDateString();
                   const emojiRating = selectedEmoji[dateString] || null;
-                  const ratingClass = emojiRating ? getRatingClass(emojiRating) : "";
+                  const ratingClass = hasMessages && emojiRating ? getRatingClass(emojiRating) : "";
 
                   const handleDateClick = () => {
                     if (selectDate && selectDate.toDate().toDateString() === date.toDate().toDateString()) {
@@ -251,7 +293,7 @@ const Diary = () => {
                   };
 
                   return (
-                    <div key={index} className="current-cycle">
+                    <div key={index} className="current-circle">
                       <h1
                         className={`base-style ${isGray} ${isToday} ${isSelected} ${ratingClass}`}
                         onClick={() => handleDateClick(date)}
@@ -339,15 +381,21 @@ const Diary = () => {
                           placeholder="text here..."
                           className="meassage-textarea"
                         ></textarea>
-                        <input
-                          type="checkbox"
-                          checked={isShared}
-                          onChange={() => setIsShared(!isShared)}
-                        />
-                        <button onClick={sendMessage} className="save-message"
-                          disabled={input.trim() === "" || !selectedEmoji[selectDate?.toDate().toDateString()]}>
-                          Save
-                        </button>
+                        <div className="save-footer">
+                          <input
+                            type="checkbox"
+                            checked={isShared}
+                            onChange={() => setIsShared(!isShared)}
+                          />
+                          <span>Shared</span>
+                          <a></a>
+                          <button onClick={() => {
+                            sendMessage();
+                          }} className="save-message"
+                            disabled={input.trim() === "" || !selectedEmoji[selectDate?.toDate().toDateString()]}>
+                            Save
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )
@@ -356,7 +404,6 @@ const Diary = () => {
             }
           </div> {/*End of Diary Section*/}
         </div>
-        {/*{isPopupOpen && <CloseFriendsPopup onClose={togglePopup} />}*/}
         )
       </div>
     </div>

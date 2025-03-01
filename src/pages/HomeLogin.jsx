@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Tab from "./Tab";
 import "./HomeLogin.css";
 
 const HomeLogin = () => {
@@ -21,7 +20,6 @@ const HomeLogin = () => {
 
   return (
     <div className="home-container">     
-     <Tab />
       <main className="content">
         <h1 className="title">SAFE ZONE</h1>
         <p className="subtitle">
