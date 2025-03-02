@@ -15,8 +15,8 @@ const Notification = () => {
         <div className="notification-item">
           <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />
           <div className="notification-text">
-            <div className="notification-title">Mimi addfriends</div>
-            <div className="notification-date">Today</div>
+          <div className="notification-date">Today</div>
+            <div className="notification-title">Mimi Add friends</div>
           </div>
           <div className="button-group">
             <button className="btn yes">Yes</button>

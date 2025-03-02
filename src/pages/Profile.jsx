@@ -2,53 +2,95 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaTimes, FaCamera } from "react-icons/fa";
 import "./Profile.css";
+import Profile from './ProfileUser';
 
-const Profile = () => {
-  const navigate = useNavigate(); 
-  
-    const goTohome = () => {
-      navigate("/");
+const Profile = ({ userService }) => {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({ id: '', name: '', email: '', password: '' });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const profile = new Profile(userService);
+        const user = await profile.execute({ UserID: '12345' }); // สมมติว่า UserID มาจากระบบ auth
+        setUserData({ id: user.id, name: user.name, email: user.email, password: '' });
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
     };
+    fetchUserData();
+  }, [userService]);
+
+  const handleSave = async () => {
+    try {
+      await userService.updateUser(userData.id, {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+      });
+      alert('แก้ไขข้อมูลและบันทึกเรียบร้อย');
+    } catch (error) {
+      console.error('Failed to save user data:', error);
+      alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+    }
+  };
+
+  const goToHome = () => {
+    navigate("/");
+  };
+
   return (
     <div className="home-container">
-    <div className="profile-container">
-      <div className="profile-card">
-        {/* ปุ่มปิด */}
-        <button className="close-button">
-          <FaTimes />
-        </button>
+      <div className="profile-container">
+        <div className="profile-card">
+          <h1 className="profile-title">Profile</h1>
 
-        {/* ชื่อ Profile */}
-        <h1 className="profile-title">Profile</h1>
+          <div className="profile-image">
+            <button className="camera-icon">
+              <FaCamera />
+            </button>
+          </div>
 
-        {/* รูปโปรไฟล์ */}
-        <div className="profile-image">
-          <button className="camera-icon">
-            <FaCamera />
-          </button>
+          <div className="idText">Friend ID</div>
+          <div className="idFriend">{userData.id}</div><br />
+
+          <div className="profile-form">
+            <div className="input-group">
+              <input
+                type="text"
+                placeholder="Name"
+                value={userData.name}
+                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+              />
+              <FaUser className="icon" />
+            </div>
+
+            <div className="input-group">
+              <input
+                type="email"
+                placeholder="Email"
+                value={userData.email}
+                onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+              />
+              <FaEnvelope className="icon" />
+            </div>
+
+            <div className="input-group">
+              <input
+                type="password"
+                placeholder="Password"
+                value={userData.password}
+                onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+              />
+              <FaLock className="icon" />
+            </div>
+
+            <button className="save-button" onClick={handleSave}>Save</button>
+          </div>
+
+          <button onClick={goToHome} className="logout-button">Log Out</button>
         </div>
-
-        {/* ฟอร์มข้อมูลผู้ใช้ */}
-        <div className="profile-form">
-          <div className="input-group">
-            <input type="text" placeholder="Name" />
-            <FaUser className="icon" />
-          </div>
-          <div className="input-group">
-            <input type="email" placeholder="Email" />
-            <FaEnvelope className="icon" />
-          </div>
-          <div className="input-group">
-            <input type="password" placeholder="Password" />
-            <FaLock className="icon" />
-          </div>
-          <button className="save-button">Save</button>
-        </div>
-
-        {/* ปุ่ม Log Out */}
-        <button onClick={goTohome} className="logout-button">Log Out</button>
       </div>
-    </div>
     </div>
   );
 };
