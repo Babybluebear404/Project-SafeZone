@@ -7,15 +7,15 @@ class RegisterUser {
     }
 
     async execute(dto) {
-        const { username, email, password, passwordconfirm} = dto; // ดึงค่าจาก DTO (Data Transfer Object)
+        const { username, email, password, passwordconfirm } = dto; // ดึงค่าจาก DTO (Data Transfer Object)
 
         try {
+            // ตรวจสอบว่าอีเมลถูกต้อง
+            new Email(email); // ถ้าอีเมลไม่ถูกต้องจะโยน error ผ่าน constructor ของ Email
 
             // ตรวจสอบความถูกต้องของรหัสผ่าน
             new Checkpassword(password, passwordconfirm);// ถ้ารหัสผ่านไม่ตรงกันจะโยน error ผ่าน constructor ของ checkpassword
-            
-            // ตรวจสอบว่าอีเมลถูกต้อง
-            new Email(email); // ถ้าอีเมลไม่ถูกต้องจะโยน error ผ่าน constructor ของ Email
+
 
             // ตรวจสอบว่าอีเมลมีการใช้งานอยู่หรือยัง
             const existingUser = await this.userService.findUserByEmail(email); // ค้นหาผู้ใช้จากอีเมล

@@ -1,15 +1,17 @@
 const User = require('../entities/user');
 const getuuid = require('../../utils/uuid/getuuid');
-const { hashPassword } = require('../../utils/uuid/hashPassword');
-const newToken = require('../../utils/uuid/newToken');
+const hashPassword = require('../../utils/bcrypt/hashPassword');
+const comparePassword = require('../../utils/bcrypt/comparePassword');
+const newToken = require('../../utils/jwt/newToken');
 
 class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
 
-    async login(id, email){
-        const newtoken = newToken(id, email);
+    async login(password, existingUser){
+        await comparePassword(password, existingUser.Passwords);
+        const newtoken = newToken(existingUser.ID, existingUser.Email);
         return newtoken;
     }
 
@@ -23,10 +25,6 @@ class UserService {
 
     async findUserByEmail(email) {
         return this.userRepository.findByEmail(email);
-    }
-
-    async findUserById(id){
-        return this.userRepository.findUserById(id);
     }
 }
 

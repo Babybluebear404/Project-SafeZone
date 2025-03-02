@@ -1,6 +1,4 @@
-const { comparePassword } = require('../../utils/uuid/hashPassword');
-
-class login{
+class Login{
     constructor(userService) {
         this.userService = userService; // กำหนดค่า userService ที่จะใช้ในการดำเนินการต่างๆ เกี่ยวกับผู้ใช้
     }
@@ -8,16 +6,16 @@ class login{
     async execute(dto){
         const { email, password } = dto
 
+        if (!email || !password) {
+            throw new Error("Email and password are required");
+        }
+
         try{
             const existingUser = await this.userService.findUserByEmail(email); // ค้นหาผู้ใช้จากอีเมล
             if (!existingUser) {
-                throw new Error('No Email');
+                throw new Error('Incorrect Email');
             }
-            const comparepassword = await comparePassword(password, existingUser.Passwords);
-            if (!comparepassword) {
-                throw new Error('No password');
-            }
-            const token = await this.userService.login(existingUser.ID, existingUser.Email);
+            const token = await this.userService.login(password, existingUser);
             return token;
         }catch(error){
             throw error;
@@ -25,4 +23,4 @@ class login{
     }
 }
 
-module.exports = login;
+module.exports = Login;
