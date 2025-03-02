@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaEnvelope, FaLock, FaTimes, FaCamera } from "react-icons/fa";
-import "./Profile.css";
-import Profile from './ProfileUser';
+import { FaUser, FaEnvelope, FaLock, FaCamera } from "react-icons/fa";
+import './Profile.css';
 
 const Profile = ({ userService }) => {
   const navigate = useNavigate();
@@ -11,8 +10,12 @@ const Profile = ({ userService }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const profile = new Profile(userService);
-        const user = await profile.execute({ UserID: '12345' }); // สมมติว่า UserID มาจากระบบ auth
+        // ใช้ require ในการนำเข้า
+        const ProfileUser = require('./database/src/application/useCases/user/ProfileUser');
+        
+        // สร้าง instance จาก class Profile
+        const profile = new ProfileUser(userService);
+        const user = await profile.execute({ UserID: user.id }); // ดึงข้อมูลผู้ใช้ตาม UserID
         setUserData({ id: user.id, name: user.name, email: user.email, password: '' });
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -36,7 +39,7 @@ const Profile = ({ userService }) => {
   };
 
   const goToHome = () => {
-    navigate("/");
+    navigate("/"); // กลับไปหน้าหลัก
   };
 
   return (
@@ -52,7 +55,7 @@ const Profile = ({ userService }) => {
           </div>
 
           <div className="idText">Friend ID</div>
-          <div className="idFriend">{userData.id}</div><br />
+          <div className="idFriend">{userData.id || 'Loading...'}</div><br />
 
           <div className="profile-form">
             <div className="input-group">
