@@ -1,4 +1,4 @@
-const Savequestion = require('../../application/useCases/savequestion');
+const Savequestion = require('../../application/useCases/question/savequestion');
 
 class QuestionController{
     constructor(questionService){

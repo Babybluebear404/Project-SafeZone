@@ -9,6 +9,15 @@ class UserService {
         this.userRepository = userRepository;
     }
 
+    async findUserByEmail(email) {
+        return this.userRepository.findByEmail(email);
+    }
+
+    async getUserById(UserID) {
+        console.log(UserID);
+        return this.userRepository.findUserById(UserID);
+    }
+
     async login(password, existingUser){
         await comparePassword(password, existingUser.Passwords);
         const newtoken = newToken(existingUser.ID, existingUser.Email);
@@ -23,8 +32,13 @@ class UserService {
         return user;
     }
 
-    async findUserByEmail(email) {
-        return this.userRepository.findByEmail(email);
+    async forgot(existingUser){
+        const resetToken = crypto.randomBytes(32).toString("hex");
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 ชั่วโมง
+        await user.save();
+        const user = new User(userId, username, email, hashpassword);
+        await this.userRepository.save(user);
     }
 }
 

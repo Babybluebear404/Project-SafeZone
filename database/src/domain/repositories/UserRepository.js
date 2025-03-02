@@ -6,6 +6,10 @@ class UserRepository {
     async findByEmail(email) {
         throw new Error("Method 'findByEmail' must be implemented.");
     }
+
+    async findUserById(UserID){
+        throw new Error("Method 'findUserById' must be implemented.");
+    }
 }
 
 module.exports = UserRepository;

@@ -1,5 +1,5 @@
-const Email = require('../../domain/valueObjects/email'); // ใช้สำหรับตรวจสอบความถูกต้องของอีเมลผ่าน Value Object
-const Checkpassword = require('../../domain/valueObjects/checkpassword')
+const Email = require('../../../domain/valueObjects/email'); // ใช้สำหรับตรวจสอบความถูกต้องของอีเมลผ่าน Value Object
+const Checkpassword = require('../../../domain/valueObjects/checkpassword')
 
 class RegisterUser {
     constructor(userService) {
@@ -24,8 +24,7 @@ class RegisterUser {
             }
 
             // สร้างผู้ใช้ใหม่
-            const user = await this.userService.register(username, email, password); // เรียกใช้ userService เพื่อสร้างผู้ใช้ใหม่
-            return user;
+            await this.userService.register(username, email, password); // เรียกใช้ userService 
         } catch (error) {
             throw error; // โยนข้อผิดพลาดไปให้ผู้เรียกใช้จัดการต่อ
         }

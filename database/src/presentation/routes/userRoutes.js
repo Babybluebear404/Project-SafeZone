@@ -1,4 +1,5 @@
 const connection = require('../../infrastructure/database/config');  // การเชื่อมต่อฐานข้อมูล
+const authenticateToken = require('../../utils/jwt/checkToken');
 const express = require('express');
 
 const UserController = require('../controllers/userController');
@@ -13,5 +14,7 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => await userController.register(req, res));
 router.post('/login', async (req, res) => await userController.login(req, res));
+router.post('/forgot', async (req, res) => await userController.forgot(req, res));
+router.post('/profile', authenticateToken, async (req, res) => await userController.getProfile(req, res));
 
 module.exports = router;
