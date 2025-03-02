@@ -25,6 +25,16 @@ Output{
     message: 'Login successfully'
     Token
 }
+http://localhost:3000/api/users/profile
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    id
+    username
+    email
+}
 
 สำหรับ บันทึกแบบสอบถาม
 http://localhost:3000/api/questions/savequestion
