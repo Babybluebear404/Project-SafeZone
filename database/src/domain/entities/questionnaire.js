@@ -1,5 +1,5 @@
 class Questionnaire {
-    constructor(id, userid, q2, q9 = null, q8 = null) {
+    constructor(id, userid, q2, q9 = 0, q8 = 0) {
         this.id = id;
         this.userid = userid;
         this.q2 = q2;
