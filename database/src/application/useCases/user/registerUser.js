@@ -1,5 +1,5 @@
-const Email = require('../../domain/valueObjects/email'); 
-const Checkpassword = require('../../domain/valueObjects/checkpassword')
+const Email = require('../../../domain/valueObjects/email'); // ใช้สำหรับตรวจสอบความถูกต้องของอีเมลผ่าน Value Object
+const Checkpassword = require('../../../domain/valueObjects/checkpassword')
 
 class RegisterUser {
     constructor(userService) {
