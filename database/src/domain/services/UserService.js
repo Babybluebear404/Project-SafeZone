@@ -1,15 +1,26 @@
 const User = require('../entities/user');
 const getuuid = require('../../utils/uuid/getuuid');
-const { hashPassword } = require('../../utils/uuid/hashPassword');
-const newToken = require('../../utils/uuid/newToken');
+const hashPassword = require('../../utils/bcrypt/hashPassword');
+const comparePassword = require('../../utils/bcrypt/comparePassword');
+const newToken = require('../../utils/jwt/newToken');
 
 class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
 
-    async login(id, email){
-        const newtoken = newToken(id, email);
+    async findUserByEmail(email) {
+        return this.userRepository.findByEmail(email);
+    }
+
+    async getUserById(UserID) {
+        console.log(UserID);
+        return this.userRepository.findUserById(UserID);
+    }
+
+    async login(password, existingUser){
+        await comparePassword(password, existingUser.Passwords);
+        const newtoken = newToken(existingUser.ID, existingUser.Email);
         return newtoken;
     }
 
@@ -21,12 +32,13 @@ class UserService {
         return user;
     }
 
-    async findUserByEmail(email) {
-        return this.userRepository.findByEmail(email); 
-    }
-    
-    async findUserById(id){
-        return this.userRepository.findUserById(id);
+    async forgot(existingUser){
+        const resetToken = crypto.randomBytes(32).toString("hex");
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 ชั่วโมง
+        await user.save();
+        const user = new User(userId, username, email, hashpassword);
+        await this.userRepository.save(user);
     }
 }
 

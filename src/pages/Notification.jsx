@@ -1,15 +1,47 @@
-import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from 'react';
 import './Notification.css';
 import Tab from "./Tab";
 
 
-const Notification = () => {
-  const notifySuccess = () => toast.success('🎉 สำเร็จ! การดำเนินการเสร็จสิ้น');
-  const notifyError = () => toast.error('❌ เกิดข้อผิดพลาด! กรุณาลองใหม่');
-  const notifyInfo = () => toast.info('ℹ️ ข้อมูลเพิ่มเติม: โปรดตรวจสอบการอัปเดต');
-  const notifyWarning = () => toast.warn('⚠️ คำเตือน: โปรดระวังข้อมูลที่ไม่ถูกต้อง');
+const Notification = ({ currentUser, friendName, onConfirm }) => {
+  const [showNotification, setShowNotification] = useState(false); // ติดตามสถานะการแสดงการแจ้งเตือน
+  //const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState(`Aren ต้องการเพิ่มคุณเป็นเพื่อน`); //TEST!!!!!!!!!!!
+  const [showButtons, setShowButtons] = useState(true);  // ปุ่ม Yes/No
+
+  // ใช้ useEffect เพื่อกำหนดข้อความแจ้งเตือนเมื่อมีคำขอเพิ่มเพื่อน
+  useEffect(() => {
+    if (friendName && friendName !== currentUser) {
+      setNotificationMessage(`${friendName} ต้องการเพิ่มคุณเป็นเพื่อน`);
+      setShowNotification(true); // ถ้ามีคำขอเพิ่มเพื่อน จะแสดงการแจ้งเตือน
+    } else {
+      setShowNotification(false); // ถ้าไม่มีคำขอเพิ่มเพื่อน จะไม่แสดงการแจ้งเตือน
+    }
+  }, [friendName, currentUser]);
+
+  const notifySuccess = () => {
+    //setNotificationMessage(`คุณเป็นเพื่อนกับ ${friendName} แล้ว`);
+    setNotificationMessage(`คุณเป็นเพื่อนกับ Aren แล้ว`); //TEST!!!!!!!!!!!
+    setShowButtons(false);
+  };
+
+  const notifyError = () => {
+    //setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ ${friendName} แล้ว`);
+    setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ Aren แล้ว`);  //TEST!!!!!!!!!!!
+    setShowButtons(false);
+  };
+
+  const handleYesClick = () => {
+    notifySuccess();
+    if (onConfirm) onConfirm(true);
+  };
+
+  const handleNoClick = () => {
+    notifyError();
+    if (onConfirm) onConfirm(false);
+  };
+
+  //if (!showNotification) return null; // ถ้าไม่มีการแจ้งเตือน ก็ไม่แสดงอะไรเลย
 
   return (
     <div className="page-container">
@@ -18,50 +50,20 @@ const Notification = () => {
         <div className="notification-item">
           <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />
           <div className="notification-text">
-            <div className="notification-title">Mimi addfriends</div>
-            <div className="notification-date">Today</div>
+            <div className="notification-date">วันนี้</div>
+            <div className="notification-title">{notificationMessage}</div>
           </div>
           <div className="button-group">
-            <button className="btn yes">Yes</button>
-            <button className="btn no">No</button>
+            {showButtons && (
+              <>
+                <button className="btn yes" onClick={handleYesClick}>ยอมรับ</button>
+                <button className="btn no" onClick={handleNoClick}>ปฏิเสธ</button>
+              </>
+            )}
           </div>
-          <div className="notification-time">10:12 AM</div>
-        </div>
-
-        <div className="notification-item">
-          <div className="notification-text">
-            <div className="notification-date">Today</div>
-            <span className="notification-message">08:29 AM</span>
-          </div>
-          <div className="notification-time">08:29 AM</div>
-        </div>
-
-        <div className="notification-item">
-          <div className="notification-text">
-            <div className="notification-date">21 May 2024</div>
-            <span className="notification-message">10:12 AM</span>
-          </div>
-          <div className="notification-time">10:12 AM</div>
-        </div>
-
-        <div className="notification-item">
-          <div className="notification-text">
-            <div className="notification-date">21 May 2024</div>
-            <span className="notification-message">08:29 AM</span>
-          </div>
-          <div className="notification-time">08:29 AM</div>
+          <div className="notification-time">10:12 น.</div>
         </div>
       </div>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="colored"
-      />
     </div>
   );
 };

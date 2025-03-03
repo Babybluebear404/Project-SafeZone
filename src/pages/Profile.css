@@ -19,20 +19,22 @@
     width: 400px;
   }
   
-  .close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
+  
   
   .profile-title {
     font-size: 36px;
     font-weight: bold;
     color: #28159b;
+  }
+
+  .idText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #9293b1;
+  }
+  .idFriend{
+    font-size: 14px;
+    color: #9293b1;
   }
   
   .profile-image {

@@ -1,0 +1,50 @@
+วิธีเรียกใช้ API
+สำหรับ localhost
+
+สำหรับ สมัครรหัสผ่าน
+http://localhost:3000/api/users/register
+ข้อมูลที่ต้องการ
+Input{
+    email
+    username
+    password
+    passwordconfirm
+}
+Output{
+    massage: 'User registered successfully'
+}
+
+สำหรับ เข้าสู่ระบบ
+http://localhost:3000/api/users/login
+ข้อมูลที่ต้องการ
+Input{
+    email
+    password
+}
+Output{
+    message: 'Login successfully'
+    Token
+}
+http://localhost:3000/api/users/profile
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    id
+    username
+    email
+}
+
+สำหรับ บันทึกแบบสอบถาม
+http://localhost:3000/api/questions/savequestion
+ข้อมูลที่ต้องการ
+Input{
+    Token
+    Q2
+    Q9 //ท่าไม่ได้ทำไม่ต้องส่งมา
+    Q8 //ท่าไม่ได้ทำไม่ต้องส่งมา
+}
+Output{
+    massage: 'savequestion successfully'
+}

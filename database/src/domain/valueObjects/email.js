@@ -1,9 +1,7 @@
-const InvalidEmailError = require('../domainErrors/InvalidEmailError');
-
 class Email {
     constructor(email) {
         if (!this.isValidEmail(email)) {
-            throw new InvalidEmailError();
+            throw new Error("Invalid email format");
         }
         this.email = email;
     }

@@ -8,3 +8,5 @@ class Diary {
         this.sharestatus = sharestatus;
     }
 }
+
+module.exports = Diary;
