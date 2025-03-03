@@ -1,4 +1,4 @@
-const Email = require('../../domain/valueObjects/email'); // ใช้สำหรับตรวจสอบความถูกต้องของอีเมลผ่าน Value Object
+const Email = require('../../domain/valueObjects/email'); 
 const Checkpassword = require('../../domain/valueObjects/checkpassword')
 
 class RegisterUser {
@@ -32,4 +32,4 @@ class RegisterUser {
     }
 }
 
-module.exports = RegisterUser; // ส่งออกคลาส RegisterUser เพื่อให้สามารถนำไปใช้ในส่วนอื่นของแอปพลิเคชันได้
+module.exports = RegisterUser;

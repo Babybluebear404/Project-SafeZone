@@ -1,9 +1,11 @@
 import React from 'react';
 import "./AboutUs.css";
+import Tab from "./Tab";
 
 const AboutUs = () => {
   return (
     <div className="home-container">
+      <Tab />
       <main className="about-content">
         <h1 className="about-title">About Us</h1>
         <div className="about-box">

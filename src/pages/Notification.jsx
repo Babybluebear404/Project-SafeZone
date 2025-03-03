@@ -2,6 +2,8 @@ import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Notification.css';
+import Tab from "./Tab";
+
 
 const Notification = () => {
   const notifySuccess = () => toast.success('🎉 สำเร็จ! การดำเนินการเสร็จสิ้น');
@@ -11,6 +13,7 @@ const Notification = () => {
 
   return (
     <div className="page-container">
+      <Tab />
       <div className="notification-list">
         <div className="notification-item">
           <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />

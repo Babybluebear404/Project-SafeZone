@@ -20,6 +20,7 @@ class login{
             const token = await this.userService.login(existingUser.ID, existingUser.Email);
             return token;
         }catch(error){
+            console.error("Error occurred: ", error.message); 
             throw error;
         }
     }

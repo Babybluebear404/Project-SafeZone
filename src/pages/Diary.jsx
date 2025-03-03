@@ -7,6 +7,7 @@ import { TiDelete } from "react-icons/ti";
 import { generateDate, months } from "./calendar";
 import dayjs from "dayjs";
 import "./Diary.css";
+import Tab from "./Tab";
 import { toast } from 'react-toastify';
 
 const Diary = () => {
@@ -236,6 +237,7 @@ const Diary = () => {
 
   return (
     <div className="diary-container">
+      <Tab />
       <div className="diary-wrapper">
         <div className="cover-page">
           {/* Calendar Section */}

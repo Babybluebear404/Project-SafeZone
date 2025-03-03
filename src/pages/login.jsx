@@ -3,8 +3,9 @@ import { FcGoogle } from "react-icons/fc";
 import { SiLine } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import "./Login.css";
-import liff from '@line/liff' ;
+import liff from '@line/liff';
 
 
 const Login = () => {
@@ -15,38 +16,90 @@ const Login = () => {
       console.log("Google Token:", tokenResponse);
 
       try {
-        const res = await fetch(
-          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`
-        );
-        const user = await res.json();
-        console.log("Google User Info:", user);
+        const res = await fetch("http://localhost:3000/api/users/google-login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            access_token: tokenResponse.access_token,
+          }),
+        });
 
-        localStorage.setItem("user", JSON.stringify(user));
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
 
-        navigate("/HomeLogin");
+        const data = await res.json();
+        console.log("Server Response:", data);
+
+        if (data.token) {
+          sessionStorage.setItem("user", JSON.stringify(data.user));
+          sessionStorage.setItem("token", data.token);
+
+          navigate("/HomeLogin");
+        } else {
+          console.error("Login failed:", data.error);
+        }
       } catch (err) {
-        console.error("Fetch error:", err);
+        console.error("Fetch error:", err.message);
       }
     },
     onError: () => console.log("Google Login Failed"),
   });
 
-  useEffect(()=>{
-    liff.init({liffId:'2006838508-WR0kK6DG'})
-  },[])
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const token = sessionStorage.getItem("token");
+
+    if (user && token) {
+      navigate("/HomeLogin");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    liff.init({ liffId: '2006838508-WR0kK6DG' })
+  }, [])
 
   const handleLineLogin = () => {
-    try{
+    try {
       liff.login()
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
 
-  const handleEmailLogin = (e) => {
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
-    console.log("Email login submitted");
-    navigate("/HomeLogin");
+    console.log("e.target:", e.target);
+
+    const email = e.target.email ? e.target.email.value : '';
+    const password = e.target.password ? e.target.password.value : '';
+
+    const loginData = { email, password };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/users/login", { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await response.json(); // แปลง response เป็น JSON
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed!");
+      }
+
+      console.log("Login successful:", response.data);
+      sessionStorage.setItem("token", response.data.token);
+
+      navigate("/HomeLogin");
+    } catch (error) {
+      console.error("Error logging in:", error.response?.data?.message || error.message);
+    }
   };
 
   return (
@@ -66,8 +119,8 @@ const Login = () => {
         </div>
         <p className="orText">_________or continue with email_________</p>
         <form onSubmit={handleEmailLogin} className="form">
-          <input type="email" placeholder="Email" className="input" required />
-          <input type="password" placeholder="Password" className="input" required />
+          <input type="email" name="email" placeholder="Email" className="input" required />
+          <input type="password" name="password" placeholder="Password" className="input" required />
           <div className="options-center">
             <span>Remember me</span>
             <a href="/forget" className="link">Forget Password</a>

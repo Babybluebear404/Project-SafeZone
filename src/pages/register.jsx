@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import "./register.css"; 
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom"; 
-import "./SignUp.css"; 
+
 const SignUp = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", passwordConfirm: "" });
   const navigate = useNavigate(); 
@@ -13,24 +14,19 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    
     if (form.password !== form.passwordConfirm) {
       alert("Passwords do not match!");
       return;
     }
-
-    
-    console.log("Form Submitted: ", form);
-
     
     navigate("/depression-screening");
   };
 
-  return (
+  return ( 
     <div className="signup-box">
       <h1 className="signup-title">Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <div className="input-group">
+        <div className="inputLogin-group">
           <FaUser className="input-icon" />
           <input
             type="text"

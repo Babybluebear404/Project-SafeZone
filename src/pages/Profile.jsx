@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaTimes, FaCamera } from "react-icons/fa";
 import "./Profile.css";
+import Tab from "./Tab";
 
 const Profile = () => {
   const navigate = useNavigate(); 
@@ -9,8 +10,15 @@ const Profile = () => {
     const goTohome = () => {
       navigate("/");
     };
+
+    const clearSessionStorage = () => {
+      sessionStorage.clear();
+      console.log('Session storage has been cleared');
+    };
+
   return (
     <div className="home-container">
+      <Tab />
     <div className="profile-container">
       <div className="profile-card">
         {/* ปุ่มปิด */}
@@ -46,7 +54,7 @@ const Profile = () => {
         </div>
 
         {/* ปุ่ม Log Out */}
-        <button onClick={goTohome} className="logout-button">Log Out</button>
+        <button onClick={() => {goTohome();clearSessionStorage();}} className="logout-button">Log Out</button>
       </div>
     </div>
     </div>

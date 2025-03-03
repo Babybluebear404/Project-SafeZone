@@ -17,14 +17,14 @@ class UserService {
         const userId = getuuid();
         const hashpassword = await hashPassword(password);
         const user = new User(userId, username, email, hashpassword);
-        await this.userRepository.save(user); // บันทึกผู้ใช้ในฐานข้อมูล
+        await this.userRepository.save(user);
         return user;
     }
 
     async findUserByEmail(email) {
-        return this.userRepository.findByEmail(email);
+        return this.userRepository.findByEmail(email); 
     }
-
+    
     async findUserById(id){
         return this.userRepository.findUserById(id);
     }

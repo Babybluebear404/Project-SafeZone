@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomeLogin.css";
+import Tab from "./Tab";
+
 
 const HomeLogin = () => {
   const [showPopup, setShowPopup] = useState(false); 
@@ -19,7 +21,8 @@ const HomeLogin = () => {
   };
 
   return (
-    <div className="home-container">     
+    <div className="home-container">   
+      <Tab/>
       <main className="content">
         <h1 className="title">SAFE ZONE</h1>
         <p className="subtitle">
