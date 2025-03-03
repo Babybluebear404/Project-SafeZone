@@ -7,8 +7,16 @@ class UserRepository {
         throw new Error("Method 'findByEmail' must be implemented.");
     }
 
-    async findUserById(UserID){
-        throw new Error("Method 'findUserById' must be implemented.");
+    async findById(UserID){
+        throw new Error("Method 'findById' must be implemented.");
+    }
+
+    async getById(UserID){
+        throw new Error("Method 'getById' must be implemented.");
+    }
+
+    async upDatePassword(id, password) {
+        throw new Error("Method 'upDatePassword' must be implemented.");
     }
 }
 

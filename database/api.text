@@ -5,9 +5,9 @@
 http://localhost:3000/api/users/register
 ข้อมูลที่ต้องการ
 Input{
-    email
-    username
-    password
+    email,
+    username,
+    password,
     passwordconfirm
 }
 Output{
@@ -18,11 +18,11 @@ Output{
 http://localhost:3000/api/users/login
 ข้อมูลที่ต้องการ
 Input{
-    email
+    email,
     password
 }
 Output{
-    message: 'Login successfully'
+    message: 'Login successfully',
     Token
 }
 http://localhost:3000/api/users/profile
@@ -31,9 +31,30 @@ Input{
     Token
 }
 Output{
-    id
-    username
+    id,
+    username,
     email
+}
+
+สำหรับ เช็ค email เพื่อเปลื่ยนรหัสผ่าน
+http://localhost:3000/api/users/forgot
+ข้อมูลที่ต้องการ
+Input{
+    email
+}
+Output{
+    Tokenreset
+}
+
+สำหรับ เปลื่ยนรหัสผ่าน
+http://localhost:3000/api/users/change
+ข้อมูลที่ต้องการ
+Input{
+    Tokenreset,
+    password
+}
+Output{
+    message: 'Password changed successfully'
 }
 
 สำหรับ บันทึกแบบสอบถาม
