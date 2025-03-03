@@ -49,7 +49,7 @@ class UserController {
         try {
             const dto = req.body;
             const token = await this.forgotPasswordUseCase.execute(dto);
-            res.status(201).json(token);
+            res.status(201).json({token});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
