@@ -25,6 +25,7 @@ Output{
     message: 'Login successfully',
     Token
 }
+
 http://localhost:3000/api/users/profile
 ข้อมูลที่ต้องการ
 Input{
@@ -57,13 +58,24 @@ Output{
     message: 'Password changed successfully'
 }
 
+สำหรับ logingoogle
+้้http://localhost:3000/api/users/google-login
+ข้อมูลที่ต้องการ
+Input{
+    Tokengoogle
+}
+Output{
+    message: "Google Login successful",
+    token
+}
+
 สำหรับ บันทึกแบบสอบถาม
 http://localhost:3000/api/questions/savequestion
 ข้อมูลที่ต้องการ
 Input{
-    Token
-    Q2
-    Q9 //ท่าไม่ได้ทำไม่ต้องส่งมา
+    Token,
+    Q2,
+    Q9, //ท่าไม่ได้ทำไม่ต้องส่งมา
     Q8 //ท่าไม่ได้ทำไม่ต้องส่งมา
 }
 Output{

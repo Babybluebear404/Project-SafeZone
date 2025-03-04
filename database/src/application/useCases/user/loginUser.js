@@ -15,6 +15,9 @@ class Login{
             if (!existingUser) {
                 throw new Error('Incorrect Email');
             }
+            if (!password){
+                throw new Error('Not Password');
+            }
             const token = await this.userService.login(password, existingUser);
             return token;
         }catch(error){

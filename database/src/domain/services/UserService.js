@@ -18,15 +18,18 @@ class UserService {
         return this.userRepository.findById(UserID);
     }
 
-    async login(password, existingUser){
-        await comparePassword(password, existingUser.passwords);
+    async login(password, existingUser) {
+        if (password) {
+            await comparePassword(password, existingUser.passwords);
+        }
         const newtoken = newToken(existingUser.id, existingUser.email);
         return newtoken;
     }
 
+
     async register(username, email, password) {
         const userId = getuuid();
-        const hashpassword = await hashPassword(password);
+        const hashpassword = password ? await hashPassword(password) : null;
         const user = new User(userId, username, email, hashpassword);
         await this.userRepository.save(user);
         return user;

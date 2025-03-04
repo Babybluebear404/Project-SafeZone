@@ -1,45 +1,31 @@
 const axios = require('axios');
-const jwt = require('jsonwebtoken');
-const fs = require("fs");
 
-const USERS_FILE = "D:/Thesis/web/Project-SafeZone/database/users.json";
-
-// โหลดข้อมูลผู้ใช้จากไฟล์ JSON
-const loadUsers = () => {
-    try {
-        const data = fs.readFileSync(USERS_FILE, "utf8");
-        return JSON.parse(data);
-    } catch (error) {
-        return [];
+class GoogleLogin {
+    constructor(userService) {
+        this.userService = userService;
     }
-};
 
-// บันทึกข้อมูลผู้ใช้ลงไฟล์ JSON
-const saveUsers = (users) => {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf8");
-};
+    async execute(dto) {
+        const { access_token } = dto; // รับ access_token จาก Google
 
-async function googleLogin(access_token) {
-    try {
-        // ดึงข้อมูลผู้ใช้จาก Google
-        const { data: userData } = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+        try {
+            // ดึงข้อมูลผู้ใช้จาก Google
+            const { data: googleUserData } = await axios.get(
+                `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+            );
 
-        // ตรวจสอบว่าผู้ใช้มีอยู่แล้วหรือไม่
-        let user = loadUsers().find((u) => u.email === userData.email);
-
-        // สร้างบัญชีใหม่ถ้าไม่พบ
-        if (!user) {
-            user = { name: userData.name, email: userData.email, password: null };
-            saveUsers([...loadUsers(), user]);
+            // ตรวจสอบว่าผู้ใช้มีอยู่ในฐานข้อมูลหรือไม่
+            const user = await this.userService.findUserByEmail(googleUserData.email);
+            //ถ้าไม่มีผู้ใช้ ให้สร้างบัญชีใหม่
+            if (!user) {
+                await this.userService.register(googleUserData.name, googleUserData.email, null);
+            }
+            const token = await this.userService.login(null, existingUser);
+            return token; //token กลับไป
+        } catch (error) {
+            throw new Error("Google Login Failed: " + error.message);
         }
-
-        // สร้าง JWT token
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-        return { user, token };
-    } catch (error) {
-        throw new Error("Google Login failed");
     }
 }
 
-module.exports = googleLogin;
+module.exports = GoogleLogin;

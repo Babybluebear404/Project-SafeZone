@@ -3,7 +3,7 @@ const LoginUser = require('../../application/useCases/user/loginUser');
 const ForgotPassword = require('../../application/useCases/user/forgotPassword');
 const Profile = require('../../application/useCases/user/ProfileUser');
 const ChangePassword = require('../../application/useCases/user/changePassword');
-// const googleLogin = require("../../application/useCases/user/authGoogleLogin");
+const googleLogin = require("../../application/useCases/user/authGoogleLogin");
 
 class UserController {
     constructor(userService) {
@@ -13,6 +13,7 @@ class UserController {
         this.forgotPasswordUseCase = new ForgotPassword(userService);
         this.changePasswordUseCase = new ChangePassword(userService);
         this.profileUserUseCase = new Profile(userService);
+        this.googleLoginUseCase = new googleLogin(userService);
     }
 
     async register(req, res) {
@@ -35,15 +36,15 @@ class UserController {
         }
     }
     
-    // async googleLogin(req, res) {
-    //     try {
-    //         const { access_token } = req.body;
-    //         const { user, token } = await googleLogin(access_token);
-
-    //         res.status(200).json({ message: "Google Login successful", user, token });
-    //     } catch (error) {    
-    // }
-    // }
+    async googleLogin(req, res) {
+        try {
+            const { access_token  } = req.body;
+            const token = await this.googleLoginUseCase.execute({ access_token  });
+            res.status(200).json({ message: "Google Login successful",token });
+        } catch (error) {   
+            res.status(500).json({ error: error.message }); 
+        }
+    }
     
     async forgot(req, res) {
         try {
