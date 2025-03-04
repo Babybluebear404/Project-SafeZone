@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./register.css"; 
+import "../style/register.css"; 
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom"; 
 
@@ -23,7 +23,7 @@ const SignUp = () => {
   };
 
   return ( 
-    <div className="signup-box">
+    <div className="signup-container">
       <h1 className="signup-title">Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div className="inputLogin-group">

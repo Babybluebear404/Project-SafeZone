@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Q8.css";
+import "../../style/Q8.css";
 
 const Q8 = () => {
   const questions = [
@@ -98,9 +98,9 @@ const Q8 = () => {
               <button
                 key={scoreIndex}
                 onClick={() => handleAnswer(currentQuestionIndex, score)}
-                className={`answer-button ${scores[currentQuestionIndex] === score ? "selected" : ""}`}
+                className={`answer-Qustion ${scores[currentQuestionIndex] === score ? "selected" : ""}`}
               >
-                {score === 0 ? "ไม่มี" : "มี"}
+                {score === 0 ? "❌" : "✔"}
               </button>
             ))}
           </div>
@@ -119,7 +119,7 @@ const Q8 = () => {
         <div className="result-card">
           <h1 className="title">สรุปผลการทดสอบ<br />แบบประเมินการฆ่าตัวตายด้วย 8 คำถาม (8Q)</h1>
           <p className="result">{result}</p>
-          <button onClick={handleNext} className="nav-button next">
+          <button onClick={handleNext} className="next-Question">
             Next
           </button>
         </div>

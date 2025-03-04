@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Notification.css';
-import Tab from "./Tab";
+import '../../style/Notification.css';
+import Tab from "../Tab";
 
 
 const Notification = ({ currentUser, friendName, onConfirm }) => {

@@ -132,6 +132,18 @@
   gap:10px;
 }
 
+.diary-name{
+  display: flex;
+  flex-direction: column;
+}
+
+.description-function{
+  font-family: "Prompt", serif;
+  font-size: 12px;
+  color: #552264;
+}
+
+
 .diary-title {
   font-size: 140px;
   color: #333;
@@ -141,6 +153,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-top: 50px;
+  margin-bottom: 0px;
 }
 
 .add-friends-button,.close-friends-button{

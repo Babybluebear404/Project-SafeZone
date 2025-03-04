@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Q9.css";
+import "../../style/Q9.css";
 
 const Q9 = () => {
   const questions = [
@@ -105,7 +105,7 @@ const Q9 = () => {
             <div className="answer-column">
               <button
                 onClick={() => handleAnswer(0)}
-                className={`answer-button ${scores[currentQuestionIndex] === 0 ? "selected" : ""}`}
+                className={`answer-Qustion ${scores[currentQuestionIndex] === 0 ? "selected" : ""}`}
               >
                 😃
               </button>
@@ -114,7 +114,7 @@ const Q9 = () => {
             <div className="answer-column">
               <button
                 onClick={() => handleAnswer(1)}
-                className={`answer-button ${scores[currentQuestionIndex] === 1 ? "selected" : ""}`}
+                className={`answer-Qustion ${scores[currentQuestionIndex] === 1 ? "selected" : ""}`}
               >
                 😐
               </button>
@@ -123,7 +123,7 @@ const Q9 = () => {
             <div className="answer-column">
               <button
                 onClick={() => handleAnswer(2)}
-                className={`answer-button ${scores[currentQuestionIndex] === 2 ? "selected" : ""}`}
+                className={`answer-Qustion ${scores[currentQuestionIndex] === 2 ? "selected" : ""}`}
               >
                 😞
               </button>
@@ -132,7 +132,7 @@ const Q9 = () => {
             <div className="answer-column">
               <button
                 onClick={() => handleAnswer(3)}
-                className={`answer-button ${scores[currentQuestionIndex] === 3 ? "selected" : ""}`}
+                className={`answer-Qustion ${scores[currentQuestionIndex] === 3 ? "selected" : ""}`}
               >
                 😭
               </button>
@@ -155,7 +155,7 @@ const Q9 = () => {
         <div className="result-card">
           <h1 className="title">สรุปผลการทดสอบ <br />แบบคัดกรองโรคซึมเศร้าด้วย 9 คำถาม (9Q)</h1>
           <p className="result">{result}</p>
-          <button onClick={handleNextButton} className="nav-button next">
+          <button onClick={handleNextButton} className="next-Question">
             Next
           </button>
         </div>

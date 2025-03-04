@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./DepressionScreening.css";
+import "../../style/DepressionScreening.css";
 
 const DepressionScreening = () => {
   const [answers, setAnswers] = useState({ question1: null, question2: null });
@@ -32,7 +32,7 @@ const DepressionScreening = () => {
   const isFormComplete = answers.question1 !== null && answers.question2 !== null;
 
   return (
-    <div className="signup-box">
+    <div className="screeningCase">
       {result === null ? (
         <>
           <h1 className="title">แบบคัดกรองโรคซึมเศร้าด้วย 2 คำถาม (2Q)</h1>
@@ -88,7 +88,7 @@ const DepressionScreening = () => {
           <button
             onClick={handleSubmit}
             disabled={!isFormComplete}
-            className={`submit-btn ${isFormComplete ? "active" : "disabled"}`}
+            className={`submit-Question ${isFormComplete ? "active" : "disabled"}`}
           >
             Submit
           </button>
@@ -97,7 +97,7 @@ const DepressionScreening = () => {
         <div>
           <h2>สรุปผลการทดสอบ</h2>
           <p className="text-center">{result}</p>
-          <button onClick={handleNext} className="next-btn">
+          <button onClick={handleNext} className="next-Question">
             Next
           </button>
         </div>

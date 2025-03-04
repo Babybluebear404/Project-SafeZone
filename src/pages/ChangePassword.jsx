@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLock } from "react-icons/fa";
-import "./ChangePassword.css";
+import "../style/ChangePassword.css";
 
 const ChangePassword = () => {
   const navigate = useNavigate();

@@ -3,11 +3,11 @@
   font-weight: bold;
 }
 
-
 .subtitle {
   color: #28159b; 
   font-size: 18px;
   margin-top: 20px;
+  font-family: "Prompt", serif;
 }
 
 
@@ -23,6 +23,7 @@
   font-size: 18px;
   text-decoration: none;
   transition: color 0.3s ease, border-color 0.3s ease;
+  font-family: "Prompt", serif;
 }
 
 .quiz-button:hover {
@@ -48,6 +49,7 @@
   font-size: 18px;
   text-decoration: none;
   transition: color 0.3s ease, border-color 0.3s ease;
+  font-family: "Prompt", serif;
 }
 
 .consult-button:hover {

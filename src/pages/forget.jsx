@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom"; 
-import "./Forget.css"; 
+import "../style/Forget.css"; 
 const Forget = () => {
   const [form, setForm] = useState({ email_address: "", otp: "" });
   const navigate = useNavigate(); 

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5"
-import "./Tab.css";
+import "../style/Tab.css"; 
 
 const Tab = () => {
   return (
