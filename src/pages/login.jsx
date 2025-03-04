@@ -3,8 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { SiLine } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import "./Login.css";
+import "../style/Login.css";
 import liff from '@line/liff';
 
 

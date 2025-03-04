@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock, FaCamera } from "react-icons/fa";
-import './Profile.css';
-import Tab from "./Tab";
+import '../../style/Profile.css';
+import Tab from "../Tab";
 
 const Profile = ({ userService }) => {
   const navigate = useNavigate();
@@ -50,6 +50,7 @@ const Profile = ({ userService }) => {
 
   return (
     <div className="home-container">
+      <Tab />
       <div className="profile-container">
         <div className="profile-card">
           <h1 className="profile-title">Profile</h1>

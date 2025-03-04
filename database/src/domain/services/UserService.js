@@ -3,6 +3,7 @@ const getuuid = require('../../utils/uuid/getuuid');
 const hashPassword = require('../../utils/bcrypt/hashPassword');
 const comparePassword = require('../../utils/bcrypt/comparePassword');
 const newToken = require('../../utils/jwt/newToken');
+const newTokenreset = require('../../utils/jwt/newTokenforgot');
 
 class UserService {
     constructor(userRepository) {
@@ -13,14 +14,13 @@ class UserService {
         return this.userRepository.findByEmail(email);
     }
 
-    async getUserById(UserID) {
-        console.log(UserID);
-        return this.userRepository.findUserById(UserID);
+    async findUserById(UserID) {
+        return this.userRepository.findById(UserID);
     }
 
     async login(password, existingUser){
-        await comparePassword(password, existingUser.Passwords);
-        const newtoken = newToken(existingUser.ID, existingUser.Email);
+        await comparePassword(password, existingUser.passwords);
+        const newtoken = newToken(existingUser.id, existingUser.email);
         return newtoken;
     }
 
@@ -33,12 +33,17 @@ class UserService {
     }
 
     async forgot(existingUser){
-        const resetToken = crypto.randomBytes(32).toString("hex");
-        user.resetPasswordToken = resetToken;
-        user.resetPasswordExpires = Date.now() + 3600000; // 1 ชั่วโมง
-        await user.save();
-        const user = new User(userId, username, email, hashpassword);
-        await this.userRepository.save(user);
+        const newtoken = newTokenreset(existingUser.id, existingUser.email);
+        return newtoken;
+    }
+
+    async change(id, password){
+        const hashpassword = await hashPassword(password);
+        await this.userRepository.upDatePassword(id, hashpassword);
+    }
+
+    async getUserById(userid){
+        return await this.userRepository.getById(userid);
     }
 }
 

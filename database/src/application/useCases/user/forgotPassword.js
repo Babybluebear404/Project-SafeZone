@@ -1,18 +1,18 @@
-class Forgot{
-    constructor(userService){
+class Forgot {
+    constructor(userService) {
         this.userService = userService;
     }
 
-    async execute(dto){
+    async execute(dto) {
         const { email } = dto;
-        try{
+        try {
             const existingUser = await this.userService.findUserByEmail(email);
             if (!existingUser) {
                 throw new Error('No Email This');
             }
             const token = await this.userService.forgot(existingUser);
             return token;
-        }catch(error){
+        } catch (error) {
             throw error;
         }
     }

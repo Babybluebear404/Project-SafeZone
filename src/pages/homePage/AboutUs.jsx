@@ -1,6 +1,6 @@
 import React from 'react';
-import "./AboutUs.css";
-import Tab from "./Tab";
+import "../../style/AboutUs.css";
+import Tab from "../Tab";
 
 const AboutUs = () => {
   return (

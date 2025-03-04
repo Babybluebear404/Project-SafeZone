@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./HomeLogin.css";
-import Tab from "./Tab";
+import "../../style/HomeLogin.css";
+import Tab from "../Tab";
 
 
 const HomeLogin = () => {

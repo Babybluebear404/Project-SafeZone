@@ -1,0 +1,98 @@
+.Dashboard-Section {
+    display: grid;
+    grid-template-columns: 3fr 4fr; 
+    grid-template-rows: 1fr 3fr; 
+    gap: 20px; 
+    width: 1000px;
+    height: 560px;
+    margin-top: 0px;
+}
+
+.Title {
+    font-size: 60px;
+    align-items: center;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+.TitleSub {
+    display: flex;
+    font-family: "Prompt", serif;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.Emotion-Section{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    height: 100%;
+    gap: 20px;
+}
+
+.emotionThisday{
+    border-radius: 40px;
+    box-Shadow : 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.avg-Label{
+    border-radius: 40px;
+    box-Shadow : 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.avg-Model{
+    border-radius: 40px;
+    box-Shadow : 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.avg-perWeek{
+    width:100% ;
+    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+}
+
+.lineGraph {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.avg-perWeek .Title-chart, .avg-perMonth .Title-chart{
+    font-family: "Prompt", serif;
+    color: #69247C;
+    font-size: 18px;
+}
+
+.avg-perWeek .description-chart, .avg-perMonth .description-chart {
+    font-family: "Prompt", serif;
+    color: #69247C;
+    font-size: 10px;
+}
+
+.avg-perMonth{
+    background-color: #FFFFFF;
+    border-radius: 20px;
+
+}
+.pieChart {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 70px;
+}
+
+.Icon-Emoji {
+    font-size: 40px;
+    color: #f6efef;
+}
+.avg-Label, .avg-Model, .emotionThisday{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+}
+.avg-Label .description-chart, .avg-Model .description-chart, .emotionThisday .description-chart{
+    font-family: "Prompt", serif;
+    color: #4e215b;
+}

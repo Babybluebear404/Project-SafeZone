@@ -8,7 +8,6 @@ class Profile{
         // เรียกใช้ userService เพื่อนำข้อมูลผู้ใช้ตาม userId
         try{
             const user = await this.userService.getUserById(UserID);
-            console.log(user);
             if (!user) {
                 throw new Error('User not found');
             }

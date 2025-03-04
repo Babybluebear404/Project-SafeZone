@@ -1,15 +1,17 @@
 const RegisterUser = require('../../application/useCases/user/registerUser');
 const LoginUser = require('../../application/useCases/user/loginUser');
-const ForgotUser = require('../../application/useCases/user/forgotUser');
+const ForgotPassword = require('../../application/useCases/user/forgotPassword');
 const Profile = require('../../application/useCases/user/ProfileUser');
-const googleLogin = require("../../application/useCases/authGoogleLogin");
+const ChangePassword = require('../../application/useCases/user/changePassword');
+// const googleLogin = require("../../application/useCases/user/authGoogleLogin");
 
 class UserController {
     constructor(userService) {
         this.userService = userService;
         this.registerUserUseCase = new RegisterUser(userService);
         this.loginUserUseCase = new LoginUser(userService);
-        this.forgotUserUseCase = new ForgotUser(userService);
+        this.forgotPasswordUseCase = new ForgotPassword(userService);
+        this.changePasswordUseCase = new ChangePassword(userService);
         this.profileUserUseCase = new Profile(userService);
     }
 
@@ -33,24 +35,35 @@ class UserController {
         }
     }
     
-    async googleLogin(req, res) {
-        try {
-            const { access_token } = req.body;
-            const { user, token } = await googleLogin(access_token);
+    // async googleLogin(req, res) {
+    //     try {
+    //         const { access_token } = req.body;
+    //         const { user, token } = await googleLogin(access_token);
 
-            res.status(200).json({ message: "Google Login successful", user, token });
-        } catch (error) {    
+    //         res.status(200).json({ message: "Google Login successful", user, token });
+    //     } catch (error) {    
+    // }
+    // }
+    
+    async forgot(req, res) {
+        try {
+            const dto = req.body;
+            const token = await this.forgotPasswordUseCase.execute(dto);
+            res.status(201).json({token});
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
-    }
-    async forgot(req, res){
-        try{
+
+    async change(req, res) {
+        try {
             const dto = {
                 ...req.body,
                 UserID: req.user.id
             };
-            const token = await this.registerUserUseCase.execute(dto);
-            res.status(201).json(token);
-        }catch(error){
+            await this.changePasswordUseCase.execute(dto);
+            res.status(201).json({ message: 'Password changed successfully' });
+        } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }

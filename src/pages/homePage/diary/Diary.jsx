@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
-import { FcPlus, FcLike } from "react-icons/fc";
-import { FaUserFriends } from "react-icons/fa";
+import { FcPlus, FcLike, FcFullTrash } from "react-icons/fc";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
-import { TiDelete } from "react-icons/ti";
+import { FriendSection } from "./friendsSection";
 import { generateDate, months } from "./calendar";
 import dayjs from "dayjs";
-import "./Diary.css";
-import Tab from "./Tab";
-import { toast } from 'react-toastify';
+import "../../../style/Diary.css";
+import Tab from "../../Tab";
 
 const Diary = () => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
@@ -16,144 +14,10 @@ const Diary = () => {
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(null);
 
-  const [friendSection, setFriendSection] = useState(false);
+  const [currentPage, setCurrentPage] = useState("Diary");
   const [addfriendSec, setAddfrienSec] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   const [isShared, setIsShared] = useState(false);
-
-  const [friends, setFriends] = useState([
-    { id: "test1", name: "Aren" },
-    { id: "test2", name: "Mikasa" },
-    { id: "test3", name: "Armin" },
-    { id: "test4", name: "Levi" }
-  ]);
-
-  const user = [
-    { id: "test1", name: "Aren" },
-    { id: "test2", name: "Mikasa" },
-    { id: "test3", name: "Armin" },
-    { id: "test4", name: "Levi" },
-    { id: "test5", name: "Himmel" },
-    { id: "test6", name: "Frieren" },
-    { id: "test7", name: "Heiter" },
-    { id: "test8", name: "Eisen" }
-  ];
-
-  const filteredFriends = friends.filter((friend) =>
-    friend.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const filteredUser = user.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const addFriend = (friend) => {
-    setFriends([...friends, friend]);
-    toast.success(`คำขอเป็นเพื่อนกับ ${friend.name} ถูกส่งไปแล้ว`, {
-      position: "top-center",
-      autoClose: 2000,
-      closeButton: false,
-    });
-  };
-
-  const removeFriend = (id) => {
-    const removedFriend = friends.find((friend) => friend.id === id);
-    setFriends(friends.filter((friend) => friend.id !== id));
-    toast.error(`${removedFriend.name} ถูกลบออกจากเพื่อนแล้ว!`, {
-      position: "top-center",
-      autoClose: 2000,
-      closeButton: false,
-    });
-  };
-
-
-
-  const FriendSection = () => {
-    return (
-      addfriendSec ? (
-        <div className="friend-display">
-          <div className="header-friend">
-            <SlArrowLeft
-              onClick={() => setFriendSection(!friendSection) & setAddfrienSec(!addfriendSec) & setSearchTerm("") & setSelectDate(null)}
-            />
-            <h2>Add Friends</h2>
-          </div>
-          <input type="text"
-            placeholder="Search..."
-            className="search-box"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            autoFocus />
-          {searchTerm.trim() !== "" && (
-            <div className="friends-list">
-              {filteredUser.length > 0 ? (
-                filteredUser.map((friend) => {
-                  const isFriend = friends.some((f) => f.id === friend.id);
-
-                  return (
-                    <div key={friend.id} className="friend-item">
-                      <div className="logo-friends"></div>
-                      <span>{friend.name}</span>
-                      {isFriend ? (
-                        <FaUserFriends className="friend-icon" />
-                      ) : (
-                        <FcPlus
-                          className="add-button"
-                          onClick={() => {
-                            addFriend(friend);
-                          }}
-                        />
-                      )}
-                    </div>
-                  );
-                })
-
-              ) : (
-                <p>No friends found.</p>
-              )}
-            </div>
-          )}
-
-        </div>
-      ) : (
-        <div className="friend-display">
-          <div className="header-friend">
-            <SlArrowLeft
-              onClick={() => setFriendSection(!friendSection) & setSearchTerm("") & setSelectDate(null)}
-            />
-            <h2>Friends</h2>
-          </div>
-          <input type="text"
-            placeholder="Search..."
-            className="search-box"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            autoFocus />
-          <div className="friend-content">
-            <div className="friends-list">
-              {filteredFriends.length > 0 ? (
-                filteredFriends.map((friend) => (
-                  <div key={friend.id} className="friend-item">
-                    <div className="logo-friends"></div>
-                    <span>{friend.name}</span>
-                    <TiDelete
-                      className="delete-button"
-                      onClick={() => removeFriend(friend.id)}
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>No friends found.</p>
-              )}
-            </div>
-          </div>
-        </div>
-      )
-    )
-  }
-
 
   //text box write message
   const [messages, setMessages] = useState([]);
@@ -172,10 +36,18 @@ const Diary = () => {
     }
   };
 
+  const deleteMessage = () => {
+    if (!selectDate) return;
+
+    const dateString = selectDate.toDate().toDateString();
+    setMessages(messages.filter((msg) => msg.timestamp !== dateString));
+  }
+
   //check selected date have message(no filterred message on this date)
   const filteredMessages = messages.filter(
     (msg) => selectDate && msg.timestamp === selectDate.toDate().toDateString()
   );
+
   const [selectedEmoji, setSelectedEmoji] = useState({});
   const getRatingClass = (rating) => {
     switch (rating) {
@@ -305,45 +177,54 @@ const Diary = () => {
                     </div>
                   );
                 }
-              )}
+              )
+              }
             </div>
           </div>
 
           {/* Diary Section */}
           <div className="diary-section">
             {
-              selectDate === null && !friendSection ? (
+              selectDate === null && currentPage === "Diary" ? (
                 <div className="diary-page">
-                  <a className="diary-title">Diary</a>
-                  <a className="add-friends-button" onClick={() => setFriendSection(!friendSection) & setAddfrienSec(!addfriendSec)}>Add Friend <FcPlus /></a>
-                  <a className="close-friends-button" onClick={() => setFriendSection(!friendSection)}>Friends <FcLike /></a>
+                  <div className="diary-name">
+                    <span className="diary-title">Diary</span>
+                    <span className="description-function">บันทึกเรื่องราวของคุณในแต่ละวันสามารถบันทึกได้ทั้งข้อความ <br />และระดับอารมณ์ของคุณในวันนั้น</span>
+                  </div>
+                  <span className="add-friends-button" onClick={() => setCurrentPage("friends") & setAddfrienSec(true)}>Add Friend <FcPlus /></span>
+                  <span className="close-friends-button" onClick={() => setCurrentPage("friends")}>Friends <FcLike /></span>
                 </div>
               ) : (
-                friendSection ? (
+                currentPage === "friends" ? (
                   <div className="friends-section">
-                    <FriendSection />
+                    <FriendSection
+                      addfriendSec={addfriendSec}
+                      setAddfrienSec={setAddfrienSec}
+                      setCurrentPage={setCurrentPage}
+                    />
                   </div>
                 ) : (
                   filteredMessages.length > 0 ? (
                     <div className="diary-display">
-                      <a className="diary-header">Diary</a>
+                      <span className="diary-header">Diary</span>
                       <div className="day-selected">
                         <h1>
                           Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
                         </h1>
                       </div>
                       {showMessages}
+                      <FcFullTrash onClick={deleteMessage} />
                     </div>
                   ) : (
                     <div className="diary-display">
-                      <a className="diary-header">Diary</a>
+                      <span className="diary-header">Diary</span>
                       <div className="day-selected">
                         <h1>
                           Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
                         </h1>
                       </div>
                       <div className="emoji-selected">
-                        <a className="text-general">How are you?</a>
+                        <span className="text-general">How are you?</span>
                         <div className="emoji-icon" key={selectDate?.toDate().toDateString()}>
                           <BsEmojiLaughingFill
                             className={`awesome-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 5 ? 'selected' : ''}`}
