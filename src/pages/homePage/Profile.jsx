@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaEnvelope, FaLock, FaCamera } from "react-icons/fa";
+import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
 import Tab from "../Tab";
 
 const Profile = ({ userService }) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({ id: '', name: '', email: '', password: '' });
+  const [isChange, setIsChange] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // ใช้ require ในการนำเข้า
         const ProfileUser = require('./database/src/application/useCases/user/ProfileUser');
-        
-        // สร้าง instance จาก class Profile
+
         const profile = new ProfileUser(userService);
-        const user = await profile.execute({ UserID: user.id }); // ดึงข้อมูลผู้ใช้ตาม UserID
+        const user = await profile.execute({ UserID: user.id });
         setUserData({ id: user.id, name: user.name, email: user.email, password: '' });
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -53,52 +52,59 @@ const Profile = ({ userService }) => {
       <Tab />
       <div className="profile-container">
         <div className="profile-card">
-          <h1 className="profile-title">Profile</h1>
 
-          <div className="profile-image">
-            <button className="camera-icon">
-              <FaCamera />
-            </button>
+          <div className='setting-Section'>
+            <div className='profile-title'>
+              <h1 className="profile-title">Profile Setting</h1>
+              <span>__ edit your name, picture, password</span>
+            </div>
+            <div className="profile-form">
+              <span >Name</span>
+              <div className="input-setup">
+                <input
+                  type="text"
+                  value={userData.name}
+                  disabled={!isChange}
+                  onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                />
+                <a className='change-button' onClick={() => { setIsChange(!isChange) }}>Change</a>
+              </div>
+
+              <span>Email</span>
+              <div className="input-setup">
+                <input
+                  type="email"
+                  disabled={true}
+                  value={userData.email}
+                />
+              </div>
+
+              <span>Password</span>
+              <div className="input-setup">
+                <input
+                  type="password"
+                  disabled={true}
+                  value={userData.password}
+                />
+                <a className='change-button' onClick={() => navigate("/ChangePassword")}>Change</a>
+              </div>
+              <div className='profile-button'>
+                <button className="saveSetting-button"
+                  onClick={() => { handleSave(); setIsChange(false); }}>Save</button>
+                <button className="cancelSetting-button"
+                  onClick={() => navigate("/HomeLogin")}>Cancel</button>
+              </div>
+            </div>
           </div>
 
-          <div className="idText">Friend ID</div>
-          <div className="idFriend">{userData.id || 'Loading...'}</div><br />
-
-          <div className="profile-form">
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="Name"
-                value={userData.name}
-                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-              />
-              <FaUser className="icon" />
+          <div className='image-Section'>
+            <div className="profile-image">
             </div>
-
-            <div className="input-group">
-              <input
-                type="email"
-                placeholder="Email"
-                value={userData.email}
-                onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-              />
-              <FaEnvelope className="icon" />
-            </div>
-
-            <div className="input-group">
-              <input
-                type="password"
-                placeholder="Password"
-                value={userData.password}
-                onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-              />
-              <FaLock className="icon" />
-            </div>
-
-            <button className="save-button" onClick={handleSave}>Save</button>
+            <button className='selected-picture'>Select Picture Profile</button>
+            <div className="idText">User ID</div>
+            <div className="idFriend">{userData.id || 'Loading...'}</div><br />
+              <button onClick={() => { goToHome(); clearSessionStorage(); }} className="logout-button"><IoIosLogOut />  Log Out</button>
           </div>
-
-          <button onClick={()=>{goToHome();clearSessionStorage();}} className="logout-button">Log Out</button>
         </div>
       </div>
     </div>
