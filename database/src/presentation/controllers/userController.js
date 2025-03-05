@@ -3,7 +3,8 @@ const LoginUser = require('../../application/useCases/user/loginUser');
 const ForgotPassword = require('../../application/useCases/user/forgotPassword');
 const Profile = require('../../application/useCases/user/ProfileUser');
 const ChangePassword = require('../../application/useCases/user/changePassword');
-const googleLogin = require("../../application/useCases/user/authGoogleLogin");
+const googleLogin = require('../../application/useCases/user/authGoogleLogin');
+const UpdateProfile = require('../../application/useCases/user/updateProfileUser');
 
 class UserController {
     constructor(userService) {
@@ -14,6 +15,7 @@ class UserController {
         this.changePasswordUseCase = new ChangePassword(userService);
         this.profileUserUseCase = new Profile(userService);
         this.googleLoginUseCase = new googleLogin(userService);
+        this.UpdateProfileUseCase = new UpdateProfile(userService);
     }
 
     async register(req, res) {
@@ -80,6 +82,19 @@ class UserController {
                 username: user.username,
                 email: user.email,
             });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async updateProfile(req, res) {
+        try {
+            const dto = {
+                ...req.body,
+                UserID: req.user.id
+            };
+            await this.UpdateProfileUseCase.execute(dto);
+            res.status(201).json({ message: 'Update Profile successfully' });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

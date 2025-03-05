@@ -7,7 +7,7 @@ class Profile{
         const { UserID } = dto;
         // เรียกใช้ userService เพื่อนำข้อมูลผู้ใช้ตาม userId
         try{
-            const user = await this.userService.getUserById(UserID);
+            const user = await this.userService.getUserProfile(UserID);
             if (!user) {
                 throw new Error('User not found');
             }

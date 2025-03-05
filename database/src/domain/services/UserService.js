@@ -45,8 +45,12 @@ class UserService {
         await this.userRepository.upDatePassword(id, hashpassword);
     }
 
-    async getUserById(userid){
-        return await this.userRepository.getById(userid);
+    async getUserProfile(userid){
+        return await this.userRepository.getProfile(userid);
+    }
+
+    async updateUserProfile(userid, newusername){
+        await this.userRepository.upDateProfile(userid, newusername);
     }
 }
 

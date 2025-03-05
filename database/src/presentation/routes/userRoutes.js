@@ -17,6 +17,7 @@ router.post('/register', async (req, res) => await userController.register(req, 
 router.post('/login', async (req, res) => await userController.login(req, res));
 router.post('/forgot', async (req, res) => await userController.forgot(req, res));
 router.post('/profile', authenticateToken, async (req, res) => await userController.getProfile(req, res));
+router.post('/updateprofile', authenticateToken, async (req, res) => await userController.updateProfile(req, res));
 router.post('/change', authenticateTokenreset, async (req, res) => await userController.change(req, res));
 router.post("/google-login", (req, res) => userController.googleLogin(req, res));
 

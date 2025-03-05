@@ -24,7 +24,7 @@ class MySQLUserRepository extends UserRepository {
         return user[0];
     }
 
-    async getById(UserID) {
+    async getProfile(UserID) {
         const query = 'SELECT id, username, email FROM users WHERE id = ?';
         const [user] = await this.connection.query(query, [UserID]);
         return user[0];
@@ -33,6 +33,11 @@ class MySQLUserRepository extends UserRepository {
     async upDatePassword(userId, hashedPassword) {
         const sql = 'UPDATE users SET passwords = ? WHERE id = ?';
         await this.connection.query(sql, [hashedPassword, userId]);
+    }
+
+    async upDateProfile(userId, newusername) {
+        const sql = 'UPDATE users SET username = ? WHERE id = ?';
+        await this.connection.query(sql, [newusername, userId]);
     }
 }
 

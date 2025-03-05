@@ -21,7 +21,6 @@ class Login{
             const token = await this.userService.login(password, existingUser);
             return token;
         }catch(error){
-            console.error("Error occurred: ", error.message); 
             throw error;
         }
     }
