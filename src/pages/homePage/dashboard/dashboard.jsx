@@ -41,6 +41,12 @@ const Dashboard = () => {
                         COLORS={COLORS} />
                 </div>
             </div>
+            <div className="CF-container">
+                <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="CF" />
+            </div>
+            <div className="cat-tongue-container">
+                <img src="/src/assets/CatTongue.png" alt="Cat Tongue" className="cat-tongue" />
+            </div>
         </div>
 
     )

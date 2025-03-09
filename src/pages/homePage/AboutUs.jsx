@@ -22,6 +22,19 @@ const AboutUs = () => {
           <p><strong>Line:</strong> @SafeZone</p>
         </div>
       </main>
+      
+      <div className="chocolate-container">
+        <img src="/src/assets/Chocolate.png" alt="Cat Chocolate" className="chocolate" />
+      </div>
+      <div className="chocolate2-container">
+        <img src="/src/assets/Chocolate.png" alt="Cat Chocolate2" className="chocolate2" />
+      </div>
+      <div className="chocolate3-container">
+        <img src="/src/assets/Chocolate.png" alt="Cat Chocolate3" className="chocolate3" />
+      </div>
+      <div className="cat-lick-container">
+        <img src="/src/assets/CatLick.png" alt="Cat Lick" className="cat-lick" />
+      </div>
     </div>
   );
 };

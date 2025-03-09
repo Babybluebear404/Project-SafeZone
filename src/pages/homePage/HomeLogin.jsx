@@ -23,6 +23,11 @@ const HomeLogin = () => {
   return (
     <div className="home-container">   
       <Tab/>
+
+      <div className="cat-fish-container">
+        <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="cat-fish" />
+      </div>
+
       <main className="content">
         <h1 className="title">SAFE ZONE</h1>
         <p className="subtitle">
@@ -54,6 +59,9 @@ const HomeLogin = () => {
           </div>
         </div>
       )}
+      <div className="cat-eye2-container">
+        <img src="/src/assets/CatEye2.png" alt="Cat Eye2" className="cat-eye2" />
+      </div>
     </div>
   );
 };
