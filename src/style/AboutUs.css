@@ -31,3 +31,75 @@
   .home-container {
     padding-top: 60px; 
   }
+
+  .chocolate-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 750px;  /* ปรับขนาดรูป */
+    height: 570px;
+    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+  }
+  
+  .chocolate {
+    width: 250px;  /* ปรับขนาดรูปตามที่ต้องการ */
+    height: auto;
+    
+  }
+
+  .chocolate2-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;  /* ปรับขนาดรูป */
+    height: 350px;
+    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+  }
+  
+  .chocolate2 {
+    width: 500px;  /* ปรับขนาดรูปตามที่ต้องการ */
+    height: auto;
+    
+  }
+
+  .chocolate3-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 2100px;  /* ปรับขนาดรูป */
+    height: 330px;
+    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+  }
+  
+  .chocolate3 {
+    width: 200px;  /* ปรับขนาดรูปตามที่ต้องการ */
+    height: auto;
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+  
+  @keyframes floatAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px); /* ลอยขึ้น */
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .cat-lick-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 400px;  /* ปรับขนาดรูป */
+    height: 400px;
+    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+  }
+  
+  .cat-lick {
+    width: 370px;  /* ปรับขนาดรูปตามที่ต้องการ */
+    height: auto;
+    
+  }

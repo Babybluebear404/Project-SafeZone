@@ -96,3 +96,47 @@
     font-family: "Prompt", serif;
     color: #4e215b;
 }
+
+
+.Dashboard-Container {
+    position: relative;
+  }
+  
+  .CF-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 150px;  /* ปรับขนาดรูป */
+    height: auto;
+    z-index: -1;  /* ทำให้รูปอยู่ด้านหลังสุด */
+  }
+  
+  .CF {
+    width: 220%; /* ให้รูปเต็มขนาด container */
+    height: auto;
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+  
+  @keyframes floatAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px); /* ลอยขึ้น */
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .cat-tongue {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+  }
+  
+  .cat-tongue {
+    width: 300px;  /* ปรับขนาดรูปตามที่ต้องการ */
+    height: auto;
+  }
