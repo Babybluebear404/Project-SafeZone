@@ -21,7 +21,7 @@
   }
 
   .image-Section{
-    padding: 50px 0px 10px 10px ;
+    padding: 30px 0px 10px 10px ;
     width: 250px;
   }
   
@@ -44,6 +44,13 @@
     text-align: start;
     padding: 0px;
     margin: 10px 0px 30px 0px;
+  }
+
+  .selected-picture {
+    background-color: #ffd699;
+    font-size: 12px;
+    color: #424270;
+    margin-bottom: 30px;
   }
 
   .idText {
@@ -144,5 +151,11 @@
     cursor: pointer;
     outline: none;
     border: none;
+    margin-top: 30px;
+  }
+
+  .delete-account{
+    margin-top: 60px;
+    background-color: brown;
   }
   

@@ -20,7 +20,7 @@ const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
       setIsDiaryShare(false);
       setShowNotification(true); // ถ้ามีคำขอเพิ่มเพื่อน จะแสดงการแจ้งเตือน
     } else if (sharedDiary) {
-      setNotificationMessage(`${sharedDiary.owner} แชร์ไดอารี่กับคุณ`);
+      setNotificationMessage(`${sharedDiary.owner} แชร์ Diary ของเขากับคุณ`);
       setIsDiaryShare(true);
       setIsFriendRequest(false);
       setShowNotification(true);

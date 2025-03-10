@@ -17,6 +17,21 @@
   width: 900px;
 }
 
+.diary-friend {
+  position: absolute;
+  background-color: #e97575;
+  left: 250px;
+  font-size: 30px;
+  top: 130px;
+  width: 60px;
+  height: 60px;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+
+
 .cover-page {
   display: grid;
   position: absolute;
@@ -223,6 +238,9 @@ textarea::placeholder {
   word-break: break-word; 
   white-space: normal;
 }
+.save-message {
+  background-color: #87adee;
+}
 
 
 /*Color emoji change*/
@@ -314,10 +332,38 @@ textarea::placeholder {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 2fr 3fr 6fr;
+  grid-template-columns: 1fr 4fr 1fr 6fr;
   place-items: center;
 }
 
+.save-footer span,.show-footer span{
+  font-size: 10px;
+  font-family: "Prompt", serif;
+  color: #000000;
+}
+.show-footer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.show-footer button{
+  width: 150px;
+  font-family: 'Nanum Pen Script', serif;
+}
+
+.save-diary{
+  background-color: #87adee;
+}
+
+.delete-diary{
+  background-color: #ce4d4d;
+}
+
+.save-diary:disabled{
+  background-color: #bbc0ca;
+}
 /*Friend Popup*/
 .friend-display {
   display: flex;

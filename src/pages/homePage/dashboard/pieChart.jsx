@@ -12,8 +12,9 @@ export const PieMonth = ({ data, COLORS }) => {
             lastMonthYear -= 1;
         }
 
+
         const lastMonthData = data.filter(d => {
-            const date = new Date(d.date);
+            const date = new Date(d.timestamp);
             const dataMonth = date.getMonth();
             const dataYear = date.getFullYear();
 

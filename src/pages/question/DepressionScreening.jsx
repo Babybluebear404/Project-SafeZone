@@ -19,13 +19,18 @@ const DepressionScreening = () => {
     } else {
       setResult("ปกติ ไม่เป็นโรคซึมเศร้า");
     }
+
+    //ไม่แน่ใจว่า database เก็บข้อมูล q2 ยังไง
+    sessionStorage.setItem("q2Answer", JSON.stringify(answers));
+
   };
 
+
   const handleNext = () => {
-    if (result === "ปกติ ไม่เป็นโรคซึมเศร้า") {
-      navigate("/HomeLogin");
-    } else {
+    if (answers.question1 === "yes" || answers.question2 === "yes") {
       navigate("/Q9");
+    } else {
+      navigate("/HomeLogin");
     }
   };
 

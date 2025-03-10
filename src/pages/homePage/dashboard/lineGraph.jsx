@@ -6,48 +6,50 @@ export const LineGraph = ({ data }) => {
     let thisDay = today.getDate();
     let thisMonth = today.getMonth();
 
-    const getMonthName = () => {
+    const getMonthName = (name) => {
         const monthNames = [
             "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
             "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
         ];
-        return monthNames[thisMonth < 0 ? 11 : thisMonth];
+        return monthNames[name < 0 ? 11 : name];
     };
-    const thisMonthName = getMonthName();
 
-    const getlastDays = ()=>{
+    const thisMonthName = getMonthName(thisMonth);
+
+    const getlastDays = () => {
         if ([0, 2, 4, 6, 7, 9, 11].includes(thisMonth)) {
             return 31;
-        }else if(thisMonth==1){
+        } else if (thisMonth == 1) {
             return 28;
-        }else return 30;
+        } else return 30;
     }
+
+
 
     const getSinceBegin = (thisDay, thisMonth, getlastDays) => {
         let dayBegin = thisDay - 14;
         let monthBegin = thisMonth;
-        const previousMonthDays = getlastDays() - 1; 
-    
+        const previousMonthDays = getlastDays() - 1;
         if (dayBegin <= 0) {
             dayBegin = previousMonthDays + dayBegin;
-            monthBegin = monthBegin - 1; 
+            monthBegin = monthBegin - 1;
         }
-    
-        return { dayBegin, monthBegin }; 
+
+        return { dayBegin, monthBegin };
     };
 
     const { dayBegin, monthBegin } = getSinceBegin(thisDay, thisMonth, getlastDays);
-    const monthBeginName = getMonthName();
+
+    const monthBeginName = getMonthName(monthBegin);
 
     const filterLastTwoWeeksData = (data) => {
         const last14Days = [];
 
-        for (let i = 0; i <= 14; i += 1) {
+        for (let i = 0; i < 14; i += 1) {
             const date = new Date();
             date.setDate(today.getDate() - i);
-            const formattedDate = date.toISOString().split("T")[0];
-
-            const found = data.find(d => d.date === formattedDate);
+            const formattedDate = date.toDateString();
+            const found = data.find(d => d.timestamp === formattedDate);
             if (found) {
                 last14Days.push(found);
             }
@@ -67,7 +69,7 @@ export const LineGraph = ({ data }) => {
                     <AreaChart data={filteredData}
                         margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                         <XAxis
-                            dataKey="date"
+                            dataKey="timestamp"
                             tickFormatter={(date) =>
                                 new Date(date).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })
                             } />

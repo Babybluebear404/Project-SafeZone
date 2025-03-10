@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Tab from "../../Tab";
 import "../../../style/dashboard.css"
 import { PieMonth } from "./pieChart";
@@ -6,16 +6,17 @@ import { LineGraph } from "./lineGraph";
 import { AverageEmotion } from "./avg";
 
 const Dashboard = () => {
-    const data = [
-        { date: "2025-01-01", label: 1 },
-        { date: "2025-02-20", label: 3 },
-        { date: "2025-02-21", label: 4 },
-        { date: "2025-02-22", label: 2 },
-        { date: "2025-02-23", label: 4 },
-        { date: "2025-02-24", label: 3 },
-        { date: "2025-02-25", label: 4 },
-        { date: "2025-02-26", label: 5 },
-    ];
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const storedData = sessionStorage.getItem("messages");
+        if (storedData) {
+          setData(JSON.parse(storedData)); 
+        } else {
+          setData([]);
+        }
+      }, []);
+      
     const COLORS = ["#FF6384", "#FF9F40", "#FFCD56", "#4BC0C0", "#36A2EB"];
 
     return (

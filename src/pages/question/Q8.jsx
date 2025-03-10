@@ -67,14 +67,55 @@ const Q8 = () => {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับรุนแรง");
       setShowPopup(true); 
     }
+
+    sessionStorage.setItem("q8Answer", JSON.stringify(totalScore));
   };
 
   const closePopup = () => {
     setShowPopup(false); 
   };
 
-  const handleNext = () => {
-    navigate("/HomeLogin");
+  const handleNext = async() => {
+    const token = sessionStorage.getItem("token");
+    const q2Answers = sessionStorage.getItem("q2Answers");
+    const q9Answers = sessionStorage.getItem("q9Answers");
+    const q8Answers = sessionStorage.getItem("q8Answers");
+
+    if (!token) {
+      alert("No saved answers or token found. Please try again.");
+      return;
+    }
+
+    const requestData = {
+      token: token, 
+      q2Answers: q2Answers || {}, 
+      q9Answers: q9Answers || {}, 
+      q8Answers: q8Answers || {}, 
+    };
+
+    try {
+      // ส่งคำขอ POST ไปยัง API
+      const response = await fetch("http://localhost:3000/api/questions/savequestion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestData),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to save answers.");
+      }
+  
+      console.log("Answers saved successfully:", data);
+      
+      navigate("/HomeLogin");
+    } catch (error) {
+      console.error("Error saving answers:", error.message);
+    }
   };
 
   return (

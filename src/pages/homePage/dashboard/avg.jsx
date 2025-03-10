@@ -40,12 +40,35 @@ export const AverageEmotion = ({ data, COLORS }) => {
         }
     };
 
+    const labelToday = () =>{
+        const today = new Date();
+        const todayData = data.find(item => item.timestamp === today.toDateString()); 
+        return todayData ? todayData.label : null;
+    }
+
+    const labelMessage = (rating) => {
+        switch (rating) {
+          case 5:
+            return "Answer";
+          case 4:
+            return "Good";
+          case 3:
+            return "Alright";
+          case 2:
+            return "Bad";
+          case 1:
+            return "Awful";
+          default:
+            return "NaN";
+        }
+      };
+
     return (
         <div className="Emotion-Section">
-            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[4]}}>
+            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[labelToday()-1]}}>
                 <span className="description-chart">ระดับอารมณ์ของวันนี้</span>
-                {getEmojiIcon(percentage)}
-                <span className="description-chart">{averageMood.toFixed(2)}</span>
+                {getEmojiIcon((labelToday()*100)/5)}
+                <span className="description-chart">{labelMessage(labelToday())}</span>
             </div>
             <div className="avg-Label" style={{ backgroundImage: averageColor }}>
                 <span className="description-chart">ระดับอารมณ์โดยเฉลี่ย</span>
