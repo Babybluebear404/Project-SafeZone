@@ -2,6 +2,7 @@ const Savequestion = require('../../application/useCases/question/savequestion')
 
 class QuestionController{
     constructor(questionService){
+        this.questionService = questionService;
         this.savequestionuseCaes = new Savequestion(questionService);
     }
 

@@ -1,4 +1,8 @@
 class ClosefriendRepository{
+    async checkfriendstatus(userid, friendid){
+        throw new Error("Method 'checkfriendstatus' must be implemented.");
+    }
+
     async addFriend(closefriend){
         throw new Error("Method 'addFriend' must be implemented.");
     }

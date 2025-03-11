@@ -32,7 +32,6 @@ class UserService {
         const hashpassword = password ? await hashPassword(password) : null;
         const user = new User(userId, username, email, hashpassword);
         await this.userRepository.save(user);
-        return user;
     }
 
     async forgot(existingUser){
