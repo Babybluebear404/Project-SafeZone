@@ -37,26 +37,32 @@ class MySQLClosefriendRepository extends ClosefriendRepository{
        await this.connection.query(query, [upstatus.status, upstatus.userid, upstatus.friendid]);
     }
 
-    async getFriend(userId){
+    async getpendingFriend(userId){
         const query = `
-            SELECT u.ID, u.Username, u.Email
-            FROM closefriend f
-            JOIN users u ON (u.id = f.friendID OR u.id = f.userID)
-            WHERE (f.userID = ? OR f.friendID = ?) 
-            AND f.status = 'accepted'
-            AND u.id != ?`;
-        return await this.connection.query(query, [userId, userId, userId])
+                SELECT DISTINCT u.id, u.username, u.email
+                FROM closefriend f
+                JOIN users u ON u.ID = f.UserID
+                WHERE f.Status = 'pending'
+                AND f.FriendID = ?
+                AND u.ID != ?`;
+        const [rows] = await this.connection.query(query, [userId, userId]);
+        return rows;
     }
 
-    async getpending(userId){
+    async getacceptedFriend(userId){
         const query = `
-            SELECT u.ID, u.Username, u.Email
-            FROM closefriend f
-            JOIN users u ON (u.id = f.friendID OR u.id = f.userID)
-            WHERE (f.userID = ? OR f.friendID = ?) 
-            AND f.status = 'pending'
-            AND u.id != ?`;
-        return await this.connection.query(query, [userId, userId, userId])
+                SELECT DISTINCT u.id, u.username, u.email
+                FROM closefriend f
+                JOIN users u ON u.ID = 
+                    CASE 
+                        WHEN f.UserID = ? THEN f.FriendID 
+                        ELSE f.UserID 
+                    END
+                WHERE f.Status = 'accepted'
+                AND (f.UserID = ? OR f.FriendID = ?)
+                AND u.ID != ?`;
+        const [rows] = await this.connection.query(query, [userId, userId, userId, userId]);
+        return rows;
     }
 }
 

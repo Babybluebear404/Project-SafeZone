@@ -4,10 +4,13 @@ class GetAcceptedFriend {
     }
 
     async execute(dto) {
-        const { userid } = dto;
-
+        const { UserID } = dto;
         try {
-            
+            const row = await this.closefriend.getaccepted(UserID);
+            if (!row){
+                throw new Error("No accepted friends found.");
+            }
+            return row;
         } catch (error) {
             throw error;
         }

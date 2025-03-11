@@ -15,5 +15,7 @@ const router = express.Router();
 router.post('/addfriend', authenticateToken, async (req, res) => await closefrienController.addfriend(req, res));
 router.patch('/updatestatus', authenticateToken, async (req, res) => await closefrienController.updatestatus(req, res));
 router.delete('/deletefrined', authenticateToken, async (req, res) => await closefrienController.deletefriend(req, res));
+router.get('/getaccepted', authenticateToken, async (req, res) => await closefrienController.getaccepted(req, res));
+router.get('/getpending', authenticateToken, async (req, res) => await closefrienController.getpending(req, res));
 
 module.exports = router;

@@ -21,6 +21,14 @@ class ClosefriendService{
     async deletefriend(UserID, friend){
         await this.closefriendRepository.delete(UserID, friend);
     }
+
+    async getaccepted(UserID){
+        return await this.closefriendRepository.getacceptedFriend(UserID);
+    }
+
+    async getpending(UserID){
+        return await this.closefriendRepository.getpendingFriend(UserID);
+    }
 }
 
 module.exports = ClosefriendService;
