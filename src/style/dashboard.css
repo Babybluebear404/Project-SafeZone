@@ -32,6 +32,7 @@
 .emotionThisday{
     border-radius: 40px;
     box-Shadow : 0px 8px 8px rgba(0, 0, 0, 0.3);
+    background-color: #f7cfcf;
 }
 
 .avg-Label{

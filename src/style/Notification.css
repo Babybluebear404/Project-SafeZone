@@ -7,7 +7,9 @@
   .notification-list {
     max-width: fit-content;
     margin: 0 auto;
+    font-family: "Prompt", serif;
   }
+  
   
   .notification-item {
     position: relative;
@@ -15,7 +17,7 @@
     padding: 1.5rem;
     background: #fff;
     border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
     margin: 0 auto 3rem auto; 
     display: flex;
     align-items: center;
@@ -60,11 +62,18 @@
   }
   
   .btn.yes {
-    background-color: #10B981;
+    background-color: #3f9377;
+    border-radius: 50px;
   }
   
   .btn.no {
-    background-color: #EF4444;
+    background-color: #d93838;
+    border-radius: 50px;
+  }
+
+  .btn.view {
+    background-color: #3868d9;
+    border-radius: 50px;
   }
   
   .notification-time {
