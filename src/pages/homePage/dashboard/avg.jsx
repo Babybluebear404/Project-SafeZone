@@ -1,5 +1,6 @@
 import "../../../style/dashboard.css"
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
+import dayjs from "dayjs";
 
 export const AverageEmotion = ({ data, COLORS }) => {
     const averageMood = data.reduce((sum, entry) => sum + entry.label, 0) / data.length;
@@ -21,7 +22,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
         return `linear-gradient(90deg,#C7D9DD 0%, ${COLORS[4]} 100%)`;
     };
 
-    const colorEmoji = [ '#D0D0D0','#E1BBFF','#ABDCFF','#FDBA83','#FF92CD'];
+    const colorEmoji = ['#D0D0D0', '#E1BBFF', '#ABDCFF', '#FDBA83', '#FF92CD'];
 
     const averageColor = getColor(percentage);
 
@@ -40,12 +41,36 @@ export const AverageEmotion = ({ data, COLORS }) => {
         }
     };
 
+    const labelToday = () => {
+        const today = dayjs().format('YYYY-MM-DD'); // แปลงวันนี้เป็น YYYY-MM-DD
+        const todayData = data.find(item => dayjs(item.timestamp).format('YYYY-MM-DD') === today);
+        return todayData ? todayData.label : null;
+
+    }
+
+    const labelMessage = (rating) => {
+        switch (rating) {
+            case 5:
+                return "Answer";
+            case 4:
+                return "Good";
+            case 3:
+                return "Alright";
+            case 2:
+                return "Bad";
+            case 1:
+                return "Awful";
+            default:
+                return "NaN";
+        }
+    };
+
     return (
         <div className="Emotion-Section">
-            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[4]}}>
+            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[labelToday() - 1] }}>
                 <span className="description-chart">ระดับอารมณ์ของวันนี้</span>
-                {getEmojiIcon(percentage)}
-                <span className="description-chart">{averageMood.toFixed(2)}</span>
+                {getEmojiIcon((labelToday() * 100) / 5)}
+                <span className="description-chart">{labelMessage(labelToday())}</span>
             </div>
             <div className="avg-Label" style={{ backgroundImage: averageColor }}>
                 <span className="description-chart">ระดับอารมณ์โดยเฉลี่ย</span>

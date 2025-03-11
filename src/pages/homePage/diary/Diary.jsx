@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
-import { FcPlus, FcLike, FcFullTrash } from "react-icons/fc";
+import { FcPlus, FcLike } from "react-icons/fc";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
+import { FaBook } from "react-icons/fa";
 import { FriendSection } from "./friendsSection";
 import { generateDate, months } from "./calendar";
 import dayjs from "dayjs";
 import "../../../style/Diary.css";
 import Tab from "../../Tab";
+import { useNavigate } from "react-router-dom";
 
 const Diary = () => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
@@ -14,10 +16,10 @@ const Diary = () => {
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(null);
 
+  const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState("Diary");
   const [addfriendSec, setAddfrienSec] = useState(false);
-
-  const [isShared, setIsShared] = useState(false);
 
   //text box write message
   const [messages, setMessages] = useState([]);
@@ -25,13 +27,20 @@ const Diary = () => {
 
   const sendMessage = () => {
     if (input.trim() !== "") {
+      const currentTime = new Date();
+      //currentTime.setFullYear(2025, 1, 28);
       const newMessage = {
         text: input,
-        timestamp: selectDate.toDate().toDateString(),
-        emojiRating: selectedEmoji.rating,
+        timestamp: currentTime.toISOString(),
+        label: selectedEmoji[selectDate?.toDate().toDateString()] || null,
+        status: isShared
       };
 
-      setMessages([...messages, newMessage]);
+      const storedMessages = JSON.parse(sessionStorage.getItem("messages")) || [];
+      const updatedMessages = [...storedMessages, newMessage];
+      sessionStorage.setItem("messages", JSON.stringify(updatedMessages));
+      setMessages(updatedMessages);
+
       setInput("");
     }
   };
@@ -45,9 +54,10 @@ const Diary = () => {
 
   //check selected date have message(no filterred message on this date)
   const filteredMessages = messages.filter(
-    (msg) => selectDate && msg.timestamp === selectDate.toDate().toDateString()
+    (msg) =>
+      today &&
+      dayjs(msg.timestamp).format('YYYY-MM-DD') === today.format('YYYY-MM-DD')
   );
-
   const [selectedEmoji, setSelectedEmoji] = useState({});
   const getRatingClass = (rating) => {
     switch (rating) {
@@ -83,15 +93,43 @@ const Diary = () => {
     }
   };
 
-  const showMessages = messages
-    .filter((msg) => selectDate && msg.timestamp === selectDate.toDate().toDateString())
-    .map((msg, index) => {
-      const emojiRating = selectedEmoji[msg.timestamp] || null;
 
+  useEffect(() => {
+    const storedMessages = JSON.parse(sessionStorage.getItem("messages")) || [];
+    setMessages(storedMessages);
+  }, []);
+
+
+  const [isShared, setIsShared] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
+
+  const showMessages = messages
+    .filter((msg) => selectDate && dayjs(msg.timestamp).format('YYYY-MM-DD') === selectDate.format('YYYY-MM-DD'))
+    .map((msg, index) => {
+      const emojiRating = msg.label
       return (
         <div key={index} className="showMessages">
           {emojiRating && getEmojiIcon(emojiRating)}
           <p className="display-text">{msg.text}</p>
+          <div className="show-footer">
+            <div>
+              <input
+                type="checkbox"
+                checked={msg.status}
+                onChange={() => { setIsShared(!isShared); setIsChanged(!isChanged); }}
+              />
+              <span>แชร์เรื่องราวให้เพื่อนของคุณ</span>
+            </div>
+            <a></a>
+            <button onClick={deleteMessage} className="delete-diary">Delete</button>
+            <button onClick={() => {
+
+            }} className="save-diary"
+              disabled={!isChanged}>
+              Save
+            </button>
+          </div>
+
         </div>
       );
     });
@@ -110,6 +148,7 @@ const Diary = () => {
   return (
     <div className="diary-container">
       <Tab />
+      <button className="diary-friend" onClick={() => navigate("/friendShare")}><FaBook /></button>
       <div className="diary-wrapper">
         <div className="cover-page">
           {/* Calendar Section */}
@@ -146,13 +185,16 @@ const Diary = () => {
                     selectDate && selectDate.toDate().toDateString() === date.toDate().toDateString()
                       ? "bg-black"
                       : "";
+                  const dateString = dayjs(date).format('YYYY-MM-DD');
+                  const messageForDate = messages.find(
+                    (msg) => dayjs(msg.timestamp).format('YYYY-MM-DD') === dateString
+                  );
+                  const emojiRating = messageForDate?.label ?? null;
 
                   const hasMessages = messages.some(
-                    (msg) => msg.timestamp === date.toDate().toDateString()
+                    (msg) =>dayjs(msg.timestamp).format('YYYY-MM-DD') === dateString
                   );
-
-                  const dateString = date.toDate().toDateString();
-                  const emojiRating = selectedEmoji[dateString] || null;
+                  
                   const ratingClass = hasMessages && emojiRating ? getRatingClass(emojiRating) : "";
 
                   const handleDateClick = () => {
@@ -180,7 +222,7 @@ const Diary = () => {
               )
               }
             </div>
-          </div>
+          </div>{/*End of Calendar Section*/}
 
           {/* Diary Section */}
           <div className="diary-section">
@@ -204,18 +246,7 @@ const Diary = () => {
                     />
                   </div>
                 ) : (
-                  filteredMessages.length > 0 ? (
-                    <div className="diary-display">
-                      <span className="diary-header">Diary</span>
-                      <div className="day-selected">
-                        <h1>
-                          Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
-                        </h1>
-                      </div>
-                      {showMessages}
-                      <FcFullTrash onClick={deleteMessage} />
-                    </div>
-                  ) : (
+                  filteredMessages.length <= 0 && selectDate.toDate().toDateString() === today.toDate().toDateString() ? (
                     <div className="diary-display">
                       <span className="diary-header">Diary</span>
                       <div className="day-selected">
@@ -270,7 +301,7 @@ const Diary = () => {
                             checked={isShared}
                             onChange={() => setIsShared(!isShared)}
                           />
-                          <span>Shared</span>
+                          <span>แชร์เรื่องราวให้เพื่อนของคุณ</span>
                           <a></a>
                           <button onClick={() => {
                             sendMessage();
@@ -281,13 +312,22 @@ const Diary = () => {
                         </div>
                       </div>
                     </div>
+                  ) : (
+                    <div className="diary-display">
+                      <span className="diary-header">Diary</span>
+                      <div className="day-selected">
+                        <h1>
+                          Day : {selectDate.toDate().getDate()} {months[selectDate.month()]} {selectDate.year()}
+                        </h1>
+                      </div>
+                      {showMessages}
+                    </div>
                   )
                 )
               )
             }
           </div> {/*End of Diary Section*/}
         </div>
-        )
       </div>
     </div>
 

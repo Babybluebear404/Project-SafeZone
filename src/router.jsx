@@ -17,10 +17,11 @@ import AboutUs from './pages/homePage/AboutUs'
 import Info from './pages/homePage/Info'
 import Diary from './pages/homePage/diary/Diary'
 import Notification from './pages/homePage/Notification'
-import Dashboard from './pages/homePage//dashboard/dashboard'
+import Dashboard from './pages/homePage/dashboard/dashboard'
 import Profile from './pages/homePage/Profile'
 import ErrorPage from './pages/errorpage'
 import Tab from './pages/Tab'
+import FriendShare from './pages/homePage/diary/friendShare'
 
 const elements = createRoutesFromElements (
     <Route errorElement={<ErrorPage />}>  {/* Parent route with errorElement */}
@@ -40,6 +41,7 @@ const elements = createRoutesFromElements (
         <Route path="/Profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/Tab" element={<Tab />} />
+        <Route path="/friendShare" element={<FriendShare />} />
     </Route>
 )
 

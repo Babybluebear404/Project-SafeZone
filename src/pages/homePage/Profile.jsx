@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
-import Tab from "../Tab";
 
 const Profile = ({ userService }) => {
   const navigate = useNavigate();
@@ -21,6 +20,7 @@ const Profile = ({ userService }) => {
         console.error('Failed to fetch user data:', error);
       }
     };
+
     fetchUserData();
   }, [userService]);
 
@@ -49,7 +49,6 @@ const Profile = ({ userService }) => {
 
   return (
     <div className="home-container">
-      <Tab />
       <div className="profile-container">
         <div className="profile-card">
 
@@ -103,7 +102,8 @@ const Profile = ({ userService }) => {
             <button className='selected-picture'>Select Picture Profile</button>
             <div className="idText">User ID</div>
             <div className="idFriend">{userData.id || 'Loading...'}</div><br />
-              <button onClick={() => { goToHome(); clearSessionStorage(); }} className="logout-button"><IoIosLogOut />  Log Out</button>
+            <button onClick={() => { goToHome(); clearSessionStorage(); }} className="logout-button"><IoIosLogOut />  Log Out</button>
+            <button className='delete-account'>Delete Account</button>
           </div>
         </div>
       </div>

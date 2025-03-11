@@ -1,28 +1,56 @@
 import React, { useState } from "react";
-import "../style/register.css"; 
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa"; 
-import { useNavigate } from "react-router-dom"; 
+import "../style/register.css";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", passwordConfirm: "" });
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (form.password !== form.passwordConfirm) {
       alert("Passwords do not match!");
       return;
     }
-    
-    navigate("/depression-screening");
-  };
 
-  return ( 
+    const registrationData = {
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    };
+
+    try {
+      // ส่งคำขอ POST ไปยัง API
+      const res = await fetch("http://localhost:3000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registrationData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Registration failed!");
+      }
+
+      console.log("Registration successful:", data);
+
+
+      navigate("/depression-screening");
+    } catch (error) {
+      console.error("Error during registration:", error.message);
+    }
+  }
+
+  return (
     <div className="signup-container">
       <h1 className="signup-title">Sign Up</h1>
       <form onSubmit={handleSubmit}>

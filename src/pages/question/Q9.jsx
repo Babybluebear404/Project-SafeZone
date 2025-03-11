@@ -72,6 +72,8 @@ const Q9 = () => {
     } else {
       setResult("มีภาวะซึมเศร้าระดับรุนแรง");
     }
+
+    sessionStorage.setItem("q9Answer", JSON.stringify(totalScore));
   };
 
   const handleNextButton = () => {

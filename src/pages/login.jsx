@@ -48,10 +48,9 @@ const Login = () => {
   });
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
     const token = sessionStorage.getItem("token");
 
-    if (user && token) {
+    if (token) {
       navigate("/HomeLogin");
     }
   }, [navigate]);
@@ -71,12 +70,12 @@ const Login = () => {
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     console.log("e.target:", e.target);
-
+  
     const email = e.target.email ? e.target.email.value : '';
     const password = e.target.password ? e.target.password.value : '';
-
+  
     const loginData = { email, password };
-
+  
     try {
       const response = await fetch("http://localhost:3000/api/users/login", { 
         method: "POST",
@@ -85,21 +84,21 @@ const Login = () => {
         },
         body: JSON.stringify(loginData),
       });
-
-      const data = await response.json(); // แปลง response เป็น JSON
-
+  
+      const data = await response.json(); 
+  
       if (!response.ok) {
         throw new Error(data.message || "Login failed!");
       }
 
-      console.log("Login successful:", response.data);
-      sessionStorage.setItem("token", response.data.token);
-
+      console.log("Login successful:", data);
+      sessionStorage.setItem("token", data.token.token);
+  
       navigate("/HomeLogin");
     } catch (error) {
-      console.error("Error logging in:", error.response?.data?.message || error.message);
+      console.error("Error logging in:", error.message);
     }
-  };
+  };  
 
   return (
     <div className="container">

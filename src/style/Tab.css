@@ -12,6 +12,7 @@
   backdrop-filter: blur(2px);
   z-index: 1000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 232, 196, 0.703);
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
 
