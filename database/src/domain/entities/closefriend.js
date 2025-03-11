@@ -1,5 +1,5 @@
 class Closefriend{
-    constructor(userid, friendid, status = 0){
+    constructor(userid, friendid, status = "pending"){
         this.userid = userid;
         this.friendid = friendid;
         this.status = status

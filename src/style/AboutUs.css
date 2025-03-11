@@ -1,105 +1,106 @@
-  .about-title {
-    font-size: 42px;
-    font-weight: bold;
-    color: #28159b;
-    margin-bottom: 20px;
-  }
-  
-  .about-box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    margin: 0 auto;
-    font-family: "Prompt", serif;
-  }
-  
-  .about-box p {
-    font-size: 18px;
-    color: #28159b;
-    text-align: left;
-  }
-  
-  .contact-section {
-    margin-top: 80px;
-    font-size: 16px;
-    font-weight: bold;
-    color: black;
-  }
-  
-  .home-container {
-    padding-top: 60px; 
-  }
+AboutUs;.about-title {
+  font-size: 42px;
+  font-weight: bold;
+  color: #28159b;
+  margin-bottom: 20px;
+}
 
-  .chocolate-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 750px;  /* ปรับขนาดรูป */
-    height: 570px;
-    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
-  }
-  
-  .chocolate {
-    width: 250px;  /* ปรับขนาดรูปตามที่ต้องการ */
-    height: auto;
-    
-  }
+.about-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: "Prompt", serif;
+}
 
-  .chocolate2-container {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 350px;  /* ปรับขนาดรูป */
-    height: 350px;
-    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
-  }
-  
-  .chocolate2 {
-    width: 500px;  /* ปรับขนาดรูปตามที่ต้องการ */
-    height: auto;
-    
-  }
+.about-box p {
+  font-size: 18px;
+  color: #28159b;
+  text-align: left;
+}
 
-  .chocolate3-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 2100px;  /* ปรับขนาดรูป */
-    height: 330px;
-    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
-  }
-  
-  .chocolate3 {
-    width: 200px;  /* ปรับขนาดรูปตามที่ต้องการ */
-    height: auto;
-    animation: floatAnimation 3s ease-in-out infinite;
-  }
-  
-  @keyframes floatAnimation {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px); /* ลอยขึ้น */
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
+.contact-section {
+  margin-top:250px;
+  padding-bottom: 0px;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+}
 
-  .cat-lick-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 400px;  /* ปรับขนาดรูป */
-    height: 400px;
-    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
-  }
+.home-container {
+  padding-top: 60px; 
+}
+
+.chocolate-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 750px;  /* ปรับขนาดรูป */
+  height: 570px;
+  z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+}
+
+.chocolate {
+  width: 250px;  /* ปรับขนาดรูปตามที่ต้องการ */
+  height: auto;
   
-  .cat-lick {
-    width: 370px;  /* ปรับขนาดรูปตามที่ต้องการ */
-    height: auto;
-    
+}
+
+.chocolate2-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 350px;  /* ปรับขนาดรูป */
+  height: 350px;
+  z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+}
+
+.chocolate2 {
+  width: 500px;  /* ปรับขนาดรูปตามที่ต้องการ */
+  height: auto;
+  
+}
+
+.chocolate3-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 2100px;  /* ปรับขนาดรูป */
+  height: 330px;
+  z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+}
+
+.chocolate3 {
+  width: 200px;  /* ปรับขนาดรูปตามที่ต้องการ */
+  height: auto;
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
   }
+  50% {
+    transform: translateY(-20px); /* ลอยขึ้น */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.cat-lick-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 400px;  /* ปรับขนาดรูป */
+  height: 600px;
+  z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+}
+
+.cat-lick {
+  width: 450px;  /* ปรับขนาดรูปตามที่ต้องการ */
+  height: auto;
+  
+}
