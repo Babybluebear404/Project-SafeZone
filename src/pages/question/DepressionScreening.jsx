@@ -6,13 +6,17 @@ const DepressionScreening = () => {
   const [answers, setAnswers] = useState({ question1: null, question2: null });
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
+  let totalScore = 0;
 
   const handleAnswerChange = (question, answer) => {
     setAnswers({ ...answers, [question]: answer });
   };
 
   const handleSubmit = () => {
-    if (answers.question1 === "yes" || answers.question2 === "yes") {
+    if (answers.question1 === "yes") {totalScore +=1; }
+    if (answers.question2 === "yes") {totalScore +=1; }
+
+    if (totalScore >1){
       setResult(
         "เป็นผู้มีความเสี่ยง หรือมีแนวโน้มที่จะเป็นโรคซึมเศร้า ให้ประเมินต่อด้วยแบบประเมินโรคซึมเศร้าด้วย 9Q และแบบประเมินการฆ่าตัวตาย (8Q)"
       );
@@ -21,7 +25,7 @@ const DepressionScreening = () => {
     }
 
     //ไม่แน่ใจว่า database เก็บข้อมูล q2 ยังไง
-    sessionStorage.setItem("q2Answer", JSON.stringify(answers));
+    sessionStorage.setItem("q2Answer", JSON.stringify(totalScore));
 
   };
 

@@ -1,4 +1,5 @@
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import dayjs from "dayjs";
 
 export const PieMonth = ({ data, COLORS }) => {
 
@@ -14,12 +15,13 @@ export const PieMonth = ({ data, COLORS }) => {
 
 
         const lastMonthData = data.filter(d => {
-            const date = new Date(d.timestamp);
-            const dataMonth = date.getMonth();
-            const dataYear = date.getFullYear();
-
+            const date = dayjs(d.timestamp); // แปลง timestamp เป็น dayjs object
+            const dataMonth = date.month(); // ใช้ .month() (0-based index)
+            const dataYear = date.year(); 
+        
             return dataMonth === lastMonth && dataYear === lastMonthYear;
         });
+        
 
         return lastMonthData;
     };

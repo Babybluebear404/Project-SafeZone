@@ -1,5 +1,6 @@
 import { CartesianGrid, ReferenceLine, Area, XAxis, YAxis, AreaChart, Tooltip, ResponsiveContainer } from "recharts";
 import "../../../style/dashboard.css"
+import dayjs from "dayjs";
 
 export const LineGraph = ({ data }) => {
     const today = new Date();
@@ -25,7 +26,6 @@ export const LineGraph = ({ data }) => {
     }
 
 
-
     const getSinceBegin = (thisDay, thisMonth, getlastDays) => {
         let dayBegin = thisDay - 14;
         let monthBegin = thisMonth;
@@ -44,12 +44,11 @@ export const LineGraph = ({ data }) => {
 
     const filterLastTwoWeeksData = (data) => {
         const last14Days = [];
+        const today = dayjs();
 
         for (let i = 0; i < 14; i += 1) {
-            const date = new Date();
-            date.setDate(today.getDate() - i);
-            const formattedDate = date.toDateString();
-            const found = data.find(d => d.timestamp === formattedDate);
+            const date = today.subtract(i, 'day').format('YYYY-MM-DD'); // ลดวันย้อนหลัง
+            const found = data.find(d => dayjs(d.timestamp).format('YYYY-MM-DD') === date);
             if (found) {
                 last14Days.push(found);
             }

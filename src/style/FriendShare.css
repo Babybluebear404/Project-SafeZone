@@ -1,0 +1,18 @@
+.diaryLeft-section,
+.diaryRight-section {
+  flex: 1;
+  min-width: 360px;
+  min-height: 480px;
+  padding: 20px 30px 20px 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.diaryFriend-display{
+    display: grid;
+    font-family: 'Nanum Pen Script', serif;
+    grid-template-rows: 120px 30px 50px 200px;
+  }
+.friendTitleName, .friendMessage {
+    font-family: "Prompt", serif;
+}

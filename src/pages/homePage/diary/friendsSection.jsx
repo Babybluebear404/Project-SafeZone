@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
+import { SlArrowLeft } from "react-icons/sl";
+import { FcPlus } from "react-icons/fc";
 import { TiDelete } from "react-icons/ti";
 import { FaUserFriends } from "react-icons/fa";
 import { toast } from 'react-toastify';
@@ -43,6 +44,10 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
     });
   };
 
+  const unrequest = (id)=> {
+    setFriends((prevFriends) => prevFriends.filter((f) => f.id !== id));
+  }
+
   const removeFriend = (id) => {
     const removedFriend = friends.find((friend) => friend.id === id);
     setFriends(friends.filter((friend) => friend.id !== id));
@@ -80,7 +85,7 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
                     <div className="logo-friends"></div>
                     <span>{friend.name}</span>
                     {isFriend ? (
-                      <FaUserFriends className="friend-icon" />
+                      <span className="friend-icon" onClick={() => unrequest(friend.id)} >Pending...</span>
                     ) : (
                       <FcPlus
                         className="add-button"

@@ -458,9 +458,9 @@ textarea::placeholder {
 
 .friend-icon {
   border: none;
-  color: #3b5745;
-  width: 25px;
-  height: 25px;
+  color: #171717;
+  font-size: 20px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
