@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/HomeLogin.css";
 import Tab from "../Tab";
+import { AverageEmotion } from "./HomeAvg";
 
 
 const HomeLogin = () => {
+  const [data, setData] = useState([]);
+  
+      useEffect(() => {
+          const storedData = sessionStorage.getItem("messages");
+          if (storedData) {
+            setData(JSON.parse(storedData)); 
+          } else {
+            setData([]);
+          }
+        }, []);
+        
+      const COLORS = ["#FF6384", "#FF9F40", "#FFCD56", "#4BC0C0", "#36A2EB"];
   const [showPopup, setShowPopup] = useState(false); 
   const navigate = useNavigate(); 
 
@@ -28,6 +41,12 @@ const HomeLogin = () => {
         <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="cat-fish" />
       </div>
 
+      <div className="avg-emotionDay">
+                          <AverageEmotion 
+                              data = {data}
+                              COLORS={COLORS}/>
+                      </div>
+
       <main className="content">
         <h1 className="title">SAFE ZONE</h1>
         <p className="subtitle">
@@ -39,7 +58,7 @@ const HomeLogin = () => {
         </button>
 
         <button onClick={openPopup} className="consult-button">
-          ช่องทางปรึกษาจิตแพทย์
+          ช่องทางการปรึกษา
         </button>
       </main>
 
@@ -52,6 +71,7 @@ const HomeLogin = () => {
               ติดต่อ: ภาควิชาจิตเวชศาสตร์ <br />
               ที่อยู่: ชั้น 3 อาคารสิรินธร โรงพยาบาลมหาวิทยาลัยนเรศวร มหาวิทยาลัยนเรศวร
               ตำบลท่าโพธิ์ อำเภอเมือง จังหวัดพิษณุโลก 65000. 
+              <br />
               คลินิกจิตเวช: 0-5596-5702-3 <br /><br />
               ศูนย์สุขภาวะนิสิต มหาวิทยาลัยนเรศวร
             </p>
@@ -59,9 +79,9 @@ const HomeLogin = () => {
           </div>
         </div>
       )}
-      <div className="cat-eye2-container">
+      {/*<div className="cat-eye2-container">
         <img src="/src/assets/CatEye2.png" alt="Cat Eye2" className="cat-eye2" />
-      </div>
+      </div>*/}
     </div>
   );
 };
