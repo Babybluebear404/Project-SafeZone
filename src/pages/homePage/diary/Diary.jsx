@@ -44,13 +44,15 @@ const Diary = () => {
       setInput("");
     }
   };
-
   const deleteMessage = () => {
     if (!selectDate) return;
-
-    const dateString = selectDate.toDate().toDateString();
-    setMessages(messages.filter((msg) => msg.timestamp !== dateString));
-  }
+    
+    setMessages(messages.filter(msg => 
+      dayjs(msg.timestamp).format('YYYY-MM-DD') !== selectDate.format('YYYY-MM-DD')
+    ));
+  
+    sessionStorage.removeItem("messages");
+  };
 
   //check selected date have message(no filterred message on this date)
   const filteredMessages = messages.filter(
@@ -101,7 +103,6 @@ const Diary = () => {
 
 
   const [isShared, setIsShared] = useState(false);
-  const [isChanged, setIsChanged] = useState(false);
 
   const showMessages = messages
     .filter((msg) => selectDate && dayjs(msg.timestamp).format('YYYY-MM-DD') === selectDate.format('YYYY-MM-DD'))
@@ -109,27 +110,30 @@ const Diary = () => {
       const emojiRating = msg.label
       return (
         <div key={index} className="showMessages">
+
           {emojiRating && getEmojiIcon(emojiRating)}
           <p className="display-text">{msg.text}</p>
           <div className="show-footer">
-            <div>
-              <input
-                type="checkbox"
-                checked={msg.status}
-                onChange={() => { setIsShared(!isShared); setIsChanged(!isChanged); }}
-              />
-              <span>แชร์เรื่องราวให้เพื่อนของคุณ</span>
-            </div>
-            <a></a>
             <button onClick={deleteMessage} className="delete-diary">Delete</button>
             <button onClick={() => {
-
-            }} className="save-diary"
-              disabled={!isChanged}>
-              Save
+              setIsShared(!isShared);
+            }} className="share-diary">
+              {isShared ? "Sharing" : "Not Sharing"}
             </button>
           </div>
-
+          <p className="mesStatusShare">
+            {isShared ? (
+              <>
+                ขณะนี้คุณกำลังแชร์ไดอารี่นี้ให้เพื่อนของคุณอยู่ <br />
+                กดปุ่มแชร์อีกครั้งเพื่อต้องการยกเลิกการแชร์
+              </>
+            ) : (
+              <>
+                ไดอารี่นี้ของคุณไม่ได้ถูกแชร์ให้ใคร <br />
+                กดปุ่มแชร์อีกครั้งเพื่อต้องการแชร์ให้เพื่อนของคุณ
+              </>
+            )}
+          </p>
         </div>
       );
     });
@@ -192,9 +196,9 @@ const Diary = () => {
                   const emojiRating = messageForDate?.label ?? null;
 
                   const hasMessages = messages.some(
-                    (msg) =>dayjs(msg.timestamp).format('YYYY-MM-DD') === dateString
+                    (msg) => dayjs(msg.timestamp).format('YYYY-MM-DD') === dateString
                   );
-                  
+
                   const ratingClass = hasMessages && emojiRating ? getRatingClass(emojiRating) : "";
 
                   const handleDateClick = () => {

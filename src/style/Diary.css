@@ -239,7 +239,7 @@ textarea::placeholder {
   white-space: normal;
 }
 .save-message {
-  background-color: #87adee;
+  background-color: #265ebf;
 }
 
 
@@ -346,6 +346,7 @@ textarea::placeholder {
   grid-template-columns: 1fr 1fr;
   justify-items: center;
   align-items: center;
+  padding-top: 80px;
 }
 
 .show-footer button{
@@ -353,16 +354,17 @@ textarea::placeholder {
   font-family: 'Nanum Pen Script', serif;
 }
 
-.save-diary{
-  background-color: #87adee;
+.share-diary{
+  background-color: #6458b2;
 }
 
 .delete-diary{
   background-color: #ce4d4d;
 }
 
-.save-diary:disabled{
-  background-color: #bbc0ca;
+.mesStatusShare {
+  font-size: 10px;
+  color: #5f5d5d;
 }
 /*Friend Popup*/
 .friend-display {
@@ -468,7 +470,7 @@ textarea::placeholder {
   margin-left: auto; 
 }
 
-.delete-button,.add-button {
+.delete-button,.add-button,.friend-emojicon {
   border: none;
   color: #c20606;
   width: 35px;
@@ -480,6 +482,11 @@ textarea::placeholder {
   font-size: 16px;
   cursor: pointer;
   margin-left: auto; 
+}
+
+.friend-emojicon{
+  color: #483383;
+  font-size: 20px;
 }
 
 

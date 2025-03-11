@@ -6,7 +6,7 @@ import Tab from "../Tab";
 const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
   const [showNotification, setShowNotification] = useState(false); // ติดตามสถานะการแสดงการแจ้งเตือน
   //const [notificationMessage, setNotificationMessage] = useState('');
-  const [notificationMessage, setNotificationMessage] = useState(`Aren ต้องการเพิ่มคุณเป็นเพื่อน`); //TEST!!!!!!!!!!!
+  const [notificationMessage, setNotificationMessage] = useState(`Eren ต้องการเพิ่มคุณเป็นเพื่อน`); //TEST!!!!!!!!!!!
  // const [notificationMessage, setNotificationMessage] = useState(`Aren แชร์ไดอารี่กับคุณ`); //TEST!!!!!!!!!!!
   const [showButtons, setShowButtons] = useState(true);  // ปุ่ม Yes/No
   const [isFriendRequest, setIsFriendRequest] = useState(false); // เช็คการแจ้งเตือนเพื่อน
@@ -32,13 +32,13 @@ const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
 
   const notifySuccess = () => {
     //setNotificationMessage(`คุณเป็นเพื่อนกับ ${friendName} แล้ว`);
-    setNotificationMessage(`คุณเป็นเพื่อนกับ Aren แล้ว`); //TEST!!!!!!!!!!!
+    setNotificationMessage(`คุณเป็นเพื่อนกับ Eren แล้ว`); //TEST!!!!!!!!!!!
     setShowButtons(false);
   };
 
   const notifyError = () => {
     //setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ ${friendName} แล้ว`);
-    setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ Aren แล้ว`);  //TEST!!!!!!!!!!!
+    setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ Eren แล้ว`);  //TEST!!!!!!!!!!!
     setShowButtons(false);
   };
 
@@ -88,7 +88,7 @@ const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
           <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />
           <div className="notification-text">
             <div className="notification-date">วันนี้</div>
-            <div className="notification-title">Aren แชร์ไดอารี่กับคุณ</div>
+            <div className="notification-title">Eren แชร์ไดอารี่กับคุณ</div>
           </div>
           <div className="button-group">
           {showButtons ? (

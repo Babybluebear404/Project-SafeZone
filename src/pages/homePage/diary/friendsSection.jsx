@@ -10,14 +10,14 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
   const [searchTerm, setSearchTerm] = useState("");
 
   const [friends, setFriends] = useState([
-    { id: "test1", name: "Aren" },
+    { id: "test1", name: "Eren" },
     { id: "test2", name: "Mikasa" },
     { id: "test3", name: "Armin" },
     { id: "test4", name: "Levi" }
   ]);
 
   const user = [
-    { id: "test1", name: "Aren" },
+    { id: "test1", name: "Eren" },
     { id: "test2", name: "Mikasa" },
     { id: "test3", name: "Armin" },
     { id: "test4", name: "Levi" },
@@ -26,6 +26,8 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
     { id: "test7", name: "Heiter" },
     { id: "test8", name: "Eisen" }
   ];
+
+  const [request, Setrequest] = useState([])
 
   const filteredFriends = friends.filter((friend) =>
     friend.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -36,7 +38,7 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
   );
 
   const addFriend = (friend) => {
-    setFriends([...friends, friend]);
+    Setrequest([...friends, friend]);
     toast.success(`คำขอเป็นเพื่อนกับ ${friend.name} ถูกส่งไปแล้ว`, {
       position: "top-center",
       autoClose: 2000,
@@ -78,21 +80,24 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
           <div className="friends-list">
             {filteredUser.length > 0 ? (
               filteredUser.map((friend) => {
-                const isFriend = friends.some((f) => f.id === friend.id);
+                const isRequest = request.some((f) => f.id === friend.id);
+                const isFriends = friends.some((f) => f.id === friend.id);
 
                 return (
                   <div key={friend.id} className="friend-item">
                     <div className="logo-friends"></div>
                     <span>{friend.name}</span>
-                    {isFriend ? (
+                    {isFriends ? (
+                       <span className="friend-emojicon" ><FaUserFriends/></span>
+                    ) : (  isRequest ? (
                       <span className="friend-icon" onClick={() => unrequest(friend.id)} >Pending...</span>
-                    ) : (
-                      <FcPlus
-                        className="add-button"
-                        onClick={() => {
-                          addFriend(friend);
+                        ):(<FcPlus
+                          className="add-button"
+                          onClick={() => {
+                            addFriend(friend);
                         }}
                       />
+                    )
                     )}
                   </div>
                 );
