@@ -1,9 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Tab from "../../Tab";
 import "../../../style/dashboard.css"
-import { PieMonth } from "./pieChart";
+import { LineGraphMonth } from "./lineGraphMonth";
+import { LineGraphYear } from "./lineGraphYear";
 import { LineGraph } from "./lineGraph";
 import { AverageEmotion } from "./avg";
+import { PieMonth } from "./pieChart";
 
 const Dashboard = () => {
     const [data, setData] = useState([]);
@@ -11,12 +13,12 @@ const Dashboard = () => {
     useEffect(() => {
         const storedData = sessionStorage.getItem("messages");
         if (storedData) {
-          setData(JSON.parse(storedData)); 
+            setData(JSON.parse(storedData));
         } else {
-          setData([]);
+            setData([]);
         }
-      }, []);
-      
+    }, []);
+
     const COLORS = ["#FF6384", "#FF9F40", "#FFCD56", "#4BC0C0", "#36A2EB"];
 
     return (
@@ -28,19 +30,28 @@ const Dashboard = () => {
                     <span>แสดงภาพรวมของระดับอารมณ์ที่คุณได้เลือกไว้ภายใน Diary ในระยะเวลาต่าง ๆ ที่ผ่านมารวมถึงการให้ประเมินระดับอารมณ์จาก Diary ของ AI</span>
                 </div>
                 <div className="avg-emotionDay">
-                    <AverageEmotion 
-                        data = {data}
-                        COLORS={COLORS}/>
+                    <AverageEmotion
+                        data={data}
+                        COLORS={COLORS} />
                 </div>
                 <div className="avg-perWeek">
                     <LineGraph
                         data={data} />
                 </div>
                 <div className="avg-perMonth">
-                    <PieMonth
-                        data={data}
-                        COLORS={COLORS} />
+                    <LineGraphMonth
+                        data={data} />
                 </div>
+            </div>
+            <div className="barPerYear">
+                <LineGraphYear
+                    data={data}
+                    COLORS={COLORS}  />
+            </div>
+            <div className="piePerYear">
+                <PieMonth
+                    data={data}
+                    COLORS={COLORS} />
             </div>
             <div className="CF-container">
                 <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="CF" />

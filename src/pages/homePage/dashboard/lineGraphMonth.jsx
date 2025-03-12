@@ -2,7 +2,7 @@ import { CartesianGrid, ReferenceLine, Area, XAxis, YAxis, AreaChart, Tooltip, R
 import "../../../style/dashboard.css"
 import dayjs from "dayjs";
 
-export const LineGraph = ({ data }) => {
+export const LineGraphMonth = ({ data }) => {
     const today = new Date();
     let thisDay = today.getDate();
     let thisMonth = today.getMonth();
@@ -27,7 +27,7 @@ export const LineGraph = ({ data }) => {
 
 
     const getSinceBegin = (thisDay, thisMonth, getlastDays) => {
-        let dayBegin = thisDay - 14;
+        let dayBegin = thisDay - 30;
         let monthBegin = thisMonth;
         const previousMonthDays = getlastDays() - 1;
         if (dayBegin <= 0) {
@@ -42,29 +42,30 @@ export const LineGraph = ({ data }) => {
 
     const monthBeginName = getMonthName(monthBegin);
 
-    const filterLastTwoWeeksData = (data) => {
-        const last14Days = [];
+    const filterLastOneMonthData = (data) => {
+        const last30Days = [];
         const today = dayjs();
 
-        for (let i = 0; i < 14; i += 1) {
+        for (let i = 0; i < 30; i += 1) {
             const date = today.subtract(i, 'day').format('YYYY-MM-DD'); // ลดวันย้อนหลัง
             const found = data.find(d => dayjs(d.timestamp).format('YYYY-MM-DD') === date);
             if (found) {
-                last14Days.push(found);
+                last30Days.push(found);
             }
         }
 
-        return last14Days.reverse();
+        return last30Days.reverse();
     };
 
-    const filteredData = filterLastTwoWeeksData(data);
+    const filteredData = filterLastOneMonthData(data);
+
 
     return (
         <div className="lineGraph">
-            <span className="Title-chart">กราฟแสดงอารมณ์ที่ผ่านมาย้อนหลัง 2 สัปดาห์</span>
-            <span className="description-chart">โดยกราฟนี้จะแสดงภาพรวมระดับของอารมณ์ที่ผ่านมาย้อนหลัง 2 สัปดาห์</span>
+            <span className="Title-chart">กราฟแสดงอารมณ์ที่ผ่านมาย้อนหลัง 1 เดือน</span>
+            <span className="description-chart">โดยกราฟนี้จะแสดงภาพรวมระดับของอารมณ์ที่ผ่านมาย้อนหลัง 1 เดือน</span>
             <div className="weekLineChart">
-                <ResponsiveContainer width={450} height={300}>
+                <ResponsiveContainer width={500} height={300}>
                     <AreaChart data={filteredData}
                         margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                         <XAxis
@@ -77,7 +78,7 @@ export const LineGraph = ({ data }) => {
                         <Tooltip />
                         <ReferenceLine x="Page C" stroke="green" label="Min PAGE" />
                         <ReferenceLine y={4000} label="Max" stroke="red" strokeDasharray="3 3" />
-                        <Area type="monotone" dataKey="label" stroke="#57a3d5" fill="#57a3d5" />
+                        <Area type="monotone" dataKey="label" stroke="#FAC67A" fill="#FAC67A" />
                     </AreaChart>
                 </ResponsiveContainer>
                 <span className="description-chart">แสดงข้อมูลตั้งแต่วันที่ {dayBegin} {monthBeginName} ถึงวันที่ {thisDay} {thisMonthName}</span>

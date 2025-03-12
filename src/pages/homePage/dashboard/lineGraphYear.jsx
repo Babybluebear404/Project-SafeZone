@@ -1,7 +1,8 @@
-import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, CartesianGrid, Legend, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import "../../../style/dashboard.css";
 import dayjs from "dayjs";
 
-export const PieMonth = ({ data, COLORS }) => {
+export const LineGraphYear = ({ data,COLORS }) => {
     const today = new Date();
     let thisDay = today.getDate();
     let thisMonth = today.getMonth();
@@ -68,15 +69,24 @@ export const PieMonth = ({ data, COLORS }) => {
 
         return last365Days.reverse();
     };
-    
-    data = filterLastOneYearData(data);
 
-    const levelDescriptions = {
-        1: "Awful",
-        2: "Sad",
-        3: "Alright",
-        4: "Good",
-        5: "Awesome",
+    const countLabelsPerMonth = (data) => {
+        const counts = {};
+
+        data.forEach(item => {
+            const monthKey = dayjs(item.timestamp).format("YYYY-MM");
+            const label = item.label; // ค่าของ label ที่เป็น 1-5
+
+            if (!counts[monthKey]) {
+                counts[monthKey] = { month: monthKey, label1: 0, label2: 0, label3: 0, label4: 0, label5: 0 };
+            }
+
+            if (label >= 1 && label <= 5) {
+                counts[monthKey][`label${label}`] += 1;
+            }
+        });
+
+        return Object.values(counts);
     };
 
     const labelColors = {
@@ -87,50 +97,38 @@ export const PieMonth = ({ data, COLORS }) => {
         5: COLORS[4]
     };
 
-    const aggregatedData = data.reduce((acc, curr) => {
-        const existing = acc.find(item => item.name === `${curr.label}:${levelDescriptions[curr.label]}`);
-        if (existing) {
-            existing.value += 1;
-        } else {
-            acc.push({ name: `${curr.label}:${levelDescriptions[curr.label]}`, value: 1 });
-        }
-        return acc;
-    }, []);
-
-    aggregatedData.sort((a, b) => parseInt(a.name.split(":")[0]) - parseInt(b.name.split(":")[0]));
+    const filteredData = filterLastOneYearData(data);
+    const labelCounts = countLabelsPerMonth(filteredData);
 
     return (
-        <div className="pieChart">
-            <span className="Title-chart">แผนภูมิแสดงอารมณ์ที่ผ่านมาของแต่ละเดือนย้อนหลัง 1 ปี</span>
+        <div className="lineGraph">
+            <span className="Title-chart">กราฟแท่งแสดงอารมณ์ในแต่ละเดือนที่ผ่านมาย้อนหลัง 1 ปี</span>
             <span className="description-chart">โดยกราฟนี้จะแสดงภาพรวมจำนวนของแต่ระดับของอารมณ์แต่ละเดือนที่ผ่านมาย้อนหลัง 1 ปี</span>
-            <ResponsiveContainer width={800} height={500}>
-                <PieChart >
-                    <Pie
-                        data={aggregatedData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={200}
-                        fill="#8884d8"
-                        dataKey="value"
-                        stroke="none"
+            <div className="yearLineChart">
+                <ResponsiveContainer width={1000} height={400}>
+                    <BarChart
+                        data={labelCounts}
+                        margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
                     >
-                        {aggregatedData.map((entry, index) => {
-                            const label = parseInt(entry.name.split(":")[0]);
-                            return (
-                                <Cell key={`cell-${index}`} fill={labelColors[label]} />
-                            );
-                        })}
-                    </Pie>
-                    <Tooltip />
-                    <Legend
-                        layout="vertical"
-                        verticalAlign="middle"
-                        align="left"
-                        iconSize={20}
-                    />
-                </PieChart>
-            </ResponsiveContainer>
-            <span className="description-chart">แสดงข้อมูลตั้งแต่วันที่ {dayBegin} {monthBeginName} {yearBegin} ถึงวันที่ {thisDay} {thisMonthName}</span>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                             dataKey="month"
+                             tickFormatter={(month) => dayjs(month).format("MMM YYYY")}
+                        />
+                        <YAxis domain={[0, "auto"]} />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="label1" fill={labelColors[1]} name="Awful" />
+                        <Bar dataKey="label2" fill={labelColors[2]} name="Bad" />
+                        <Bar dataKey="label3" fill={labelColors[3]} name="Alright" />
+                        <Bar dataKey="label4" fill={labelColors[4]} name="Good" />
+                        <Bar dataKey="label5" fill={labelColors[5]} name="Awesome" />
+                    </BarChart>
+                </ResponsiveContainer>
+                <p></p>
+                <span className="description-chart"> แสดงข้อมูลตั้งแต่วันที่ {dayBegin} {monthBeginName} {yearBegin} ถึงวันที่ {thisDay} {thisMonthName}
+                </span>
+            </div>
         </div>
-    )
-} 
+    );
+};

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import "../../../style/FriendShare.css";
 import Tab from "../../Tab";
-import axios from "axios";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
 
 

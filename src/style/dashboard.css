@@ -1,10 +1,10 @@
+
 .Dashboard-Section {
     display: grid;
-    grid-template-columns: 3fr 4fr; 
+    grid-template-columns: 1fr 4fr; 
     grid-template-rows: 1fr 3fr; 
     gap: 20px; 
-    width: 1000px;
-    height: 560px;
+    width: 1080px;
     margin-top: 0px;
 }
 
@@ -20,6 +20,7 @@
     font-family: "Prompt", serif;
     flex-direction: column;
     font-size: 14px;
+    width: 500px;
 }
 
 .Emotion-Section{
@@ -46,7 +47,6 @@
 }
 
 .avg-perWeek{
-    width:100% ;
     height: 100%;
     background-color: #FFFFFF;
     border-radius: 20px;
@@ -58,28 +58,36 @@
     padding: 20px;
 }
 
-.avg-perWeek .Title-chart, .avg-perMonth .Title-chart{
+
+.avg-perWeek .Title-chart, .avg-perMonth .Title-chart, .barPerYear .Title-chart, .piePerYear .Title-chart{
     font-family: "Prompt", serif;
     color: #69247C;
     font-size: 18px;
 }
 
-.avg-perWeek .description-chart, .avg-perMonth .description-chart {
+.avg-perWeek .description-chart, .avg-perMonth .description-chart, .barPerYear .description-chart,.piePerYear .description-chart {
     font-family: "Prompt", serif;
     color: #69247C;
     font-size: 10px;
 }
 
-.avg-perMonth{
+.avg-perMonth,.barPerYear,.piePerYear{
     background-color: #FFFFFF;
     border-radius: 20px;
+}
 
+.barPerYear{
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  margin: 20px 0px;
 }
+
 .pieChart {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 70px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 70px;
 }
+
 
 .Icon-Emoji {
     font-size: 40px;
@@ -97,6 +105,7 @@
     font-family: "Prompt", serif;
     color: #4e215b;
 }
+
 
 
 .Dashboard-Container {

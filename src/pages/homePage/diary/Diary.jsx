@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import "../../../style/Diary.css";
 import Tab from "../../Tab";
 import { useNavigate } from "react-router-dom";
+import { FriendFeed } from "./friendFeed";
 
 const Diary = () => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
@@ -28,10 +29,9 @@ const Diary = () => {
   const sendMessage = () => {
     if (input.trim() !== "") {
       const currentTime = new Date();
-      //currentTime.setFullYear(2025, 1, 28);
       const newMessage = {
         text: input,
-        timestamp: currentTime.toISOString(),
+        timestamp: currentTime.toDateString(),
         label: selectedEmoji[selectDate?.toDate().toDateString()] || null,
         status: isShared
       };
@@ -46,11 +46,11 @@ const Diary = () => {
   };
   const deleteMessage = () => {
     if (!selectDate) return;
-    
-    setMessages(messages.filter(msg => 
+
+    setMessages(messages.filter(msg =>
       dayjs(msg.timestamp).format('YYYY-MM-DD') !== selectDate.format('YYYY-MM-DD')
     ));
-  
+
     sessionStorage.removeItem("messages");
   };
 
@@ -124,13 +124,13 @@ const Diary = () => {
           <p className="mesStatusShare">
             {isShared ? (
               <>
-                ขณะนี้คุณกำลังแชร์ไดอารี่นี้ให้เพื่อนของคุณอยู่ <br />
-                กดปุ่มแชร์อีกครั้งเพื่อต้องการยกเลิกการแชร์
+                ไดอารี่นี้ของคุณไม่ได้ถูกแชร์ให้ใคร <br />
+                กดปุ่มแชร์เมื่อต้องการแชร์ให้เพื่อนของคุณ
               </>
             ) : (
               <>
-                ไดอารี่นี้ของคุณไม่ได้ถูกแชร์ให้ใคร <br />
-                กดปุ่มแชร์อีกครั้งเพื่อต้องการแชร์ให้เพื่อนของคุณ
+                ขณะนี้คุณกำลังแชร์ไดอารี่นี้ให้เพื่อนของคุณอยู่ <br />
+                กดปุ่มแชร์อีกครั้งเพื่อยกเลิกการแชร์
               </>
             )}
           </p>
@@ -152,7 +152,7 @@ const Diary = () => {
   return (
     <div className="diary-container">
       <Tab />
-      <button className="diary-friend" onClick={() => navigate("/friendShare")}><FaBook /></button>
+      {/*<button className="diary-friend" onClick={() => navigate("/friendShare")}><FaBook /></button>*/}
       <div className="diary-wrapper">
         <div className="cover-page">
           {/* Calendar Section */}
@@ -333,7 +333,11 @@ const Diary = () => {
           </div> {/*End of Diary Section*/}
         </div>
       </div>
+      <div className="friendFeed">
+        <FriendFeed />
+      </div>
     </div>
+
 
   );
 };

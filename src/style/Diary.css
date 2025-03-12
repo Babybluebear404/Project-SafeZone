@@ -3,9 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; 
-  padding: 20px;
-  width: 100%; 
+  min-height: 100vh;
+  width: 100%;
 }
 
 .diary-wrapper {
@@ -58,9 +57,11 @@
   font-size: 18px;
   color: #28159B;
 }
-.calendar-title h2{
+
+.calendar-title h2 {
   margin: 0px;
 }
+
 .calendar-title {
   font-size: 30px;
   color: #212121;
@@ -68,21 +69,23 @@
   justify-items: flex-start;
   padding-left: 15px;
 }
+
 .calendar-header {
   display: grid;
   grid-template-columns: 2fr 1fr;
   height: 50px;
-  justify-items: left  ;
+  justify-items: left;
   padding-left: 20px;
 }
 
-.arrow-month{
+.arrow-month {
   display: flex;
   gap: 20px;
   align-self: center;
   justify-content: space-between;
   width: 100px;
 }
+
 .days-container {
   display: grid;
   grid-template-columns: repeat(7, 0.5fr);
@@ -103,34 +106,34 @@
   user-select: none;
 }
 
-.current-circle{
+.current-circle {
   border-top: 1px solid #e5e7eb;
 }
 
 .base-style {
   margin: 10px;
-  height: 2rem; 
-  width: 2rem; 
-  border-radius: 9999px; 
+  height: 2rem;
+  width: 2rem;
+  border-radius: 9999px;
   display: grid;
   place-content: center;
-  transition: all 0.2s ease-in-out; 
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
-  user-select: none; 
+  user-select: none;
 }
 
 .base-style:hover {
-  background-color: black; 
-  color: white; 
+  background-color: black;
+  color: white;
 }
 
 .text-gray {
-  color: #b1b1b1; 
+  color: #b1b1b1;
 }
 
 .bg-red {
-  background-color: #ec609a; 
-  color: white; 
+  background-color: #ec609a;
+  color: white;
 }
 
 .bg-black {
@@ -139,20 +142,20 @@
 }
 
 /*Diary Section*/
-.diary-page{
+.diary-page {
   display: grid;
-  grid-template-columns: 1fr; 
-  grid-template-rows: 17fr 0.1fr 0.1fr ; 
+  grid-template-columns: 1fr;
+  grid-template-rows: 17fr 0.1fr 0.1fr;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 }
 
-.diary-name{
+.diary-name {
   display: flex;
   flex-direction: column;
 }
 
-.description-function{
+.description-function {
   font-family: "Prompt", serif;
   font-size: 12px;
   color: #552264;
@@ -171,7 +174,8 @@
   margin-bottom: 0px;
 }
 
-.add-friends-button,.close-friends-button{
+.add-friends-button,
+.close-friends-button {
   font-size: 18px;
   color: #28159B;
   display: flex;
@@ -182,7 +186,7 @@
   font-style: normal;
 }
 
-.diary-display{
+.diary-display {
   display: grid;
   font-family: 'Nanum Pen Script', serif;
   grid-template-rows: 120px 30px 110px 200px;
@@ -198,34 +202,35 @@
 }
 
 
-.day-selected h1{
+.day-selected h1 {
   font-size: 26px;
   margin-top: -10px;
 }
 
 textarea::placeholder {
   font-family: 'Nanum Pen Script', sans-serif;
-  font-size: 15px; 
+  font-size: 15px;
   color: gray;
-  font-style: italic; 
+  font-style: italic;
 }
 
-.text-general{
+.text-general {
   font-size: 20px;
   color: #28159B;
 }
 
-.text-general:hover{
+.text-general:hover {
   color: #28159B;
 }
-.emoji-text { 
+
+.emoji-text {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); 
-  align-items: center; 
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
   margin: 10px 20px;
 }
 
-.showMessages{
+.showMessages {
   font-family: "Prompt", serif;
   font-weight: 500;
   font-style: normal;
@@ -235,9 +240,10 @@ textarea::placeholder {
 }
 
 .display-text {
-  word-break: break-word; 
+  word-break: break-word;
   white-space: normal;
 }
+
 .save-message {
   background-color: #265ebf;
 }
@@ -249,67 +255,82 @@ textarea::placeholder {
   transition: color 0.3s ease;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  justify-items : center;
-  align-items: center; 
+  justify-items: center;
+  align-items: center;
   margin: 10px 20px;
   font-size: 35px;
 
 }
 
-.awesome-icon:hover{
-  color: #e990c2; 
+.awesome-icon:hover {
+  color: #e990c2;
 }
-.awesome-icon.selected, .awesome-selected {
+
+.awesome-icon.selected,
+.awesome-selected {
   color: #FF92CD;
   font-size: 35px;
 }
-.awesome-rating{
-  background-color : #FF92CD;
+
+.awesome-rating {
+  background-color: #FF92CD;
 }
 
-.good-icon:hover{
-  color: #ffd1ab; 
+.good-icon:hover {
+  color: #ffd1ab;
 }
-.good-icon.selected, .good-selected{
+
+.good-icon.selected,
+.good-selected {
   color: #FDBA83;
   font-size: 35px;
 }
-.good-rating{
-  background-color :#FDBA83;
+
+.good-rating {
+  background-color: #FDBA83;
 }
 
-.alright-icon:hover{
-  color: #c6e7ff; 
+.alright-icon:hover {
+  color: #c6e7ff;
 }
-.alright-icon.selected, .alright-selected{
+
+.alright-icon.selected,
+.alright-selected {
   color: #ABDCFF;
   font-size: 35px;
 }
-.alright-rating{
-  background-color :#ABDCFF;
+
+.alright-rating {
+  background-color: #ABDCFF;
 }
 
 
-.bad-icon:hover{
-  color: #e9ccff; 
+.bad-icon:hover {
+  color: #e9ccff;
 }
-.bad-icon.selected, .bad-selected{
+
+.bad-icon.selected,
+.bad-selected {
   color: #E1BBFF;
   font-size: 35px;
 }
-.bad-rating{
-  background-color :#E1BBFF;
+
+.bad-rating {
+  background-color: #E1BBFF;
 }
 
-.awful-icon:hover{
-  color: #e2d7d7; 
+.awful-icon:hover {
+  color: #e2d7d7;
 }
-.awful-icon.selected, .awful-selected{
+
+.awful-icon.selected,
+.awful-selected {
   color: #D0D0D0;
   font-size: 35px;
 }
-.awful-rating{
-  background-color :#D0D0D0;
+
+.awful-rating {
+  background-color: #D0D0D0;
 }
 
 .messageBox {
@@ -318,17 +339,17 @@ textarea::placeholder {
 }
 
 
-.meassage-textarea{
+.meassage-textarea {
   padding-left: 30px;
-  width: 80%; 
+  width: 80%;
   height: 122px;
-  outline: none;       
-  border: none;       
-  resize: none; 
+  outline: none;
+  border: none;
+  resize: none;
 }
 
 
-.save-footer{
+.save-footer {
   width: 100%;
   height: 100%;
   display: grid;
@@ -336,12 +357,14 @@ textarea::placeholder {
   place-items: center;
 }
 
-.save-footer span,.show-footer span{
+.save-footer span,
+.show-footer span {
   font-size: 10px;
   font-family: "Prompt", serif;
   color: #000000;
 }
-.show-footer{
+
+.show-footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
@@ -349,16 +372,16 @@ textarea::placeholder {
   padding-top: 80px;
 }
 
-.show-footer button{
+.show-footer button {
   width: 150px;
   font-family: 'Nanum Pen Script', serif;
 }
 
-.share-diary{
-  background-color: #6458b2;
+.share-diary {
+  background-color: #7da6ff;
 }
 
-.delete-diary{
+.delete-diary {
   background-color: #ce4d4d;
 }
 
@@ -366,10 +389,11 @@ textarea::placeholder {
   font-size: 10px;
   color: #5f5d5d;
 }
+
 /*Friend Popup*/
 .friend-display {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   height: 100%;
@@ -421,7 +445,7 @@ textarea::placeholder {
 }
 
 .logo-friends {
-  margin-right: 10px; 
+  margin-right: 10px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -467,10 +491,12 @@ textarea::placeholder {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  margin-left: auto; 
+  margin-left: auto;
 }
 
-.delete-button,.add-button,.friend-emojicon {
+.delete-button,
+.add-button,
+.friend-emojicon {
   border: none;
   color: #c20606;
   width: 35px;
@@ -481,14 +507,79 @@ textarea::placeholder {
   justify-content: center;
   font-size: 16px;
   cursor: pointer;
-  margin-left: auto; 
+  margin-left: auto;
 }
 
-.friend-emojicon{
+.friend-emojicon {
   color: #483383;
   font-size: 20px;
 }
 
-
-
 /*End Friend popup Section*/
+
+
+/* Diary's Friend Feed */
+.friendFeed {
+  background-color: #FFFFFF;
+  width: 100%;
+  height: 100%;
+  margin-top: 90px;
+  padding: calc(50px + 8vw);
+  font-family: "Prompt", serif;
+}
+
+.feed-section {
+  width: 100%;
+}
+
+.feed-colunm {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  padding: 0px;
+}
+
+.post-Feed {
+  max-width: 800px;
+  border: 1px solid rgb(180, 172, 172);
+  padding: 40px;
+  margin-left: 30px;
+  height: 1000px;
+}
+
+.friend-Post {
+  display: grid;
+  grid-template-columns: 0.5fr 4fr 1.5fr;
+}
+
+
+.name-friends{
+  color: #0E0735;
+  text-align: left;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.post-friends{
+  color: #555459;
+  text-align: left;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.labelEmoji{
+  font-size: 50px;
+  color: #e990c2;
+}
+
+.friend-items {
+  display: grid;
+  grid-template-columns: 1fr 3fr 0.5fr;
+  align-items: center;
+  justify-content: left;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.isView{
+  cursor: pointer;
+}
