@@ -4,12 +4,12 @@ const GetAcceptedFriend = require('../../application/useCases/closefriend/getAcc
 const GetPendingFriend = require('../../application/useCases/closefriend/getPendingFriend');
 const UpdateFriend = require('../../application/useCases/closefriend/updateSatusFriend');
 class friendController{
-    constructor(friendService){
-        this.addfrienduseCaes = new Addfriend(friendService);
-        this.updatefrienduseCaes = new UpdateFriend(friendService);
-        this.deletefrienduseCaes = new DeleteFriend(friendService);
-        this.getacceptedfrienduseCaes = new GetAcceptedFriend(friendService);
-        this.getpendingfrienduseCaes = new GetPendingFriend(friendService);
+    constructor(closefriendService){
+        this.addfrienduseCaes = new Addfriend(closefriendService);
+        this.updatefrienduseCaes = new UpdateFriend(closefriendService);
+        this.deletefrienduseCaes = new DeleteFriend(closefriendService);
+        this.getacceptedfrienduseCaes = new GetAcceptedFriend(closefriendService);
+        this.getpendingfrienduseCaes = new GetPendingFriend(closefriendService);
     }
 
     async addfriend(req, res){

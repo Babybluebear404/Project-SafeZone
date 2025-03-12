@@ -3,6 +3,7 @@ const cors = require("cors");
 const userRoutes = require('./src/presentation/routes/userRoutes');
 const questionRoutes = require('./src/presentation/routes/questionRouter');
 const closefriendRouters = require('./src/presentation/routes/closefriendRouter');
+const diaryRouters = require('./src/presentation/routes/diaryRouter');
 require('dotenv').config();
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/closefriends', closefriendRouters);
+app.use('/api/diaries', diaryRouters);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
