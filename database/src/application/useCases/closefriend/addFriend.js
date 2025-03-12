@@ -4,8 +4,9 @@ class AddFriend {
     }
 
     async execute(dto) {
-        const { UserID, friendid } = dto;
+        const { UserID, friendid} = dto;
         try {
+            
             if(UserID == friendid){
                 throw new Error("Can't add myself");
             }
