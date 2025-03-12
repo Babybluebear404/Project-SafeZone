@@ -27,25 +27,23 @@ export const AverageEmotion = ({ data, COLORS }) => {
     const averageColor = getColor(percentage);
 
     const getEmojiIcon = (percentage) => {
-
         if (percentage <= 20) {
-            return <BsEmojiTearFill className="Icon-Emoji" />;
+            return <BsEmojiTearFill className="Icon-Feeling" />;
         } else if (percentage <= 40) {
-            return <BsEmojiFrownFill className="Icon-Emoji" />;
+            return <BsEmojiFrownFill className="Icon-Feeling" />;
         } else if (percentage <= 60) {
-            return <BsEmojiNeutralFill className="Icon-Emoji" />;
+            return <BsEmojiNeutralFill className="Icon-Feeling" />;
         } else if (percentage <= 80) {
-            return <BsEmojiSmileFill className="Icon-Emoji" />;
+            return <BsEmojiSmileFill className="Icon-Feeling" />;
         } else {
-            return <BsEmojiLaughingFill className="Icon-Emoji" />;
+            return <BsEmojiLaughingFill className="Icon-Feeling" />;
         }
     };
 
     const labelToday = () => {
-        const today = dayjs().format('YYYY-MM-DD'); // แปลงวันนี้เป็น YYYY-MM-DD
+        const today = dayjs().format('YYYY-MM-DD');
         const todayData = data.find(item => dayjs(item.timestamp).format('YYYY-MM-DD') === today);
         return todayData ? todayData.label : null;
-
     }
 
     const labelMessage = (rating) => {
@@ -66,14 +64,12 @@ export const AverageEmotion = ({ data, COLORS }) => {
     };
 
     return (
-        <div className="Emotion-Section">
-            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[labelToday() - 1] }}>
-                <span className="description-chart">ระดับอารมณ์ของวันนี้</span>
+        <div className="EmotionWrapper">
+            <div className="EmotionDay" style={{ backgroundColor: colorEmoji[labelToday() - 1] }}>
+                <span className="description-chart">ระดับอารมณ์ล่าสุดของวันนี้</span>
                 {getEmojiIcon((labelToday() * 100) / 5)}
                 <span className="description-chart">{labelMessage(labelToday())}</span>
             </div>
-
         </div>
     )
-
 }

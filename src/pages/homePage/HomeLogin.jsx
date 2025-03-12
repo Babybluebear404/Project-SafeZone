@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../../style/HomeLogin.css";
 import Tab from "../Tab";
 import { AverageEmotion } from "./HomeAvg";
+import { EmotionSummary } from "./Home3&7";
 
 
 const HomeLogin = () => {
@@ -41,10 +42,15 @@ const HomeLogin = () => {
         <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="cat-fish" />
       </div>
 
+      
       <div className="avg-emotionDay">
                           <AverageEmotion 
                               data = {data}
                               COLORS={COLORS}/>
+                      </div>
+      <div className="avg-perWeek">
+                          <EmotionSummary
+                              data={data} />
                       </div>
 
       <main className="content">
@@ -79,9 +85,9 @@ const HomeLogin = () => {
           </div>
         </div>
       )}
-      {/*<div className="cat-eye2-container">
+      <div className="cat-eye2-container">
         <img src="/src/assets/CatEye2.png" alt="Cat Eye2" className="cat-eye2" />
-      </div>*/}
+      </div>
     </div>
   );
 };
