@@ -1,12 +1,12 @@
 class GetAcceptedFriend {
-    constructor(closefriend) {
-        this.closefriend = closefriend;
+    constructor(closefriendService) {
+        this.closefriendService = closefriendService;
     }
 
     async execute(dto) {
         const { UserID } = dto;
         try {
-            const row = await this.closefriend.getaccepted(UserID);
+            const row = await this.closefriendService.getaccepted(UserID);
             if (!row){
                 throw new Error("No accepted friends found.");
             }

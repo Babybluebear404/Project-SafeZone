@@ -4,9 +4,9 @@ class UpdateProfile{
     }
 
     async execute(dto){
-        const { UserID, newusername } = dto;
+        const { UserID, newusername, profile} = dto;
         try{
-            await this.userService.updateUserProfile(UserID, newusername);
+            await this.userService.updateUserProfile(UserID, newusername, profile);
         }catch(error){
             throw error;
         }

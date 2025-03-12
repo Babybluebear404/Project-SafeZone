@@ -1,15 +1,12 @@
-const UserRepository = require('../../domain/repositories/UserRepository');
-
-class MySQLUserRepository extends UserRepository {
+class MySQLUserRepository {
     constructor(connection) {
-        super();
         this.connection = connection;  // ควรใช้ connection ที่มาจาก mysql2/promise
     }
 
     async save(user) {
-        const query = 'INSERT INTO users (id, username, email, passwords) VALUES (?, ?, ?, ?)';
+        const query = 'INSERT INTO users (id, username, email, passwords, profile) VALUES (?, ?, ?, ?, ?)';
         // ใช้ connection ที่รองรับ promise โดยไม่ต้องใช้ .promise() อีก
-        await this.connection.query(query, [user.id, user.username, user.email, user.password]);
+        await this.connection.query(query, [user.id, user.username, user.email, user.password, user.profile]);
     }   
 
     async findByEmail(email) {
@@ -25,7 +22,7 @@ class MySQLUserRepository extends UserRepository {
     }
 
     async getProfile(UserID) {
-        const query = 'SELECT id, username, email FROM users WHERE id = ?';
+        const query = 'SELECT id, username, email, profile FROM users WHERE id = ?';
         const [user] = await this.connection.query(query, [UserID]);
         return user[0];
     }
@@ -35,9 +32,9 @@ class MySQLUserRepository extends UserRepository {
         await this.connection.query(sql, [hashedPassword, userId]);
     }
 
-    async upDateProfile(userId, newusername) {
-        const sql = 'UPDATE users SET username = ? WHERE id = ?';
-        await this.connection.query(sql, [newusername, userId]);
+    async upDateProfile(userId, newusername, profile) {
+        const sql = 'UPDATE users SET username = ?, profile = ? WHERE id = ?';
+        await this.connection.query(sql, [newusername, profile, userId]);
     }
 }
 

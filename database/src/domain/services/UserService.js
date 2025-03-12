@@ -48,8 +48,8 @@ class UserService {
         return await this.userRepository.getProfile(userid);
     }
 
-    async updateUserProfile(userid, newusername){
-        await this.userRepository.upDateProfile(userid, newusername);
+    async updateUserProfile(userid, newusername, profile){
+        await this.userRepository.upDateProfile(userid, newusername, profile);
     }
 }
 

@@ -1,9 +1,5 @@
-const ClosefriendRepository = require("../../domain/repositories/closefriendRepository");
-
-
-class MySQLClosefriendRepository extends ClosefriendRepository{
+class MySQLClosefriendRepository{
     constructor(connection){
-        super();
         this.connection = connection; // ควรใช้ connection ที่มาจาก mysql2/promise
     }
 
@@ -22,8 +18,8 @@ class MySQLClosefriendRepository extends ClosefriendRepository{
     
     async delete(userId, friendId){
         const query = `DELETE FROM closefriend WHERE 
-                      ((UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?)) 
-                      `;
+        ((UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?)) 
+        `;
         await this.connection.query(query, [userId, friendId, friendId, userId]);
     }
 

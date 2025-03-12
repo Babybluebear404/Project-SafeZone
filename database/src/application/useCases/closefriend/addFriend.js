@@ -1,21 +1,22 @@
 class AddFriend {
-    constructor(closefriend) {
-        this.closefriend = closefriend;
+    constructor(closefriendService) {
+        this.closefriendService = closefriendService;
     }
 
     async execute(dto) {
-        const { UserID, friendid } = dto;
+        const { UserID, friendid} = dto;
         try {
+            
             if(UserID == friendid){
                 throw new Error("Can't add myself");
             }
-            const existingRequest = await this.closefriend.checkrequest(UserID, friendid);
+            const existingRequest = await this.closefriendService.checkrequest(UserID, friendid);
             if (existingRequest?.Status === 'pending') {
                 throw new Error("Friend request already sent");
             }else if(existingRequest?.Status === 'accepted') {
                 throw new Error("You are already friends");
             }
-            await this.closefriend.saveadd(UserID, friendid);
+            await this.closefriendService.saveadd(UserID, friendid);
         } catch (error) {
             throw error;
         }

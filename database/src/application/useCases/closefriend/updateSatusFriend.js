@@ -1,6 +1,6 @@
 class UpdateFriend {
-    constructor(closefriend) {
-        this.closefriend = closefriend;
+    constructor(closefriendService) {
+        this.closefriendService = closefriendService;
     }
 
     async execute(dto) {
@@ -10,10 +10,19 @@ class UpdateFriend {
             if (!['accepted', 'refuse'].includes(status)) {
                 throw new Error("Invalid status");
             }
+            const existingRequest = await this.closefriendService.checkrequest(UserID, friendid);
             if (status === 'accepted'){
-                await this.closefriend.updatefriend(UserID, friendid, status);
+                if (existingRequest?.Status === 'accepted'){
+                    throw new Error("We are already friends.");
+                }else{
+                    await this.closefriendService.updatefriend(UserID, friendid, status);
+                }
             }else{
-                await this.closefriend.deletefriend(UserID, friendid);
+                if (!existingRequest){
+                    throw new Error("This friend is not in the system.");
+                }else{
+                    await this.closefriendService.deletefriend(UserID, friendid);
+                }
             }
         } catch (error) {
             throw error;
