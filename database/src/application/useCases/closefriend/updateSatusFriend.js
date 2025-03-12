@@ -1,6 +1,6 @@
 class UpdateFriend {
-    constructor(closefriend) {
-        this.closefriend = closefriend;
+    constructor(closefriendService) {
+        this.closefriendService = closefriendService;
     }
 
     async execute(dto) {
@@ -11,9 +11,9 @@ class UpdateFriend {
                 throw new Error("Invalid status");
             }
             if (status === 'accepted'){
-                await this.closefriend.updatefriend(UserID, friendid, status);
+                await this.closefriendService.updatefriend(UserID, friendid, status);
             }else{
-                await this.closefriend.deletefriend(UserID, friendid);
+                await this.closefriendService.deletefriend(UserID, friendid);
             }
         } catch (error) {
             throw error;

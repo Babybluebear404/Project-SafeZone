@@ -1,8 +1,5 @@
-const QestionRepository = require('../../domain/repositories/questionRepository');
-
-class MySQLquestionRepository extends QestionRepository {
+class MySQLquestionRepository {
     constructor(connection) {
-        super();
         this.connection = connection;  // ควรใช้ connection ที่มาจาก mysql2/promise
     }
 

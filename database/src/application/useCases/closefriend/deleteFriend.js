@@ -1,13 +1,13 @@
 class DeleteFriend {
-    constructor(closefriend) {
-        this.closefriend = closefriend;
+    constructor(closefriendService) {
+        this.closefriendService = closefriendService;
     }
 
     async execute(dto) {
         const { UserID , friendid} = dto;
 
         try {
-            const existingRequest = await this.closefriend.checkrequest(UserID, friendid);
+            const existingRequest = await this.closefriendService.checkrequest(UserID, friendid);
             if (!existingRequest){
                 throw new Error("This friend request does not exist.");
             }
@@ -15,7 +15,7 @@ class DeleteFriend {
             if (existingRequest.Status !== 'accepted') {
                 throw new Error("You are not friends with this user.");
             }
-            await this.closefriend.deletefriend(UserID, friendid);
+            await this.closefriendService.deletefriend(UserID, friendid);
         } catch (error) {
             throw error;
         }

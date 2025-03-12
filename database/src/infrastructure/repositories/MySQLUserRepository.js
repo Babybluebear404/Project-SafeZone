@@ -1,8 +1,5 @@
-const UserRepository = require('../../domain/repositories/UserRepository');
-
-class MySQLUserRepository extends UserRepository {
+class MySQLUserRepository {
     constructor(connection) {
-        super();
         this.connection = connection;  // ควรใช้ connection ที่มาจาก mysql2/promise
     }
 
