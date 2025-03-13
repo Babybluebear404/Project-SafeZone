@@ -13,5 +13,6 @@ const questionController = new QuestionController(questionService);
 const router = express.Router();
 
 router.post('/savequestion', authenticateToken, async (req, res) => await questionController.savequestion(req, res));
+router.get('/getquestion', authenticateToken, async (req, res) => await questionController.getquestion(req, res));
 
 module.exports = router;

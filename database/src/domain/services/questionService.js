@@ -11,6 +11,15 @@ class QuestionService{
         const questionnaire = new Questionnaire(questionid, userid, q2, q9, q8);
         await this.questionService.save(questionnaire);
     }
+    
+    async questionsbyid(userid){
+        const question = await this.questionService.questionsById(userid);
+        if(!question){
+            return 0
+        }else{
+            return 1
+        }
+    }
 }
 
 module.exports = QuestionService;
