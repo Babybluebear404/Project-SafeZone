@@ -48,7 +48,7 @@
     color: #4B5563;
   }
   
-  .actionB {
+  .actionB , .diaryB{
     display: flex;
     gap: 0.5rem;
   }
@@ -71,11 +71,7 @@
     border-radius: 50px;
   }
 
-  .diaryB {
-    display: flex;
-    gap: 0.5rem;
-  }
-
+  
   .btn.view {
     background-color: #3868d9;
     border-radius: 50px;
