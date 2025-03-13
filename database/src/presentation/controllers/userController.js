@@ -41,7 +41,7 @@ class UserController {
     async googleLogin(req, res) {
         try {
             const { access_token  } = req.body;
-            const token = await this.googleLoginUseCase.execute({ access_token  });
+            const token = await this.googleLoginUseCase.execute({ access_token });
             res.status(200).json({ message: "Google Login successful",token });
         } catch (error) {   
             res.status(500).json({ error: error.message }); 
@@ -77,12 +77,13 @@ class UserController {
                 UserID: req.user.id
             };
             const user = await this.profileUserUseCase.execute(dto);
-            res.status(201).json({
+            const users = {
                 id: user.id,
                 username: user.username,
                 email: user.email,
                 profile: user.profile
-            });
+            }
+            res.status(201).json(users);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

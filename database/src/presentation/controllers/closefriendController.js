@@ -57,13 +57,12 @@ class friendController{
                 UserID: req.user.id
             };
             const users = await this.getacceptedfrienduseCaes.execute(dto);
-            res.status(201).json({
-                friends: users.map(user => ({
+            const friends =  users.map(user => ({
                     id: user.id,
                     username: user.username,
                     email: user.email,
                 }))
-            }); 
+            res.status(201).json(friends); 
         }catch(error){
             res.status(500).json({error: error.message});
         }
@@ -76,13 +75,12 @@ class friendController{
                 UserID: req.user.id
             };
             const users = await this.getpendingfrienduseCaes.execute(dto);
-            res.status(201).json({
-                friends: users.map(user => ({
+            const friends =  users.map(user => ({
                     id: user.id,
                     username: user.username,
                     email: user.email,
                 }))
-            }); 
+            res.status(201).json(friends); 
         }catch(error){
             res.status(500).json({error: error.message});
         }

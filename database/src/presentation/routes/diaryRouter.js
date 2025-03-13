@@ -16,5 +16,9 @@ router.post('/adddiary', authenticateToken, async (req, res) => await diaryContr
 router.get('/getdiary', authenticateToken, async (req, res) => await diaryController.getdiary(req, res));
 router.get('/getsharediary', authenticateToken, async (req, res) => await diaryController.getsharediary(req, res));
 router.delete('/deletediary', authenticateToken, async (req, res) => await diaryController.deletediary(req, res));
+router.get('/average-feeling', authenticateToken, async (req, res) => await diaryController.getAverageFeeling(req, res));
+router.get('/average-aifeeling', authenticateToken, async (req, res) => await diaryController.getAverageAIFeeling(req, res));
+router.get('/feeling', authenticateToken, async (req, res) => await diaryController.getFeeling(req, res));
+router.get('/aifeeling', authenticateToken, async (req, res) => await diaryController.getAIFeeling(req, res));
 
 module.exports = router;
