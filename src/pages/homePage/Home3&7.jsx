@@ -29,7 +29,7 @@ export const EmotionSummary = ({ data }) => {
     // ตรวจสอบว่าควรแจ้งเตือนหรือไม่
     const notificationMessage = shouldShowNotification(lowMoodCountLast3Days, lowMoodCountLast7Days)
         ? (lowMoodCountLast3Days >= 3 ? "แนะนำให้ทำแบบทดสอบคัดกรองอารมณ์" : "ขอแนะนำให้ปรึกษาผู้เชี่ยวชาญหรือสายด่วนสุขภาพจิต และลองพูดคุยหรือขอความช่วยเหลือจากคนใกล้ตัว")
-        : "ในช่วงหลายวันที่ผ่านมา คุณดูสดใสและมีความสุข ขอให้ทุกวันของคุณเป็นวันที่ดีตลอดไป✨";
+        : "ขอให้ทุกวันของคุณเป็นวันที่ดีตลอดไป✨";
 
     return (
         <div className="EmotionSummaryContainer">
