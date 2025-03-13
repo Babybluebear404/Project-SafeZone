@@ -6,6 +6,7 @@ const GetDiary = require('../../application/useCases/diary/getDiary');
 const GetShareDiary = require('../../application/useCases/diary/getsharediary');
 const GetFeelings = require('../../application/useCases/diary/getFeeling');
 const GetAIFeelings = require('../../application/useCases/diary/getAIFeeling');
+const UpdateStatusDiary = require('../../application/useCases/diary/updatestatusDiary');
 class DiaryController{
     constructor(diaryService, getFeelings, getAIFeelings){
         this.adddiaryuseCase = new AddDiary(diaryService);
@@ -16,6 +17,7 @@ class DiaryController{
         this.calculateAverageFeelinguseCase = new CalculateAverageFeeling(diaryService);
         this.getFeelinguseCase = new GetFeelings(diaryService);
         this.getAIFeelinguseCase = new GetAIFeelings(diaryService);
+        this.updatestatusdiaryuseCase = new UpdateStatusDiary(diaryService);
     }
 
     async adddiary(req, res){
@@ -26,6 +28,19 @@ class DiaryController{
             }
             await this.adddiaryuseCase.execute(dto);
             res.status(201).json({ message: "Record successfully" });
+        }catch(error){
+            res.status(500).json({error: error.message});
+        }
+    }
+
+    async updatestatusdiary(req, res){
+        try{
+            const dto = {
+                ...req.body,
+                UserID: req.user.id
+            }
+            const success = await this.updatestatusdiaryuseCase.execute(dto);
+            res.status(201).json(success);
         }catch(error){
             res.status(500).json({error: error.message});
         }

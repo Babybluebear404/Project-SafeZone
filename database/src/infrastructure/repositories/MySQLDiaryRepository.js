@@ -8,6 +8,16 @@ class MySQLDiaryRepository{
         await this.connection.query(query, [diary.id, diary.userid, diary.story, diary.feeling, diary.aifeeling, diary.sharestatus])
     }
 
+    async updateStatus(userid, diaryid, status){
+       const query = `
+        UPDATE diary 
+        SET sharestatus = ? 
+        WHERE UserID = ? 
+        AND ID = ?`;
+       const [result] = await this.connection.query(query, [status,userid, diaryid]);
+       return result;
+    }
+
     async chackdiaryid(userid, diaryid){
         const query = `SELECT ID, UserID FROM diary 
         WHERE UserID = ? AND ID = ?;`;

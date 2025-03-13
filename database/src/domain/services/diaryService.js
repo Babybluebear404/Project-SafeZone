@@ -13,6 +13,10 @@ class DiaryService{
         await this.diaryRepository.save(diary);
     }
 
+    async updateStatusDiary(userid, diaryid, status){
+        return await this.diaryRepository.updateStatus(userid, diaryid, status);
+    }
+
     async getdiary(userid, day){
         return await this.diaryRepository.getDiary(userid, day);
     }

@@ -21,7 +21,7 @@ class friendController{
             await this.addfrienduseCaes.execute(dto);
             res.status(201).json({ message: "Friend request sent" });
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({error: error.message });
         }
     }
 
@@ -34,7 +34,7 @@ class friendController{
             await this.updatefrienduseCaes.execute(dto);
             res.status(201).json({ message: "Successfully"});
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({error: error.message });
         }
     }
 
@@ -60,7 +60,7 @@ class friendController{
             const friends =  users.map(user => ({
                     id: user.id,
                     username: user.username,
-                    email: user.email,
+                    email: user.email
                 }))
             res.status(201).json(friends); 
         }catch(error){
@@ -78,7 +78,7 @@ class friendController{
             const friends =  users.map(user => ({
                     id: user.id,
                     username: user.username,
-                    email: user.email,
+                    email: user.email
                 }))
             res.status(201).json(friends); 
         }catch(error){

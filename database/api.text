@@ -1,6 +1,7 @@
 วิธีเรียกใช้ API
 สำหรับ localhost
 
+ีstart user
 สำหรับ สมัครรหัสผ่าน
 http://localhost:3000/api/users/register
 ข้อมูลที่ต้องการ
@@ -80,7 +81,9 @@ Output{
     message: "Google Login successful",
     token
 }
+ีend user
 
+start questions
 สำหรับ บันทึกแบบสอบถาม
 http://localhost:3000/api/questions/savequestion
 ข้อมูลที่ต้องการ
@@ -93,3 +96,116 @@ Input{
 Output{
     massage: 'savequestion successfully'
 }
+end questions
+
+start closefriends
+
+สำหรับ เพิ่มเพื่อน
+http://localhost:3000/api/closefriends/addfriend
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    friendid
+}
+Output{
+    message: "Friend request sent"
+}
+
+สำหรับ อัพเดทstatus
+http://localhost:3000/api/closefriends/updatestatus
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    friendid,
+    status
+}
+Output{
+    message: "Successfully"
+}
+
+สำหรับ ลบเพื่อน
+http://localhost:3000/api/closefriends/deletefrined
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    friendid
+}
+Output{
+    message: "Successfully Delete"
+}
+
+สำหรับ ดูรายชื่อเพื่อน
+http://localhost:3000/api/closefriends/getaccepted
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    id: user.id,
+    username: user.username,
+    email: user.email
+}
+
+สำหรับ ดูรายชื่อที่กำลังรอยืนยันสถานะ
+http://localhost:3000/api/closefriends/getpending
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    id: user.id,
+    username: user.username,
+    email: user.email
+}
+
+end closefriends
+
+start Diary
+
+สำหรับ เพิ่มdiary
+http://localhost:3000/api/diaries/adddiary
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    story,
+    feeling,
+    status
+}
+Output{
+    message: "Record successfully"
+}
+
+สำหรับ ดูdiary
+http://localhost:3000/api/diaries/getdiary
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    day
+}
+Output{
+    id: diary.ID,
+    userid: diary.UserID,
+    date_and_time: diary.Date_and_Time,
+    story: diary.Story,
+    feeling: diary.Feeling,
+    aifeeling: diary.AIFeeling,
+    sharestatus: diary.ShareStatus
+}
+
+สำหรับ ดูdiaryที่ถูกแชร์
+http://localhost:3000/api/diaries/getsharediary
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    id: diary.ID,
+    userid: diary.UserID,
+    date_and_time: diary.Date_and_Time,
+    story: diary.Story,
+    feeling: diary.Feeling,
+    aifeeling: diary.AIFeeling,
+    sharestatus: diary.ShareStatus
+}
+
+end Diary
