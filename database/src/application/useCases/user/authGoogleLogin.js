@@ -19,8 +19,9 @@ class GoogleLogin {
             //ถ้าไม่มีผู้ใช้ ให้สร้างบัญชีใหม่
             if (!user) {
                 await this.userService.register(googleUserData.name, googleUserData.email, null);
+                user = await this.userService.findUserByEmail(googleUserData.email);
             }
-            const token = await this.userService.login(null, existingUser);
+            const token = await this.userService.login(null, user);
             return token; //token กลับไป
         } catch (error) {
             throw new Error("Google Login Failed: " + error.message);

@@ -69,7 +69,7 @@ const Login = () => {
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
-    console.log("e.target:", e.target);
+    // console.log("e.target:", e.target);
   
     const email = e.target.email ? e.target.email.value : '';
     const password = e.target.password ? e.target.password.value : '';
@@ -84,17 +84,17 @@ const Login = () => {
         },
         body: JSON.stringify(loginData),
       });
-  
-      const data = await response.json(); 
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed!");
-      }
 
-      console.log("Login successful:", data);
-      sessionStorage.setItem("token", data.token.token);
+      if (response.ok) {
+        const data = await response.json(); 
+        console.log("✅ Success:", data.message);
+        sessionStorage.setItem("token", data.token);
+        navigate("/HomeLogin");
+      } else {
+        const errorData = await response.json();
+        console.error("❌ Error:", errorData.error);
+      }
   
-      navigate("/HomeLogin");
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
