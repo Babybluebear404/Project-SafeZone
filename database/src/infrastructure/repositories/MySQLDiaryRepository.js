@@ -17,14 +17,14 @@ class MySQLDiaryRepository{
 
     async getDiary(userid, day){
         const query = `SELECT * FROM diary 
-        WHERE UserID = ? AND DATE(Data_and_Time) = ?;`;
+        WHERE UserID = ? AND DATE(date_and_time) = ?;`;
         const [rows] = await this.connection.query(query,[userid, day]);
         return rows; 
     }
 
     async shareDiary(userid) {
         const query = `
-            SELECT DISTINCT d.ID, d.UserID, d.Data_and_Time, d.Story, d.Feeling, d.AIFeeling, d.ShareStatus
+            SELECT DISTINCT d.ID, d.UserID, d.date_and_time, d.Story, d.Feeling, d.AIFeeling, d.ShareStatus
             FROM diary d
             JOIN closefriend f 
                 ON (d.UserID = f.UserID OR d.UserID = f.FriendID)
@@ -42,6 +42,22 @@ class MySQLDiaryRepository{
         UserID = ? AND ID = ?
         `;
         await this.connection.query(query, [userid, diaryid]);
+    }
+
+    async getFeelingsInDateRange(userId, startDate, endDate) {
+        const query = `
+            SELECT feeling, date_and_time FROM diary 
+            WHERE UserID = ? AND date_and_time BETWEEN ? AND ?`;
+        const [rows] = await this.connection.query(query, [userId, startDate, endDate]);
+        return rows; // คืนค่ารายการ feeling เป็น array
+    }
+
+    async getAIFeelingsInDateRange(userId, startDate, endDate) {
+        const query = `
+            SELECT aifeeling, date_and_time FROM diary 
+            WHERE UserID = ? AND date_and_time BETWEEN ? AND ?`;
+        const [rows] = await this.connection.query(query, [userId, startDate, endDate]);
+        return rows; // คืนค่ารายการ feeling เป็น array
     }
 }
 
