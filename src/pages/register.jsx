@@ -20,7 +20,7 @@ const SignUp = () => {
     }
 
     const registrationData = {
-      name: form.name,
+      username: form.name,
       email: form.email,
       password: form.password,
     };

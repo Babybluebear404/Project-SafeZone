@@ -25,16 +25,42 @@ const DepressionScreening = () => {
     }
 
     //ไม่แน่ใจว่า database เก็บข้อมูล q2 ยังไง
-    sessionStorage.setItem("q2Answer", JSON.stringify(totalScore));
+    sessionStorage.setItem("q2Answer", JSON.stringify(totalScore));// ต้องการเก็บ 0 1
 
   };
 
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (answers.question1 === "yes" || answers.question2 === "yes") {
       navigate("/Q9");
     } else {
-      navigate("/HomeLogin");
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        alert("No saved answers or token found. Please try again.");
+        return;
+      }
+      const requestData = { Q2: 0}
+      try {
+        const response = await fetch("http://localhost:3000/api/questions/savequestion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, 
+          },
+          body: JSON.stringify(requestData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log("✅ Success:", result.message);
+        } else {
+          const errorData = await response.json();
+          console.error("❌ Error:", errorData.error);
+        }
+        navigate("/HomeLogin");
+      }   catch (error) {
+        console.error("❌ Network Error:", error);
+      }
     }
   };
 
