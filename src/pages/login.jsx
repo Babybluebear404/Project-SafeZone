@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log("Google Token:", tokenResponse);
+      // console.log("Google Token:", tokenResponse);
 
       try {
         const res = await fetch("http://localhost:3000/api/users/google-login", {
@@ -30,13 +30,28 @@ const Login = () => {
         }
 
         const data = await res.json();
-        console.log("Server Response:", data);
 
         if (data.token) {
-          sessionStorage.setItem("user", JSON.stringify(data.user));
+          // sessionStorage.setItem("user", JSON.stringify(data.user));
           sessionStorage.setItem("token", data.token);
-
-          navigate("/HomeLogin");
+          try{
+            const token = sessionStorage.getItem("token");
+            const response = await fetch("http://localhost:3000/api/questions/getquestion", { 
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, 
+              }
+            });
+            const data = await response.json();
+            if(data.qusetion){
+              navigate("/HomeLogin");
+            }else{
+              navigate("/depression-screening");
+            }
+          }catch(error){
+            console.error("Error", error.message);
+          }
         } else {
           console.error("Login failed:", data.error);
         }
@@ -89,7 +104,24 @@ const Login = () => {
         const data = await response.json(); 
         console.log("✅ Success:", data.message);
         sessionStorage.setItem("token", data.token);
-        navigate("/HomeLogin");
+        try{
+          const token = sessionStorage.getItem("token");
+          const response = await fetch("http://localhost:3000/api/questions/getquestion", { 
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, 
+            }
+          });
+          const data = await response.json();
+          if(data.qusetion){
+            navigate("/HomeLogin");
+          }else{
+            navigate("/depression-screening");
+          }
+        }catch(error){
+          console.error("Error", error.message);
+        }
       } else {
         const errorData = await response.json();
         console.error("❌ Error:", errorData.error);

@@ -8,7 +8,8 @@ const GetFeelings = require('../../application/useCases/diary/getFeeling');
 const GetAIFeelings = require('../../application/useCases/diary/getAIFeeling');
 const UpdateStatusDiary = require('../../application/useCases/diary/updatestatusDiary');
 class DiaryController{
-    constructor(diaryService, getFeelings, getAIFeelings){
+    constructor(diaryService){
+        this.deletediary = diaryService;
         this.adddiaryuseCase = new AddDiary(diaryService);
         this.getdiaryuseCase = new GetDiary(diaryService);
         this.getsharediaryuseCase = new GetShareDiary(diaryService);

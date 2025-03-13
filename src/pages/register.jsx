@@ -27,7 +27,7 @@ const SignUp = () => {
 
     try {
       // ส่งคำขอ POST ไปยัง API
-      const res = await fetch("http://localhost:3000/api/users/register", {
+      const response = await fetch("http://localhost:3000/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,16 +35,14 @@ const SignUp = () => {
         body: JSON.stringify(registrationData),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Registration failed!");
+      if (response.ok) {
+        const data = await response.json(); 
+        console.log("✅ Success:", data.message);
+        navigate("/login");
+      } else {
+        const errorData = await response.json();
+        console.error("❌ Error:", errorData.error);
       }
-
-      console.log("Registration successful:", data);
-
-
-      navigate("/depression-screening");
     } catch (error) {
       console.error("Error during registration:", error.message);
     }

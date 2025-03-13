@@ -5,6 +5,7 @@ const GetPendingFriend = require('../../application/useCases/closefriend/getPend
 const UpdateFriend = require('../../application/useCases/closefriend/updateSatusFriend');
 class friendController{
     constructor(closefriendService){
+        this.closefriendService = closefriendService;
         this.addfrienduseCaes = new Addfriend(closefriendService);
         this.updatefrienduseCaes = new UpdateFriend(closefriendService);
         this.deletefrienduseCaes = new DeleteFriend(closefriendService);
