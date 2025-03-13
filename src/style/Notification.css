@@ -48,7 +48,7 @@
     color: #4B5563;
   }
   
-  .button-group {
+  .actionB {
     display: flex;
     gap: 0.5rem;
   }
@@ -69,6 +69,11 @@
   .btn.no {
     background-color: #d93838;
     border-radius: 50px;
+  }
+
+  .diaryB {
+    display: flex;
+    gap: 0.5rem;
   }
 
   .btn.view {

@@ -6,9 +6,7 @@ import Tab from "../Tab";
 
 const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
   const [showNotification, setShowNotification] = useState(false); // ติดตามสถานะการแสดงการแจ้งเตือน
-  //const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState(`Eren ต้องการเพิ่มคุณเป็นเพื่อน`); //TEST!!!!!!!!!!!
- // const [notificationMessage, setNotificationMessage] = useState(`Aren แชร์ไดอารี่กับคุณ`); //TEST!!!!!!!!!!!
+  const [notificationMessage, setNotificationMessage] = useState("");
   const [showButtons, setShowButtons] = useState(true);  // ปุ่ม Yes/No
   const [currentDate, setCurrentDate] = useState("");  
   const [currentTime, setCurrentTime] = useState("");  
@@ -46,12 +44,12 @@ const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
   }, [friendName, currentUser, sharedDiary]);
 
   const notifySuccess = () => {
-    setNotificationMessage(`คุณเป็นเพื่อนกับ Eren แล้ว`); //TEST!!!!!!!!!!!
+    setNotificationMessage(`คุณเป็นเพื่อนกับ ${friendName} แล้ว`); 
     setShowButtons(false);
   };
 
   const notifyError = () => {
-    setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ Eren แล้ว`);  //TEST!!!!!!!!!!!
+    setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ ${friendName} แล้ว`);  
     setShowButtons(false);
   };
 
@@ -75,46 +73,36 @@ const Notification = ({ currentUser, friendName, onConfirm, sharedDiary }) => {
     <div className="page-container">
       <Tab />
       <div className="notification-list">
-        <div className="notification-item">
-          <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />
-          <div className="notification-text">
-            <div className="notification-date">{currentDate}</div>  {/* แสดงวันที่จาก currentDate */}
-            <div className="notification-title">{notificationMessage}</div>
-          </div>
-          <div className="button-group">
-            {showButtons ? (
-              <>
-                <button className="btn yes" onClick={handleYesClick}>ยอมรับ</button>
-                <button className="btn no" onClick={handleNoClick}>ปฏิเสธ</button>
-              </>
-            ) : sharedDiary ? (
-              <button className="btn view" onClick={handleViewDiary}>ดูไดอารี่</button>
-            ) : null}
-          </div>
-          <div className="notification-time">{currentTime} น.</div>  {/* แสดงเวลาจาก currentTime */}
-        </div>
-
-        {/* TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-        <div className="notification-item"> 
-          <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />
-          <div className="notification-text">
-            <div className="notification-date">{currentDate}</div>  {/* แสดงวันที่จาก currentDate */}
-            <div className="notification-title">Eren แชร์ไดอารี่กับคุณ</div>
-          </div>
-          <div className="button-group">
-            {showButtons ? (
-              <>
+        {showNotification && ( // แสดงเฉพาะเมื่อ showNotification เป็น true
+          <div className="notification-item">
+            <img src="/src/assets/LogoSafeZone.png" alt="logo" className="logo" />
+            <div className="notification-text">
+              <div className="notification-date">{currentDate}</div>
+              <div className="notification-title">{notificationMessage}</div>
+            </div>
+  
+            <div className="actionB">
+              {showButtons && (
+                <>
+                  <button className="btn yes" onClick={handleYesClick}>ยอมรับ</button>
+                  <button className="btn no" onClick={handleNoClick}>ปฏิเสธ</button>
+                </>
+              )}
+            </div>
+  
+            {sharedDiary && (
+              <div className="diaryB">
                 <button className="btn view" onClick={handleViewDiary}>ดูไดอารี่</button>
-              </>
-            ) : sharedDiary ? (
-              <button className="btn view" onClick={handleViewDiary}>ดูไดอารี่</button>
-            ) : null}
+              </div>
+            )}
+  
+            <div className="notification-time">{currentTime} น.</div>
           </div>
-          <div className="notification-time">{currentTime} น.</div>  {/* แสดงเวลาจาก currentTime */}
-        </div>
+        )}
       </div>
     </div>
   );
+  
 };
 
 export default Notification;
