@@ -85,7 +85,7 @@ export const FriendSection = ({setAddfrienSec,addfriendSec, setCurrentPage }) =>
 
                 return (
                   <div key={friend.id} className="friend-item">
-                    <div className="logo-friends"></div>
+                    <div className="pic-friends"></div>
                     <span>{friend.name}</span>
                     {isFriends ? (
                        <span className="friend-emojicon" ><FaUserFriends/></span>
