@@ -12,23 +12,29 @@ export const EmotionSummary = ({ data }) => {
         });
     };
 
-    // ฟังก์ชันคำนวณค่าเฉลี่ยของ label
-    const calculateAverageMood = (entries) => {
-        if (entries.length === 0) return "ไม่มีข้อมูล"; // กรณีไม่มีข้อมูล
-        const totalMood = entries.reduce((sum, entry) => sum + entry.label, 0); // คำนวณผลรวมของ label
-        const averageMood = totalMood / entries.length; // คำนวณค่าเฉลี่ย
-        return averageMood.toFixed(2); // คืนค่าค่าเฉลี่ยที่มีทศนิยม 2 ตำแหน่ง
+    // ฟังก์ชันนับจำนวนวันที่ label < 3
+    const countLowMoodDays = (entries) => {
+        return entries.filter(entry => entry.label < 3).length;
     };
 
-    // คำนวณค่าเฉลี่ยอารมณ์ในช่วง 3 วัน และ 7 วัน
-    const moodAverageLast3Days = calculateAverageMood(filterDataByDays(3));
-    const moodAverageLast7Days = calculateAverageMood(filterDataByDays(7));
+    // ตรวจสอบการแจ้งเตือนตามเงื่อนไข
+    const shouldShowNotification = (lowMoodCount3Days, lowMoodCount7Days) => {
+        return (lowMoodCount3Days >= 3 || lowMoodCount7Days > 7);
+    };
+
+    // นับจำนวนวันที่ label < 3 ในช่วง 3 วัน และ 7 วัน
+    const lowMoodCountLast3Days = countLowMoodDays(filterDataByDays(3));
+    const lowMoodCountLast7Days = countLowMoodDays(filterDataByDays(7));
+
+    // ตรวจสอบว่าควรแจ้งเตือนหรือไม่
+    const notificationMessage = shouldShowNotification(lowMoodCountLast3Days, lowMoodCountLast7Days)
+        ? (lowMoodCountLast3Days >= 3 ? "แนะนำให้ทำแบบทดสอบคัดกรองอารมณ์" : "ขอแนะนำให้ปรึกษาผู้เชี่ยวชาญหรือสายด่วนสุขภาพจิต และลองพูดคุยหรือขอความช่วยเหลือจากคนใกล้ตัว")
+        : "ในช่วงหลายวันที่ผ่านมา คุณดูสดใสและมีความสุข ขอให้ทุกวันของคุณเป็นวันที่ดีตลอดไป✨";
 
     return (
         <div className="EmotionSummaryContainer">
-            <span className="SummaryTitle">สรุปอารมณ์ที่ผ่านมา</span><br />
-            <p className="SummaryText">ค่าเฉลี่ยอารมณ์ในช่วง 3 วันที่ผ่านมา: <strong>{moodAverageLast3Days}</strong></p>
-            <p className="SummaryText">ค่าเฉลี่ยอารมณ์ในช่วง 7 วันที่ผ่านมา: <strong>{moodAverageLast7Days}</strong></p>
+            <span className="SummaryTitle">แจ้งเตือน</span><br />
+            <p className="SummaryText"><strong>{notificationMessage}</strong></p>
         </div>
     );
 };
