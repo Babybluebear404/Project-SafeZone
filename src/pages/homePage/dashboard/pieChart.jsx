@@ -101,7 +101,7 @@ export const PieMonth = ({ data, COLORS }) => {
 
     return (
         <div className="pieChart">
-            <span className="Title-chart">แผนภูมิแสดงอารมณ์ที่ผ่านมาของแต่ละเดือนย้อนหลัง 1 ปี</span>
+            <span className="Title-chart">แผนภูมิแสดงอารมณ์ที่ผ่านมาย้อนหลัง 1 ปี</span>
             <span className="description-chart">โดยกราฟนี้จะแสดงภาพรวมจำนวนของแต่ระดับของอารมณ์แต่ละเดือนที่ผ่านมาย้อนหลัง 1 ปี</span>
             <ResponsiveContainer width={800} height={500}>
                 <PieChart >
