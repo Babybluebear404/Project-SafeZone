@@ -25,7 +25,7 @@ const AboutUs = () => {
       </main>
       <div className="contact-section">
           <h2>Contact</h2>
-          <p><strong>Gmail:</strong> SafeZone@gmail.com</p>
+          <p><strong>Gmail:</strong> safezone.healjai@gmail.com</p>
       </div>
       
       <div className="cat-lick-container">

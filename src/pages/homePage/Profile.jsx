@@ -2,6 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
+import image1 from "../../assets/1.png";
+import image2 from "../../assets/2.png";
+import image3 from "../../assets/3.png";
+import image4 from "../../assets/4.png";
+import image5 from "../../assets/5.png";
+import image6 from "../../assets/6.png";
+import image7 from "../../assets/7.png";
+import image8 from "../../assets/8.png";
+
 
 const Profile = ({ userService }) => {
   const navigate = useNavigate();
@@ -45,6 +54,27 @@ const Profile = ({ userService }) => {
 
   const goToHome = () => {
     navigate("/"); // กลับไปหน้าหลัก
+  };
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  // ลิสต์รูปภาพ
+  const imageTemplates = [
+    {src : image1,name: "Banana Cat"},
+    {src : image2,name: "Bread Cat"},
+    {src : image3,name: "Cake Cat"},
+    {src : image4,name: "Croissant Cat"},
+    {src : image5,name: "Hot Milk Cat"},
+    {src : image6,name: "Milk Tea Cat"},
+    {src : image7,name: "Pudding Cat"},
+    {src : image8,name: "Berger Cat"},
+  ];
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+  const selectImage = (index) => {
+    setSelectedImage(imageTemplates[index]?.src);
+    setIsPopupOpen(false);
   };
 
   return (
@@ -97,14 +127,48 @@ const Profile = ({ userService }) => {
           </div>
 
           <div className='image-Section'>
+          <div className="image-selector-container">
             <div className="profile-image">
+                {selectedImage ? (
+                    <img 
+                    src={selectedImage || imageTemplates[0]} 
+                    alt="Profile" 
+                    className="profile-img" 
+                />
+                ) : (
+                    <p>เลือกรูปภาพ</p>
+                )}
             </div>
-            <button className='selected-picture'>Select Picture Profile</button>
+
+            <button onClick={togglePopup} className='selected-picture'>
+            Select Picture Profile
+            </button>
+
+            {isPopupOpen && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <h2>เลือกภาพที่คุณต้องการ</h2>
+                        <div className="template-grid">
+                            {imageTemplates.map((image, index) => (
+                                <div key={index} className="template-item" onClick={() => selectImage(index)}>
+                                    <img src={image.src} alt={image.name} className="template-image" />
+                                    <p>{image.name}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={togglePopup} className="close-button">
+                            ปิด
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
             <div className="idText">User ID</div>
             <div className="idFriend">{userData.id || 'Loading...'}</div><br />
             <button onClick={() => { goToHome(); clearSessionStorage(); }} className="logout-button"><IoIosLogOut />  Log Out</button>
             <button className='delete-account'>Delete Account</button>
           </div>
+          
         </div>
       </div>
     </div>
