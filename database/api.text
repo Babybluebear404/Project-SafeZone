@@ -208,4 +208,56 @@ Output{
     sharestatus: diary.ShareStatus
 }
 
+สำหรับ ลบDiary
+http://localhost:3000/api/diaries/deletediary
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    diaryid
+}
+Output{
+    message
+}
+
+สำหรับ ดูผลรวมของ feeling
+http://localhost:3000/api/diaries/average-feeling
+ข้อมูลที่ต้องการ
+Input{
+    Token,
+    day
+}
+Output{
+    result
+}
+http://localhost:3000/api/diaries/average-aifeeling
+http://localhost:3000/api/diaries/feeling
+http://localhost:3000/api/diaries/aifeeling
+http://localhost:3000/api/diaries/updatestatus
+
 end Diary
+
+start OTP
+
+สำหรับ ขอotp
+http://localhost:3000/api/otps/send-otp
+ข้อมูลที่ต้องการ
+Input{
+    email
+}
+Output{
+    message
+}
+
+สำหรับ ยืนยันOTP
+http://localhost:3000/api/otps/send-otp
+ข้อมูลที่ต้องการ
+Input{
+    email,
+    otp
+}
+Output{
+    message
+}
+
+end OTP
+

@@ -18,7 +18,7 @@ class EmailService {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "รหัส OTP ของคุณ",
-            text: `รหัส OTP ของคุณคือ: ${otp} (มีอยู่การใช้งาน ${expiresInMinutes} นาที)`,
+            text: `รหัส OTP ของคุณคือ: ${otp} (มีอายุการใช้งาน ${expiresInMinutes} นาที)`,
         };
 
         try {
