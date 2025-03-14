@@ -70,17 +70,7 @@ const Login = () => {
     }
   }, [navigate]);
 
-  useEffect(() => {
-    liff.init({ liffId: '2006838508-WR0kK6DG' })
-  }, [])
 
-  const handleLineLogin = () => {
-    try {
-      liff.login()
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
@@ -142,9 +132,7 @@ const Login = () => {
         <div className="iconContainer">
           <div className="iconWrapper" onClick={handleGoogleLogin}>
             <FcGoogle size={32} />
-          </div>
-          <div className="iconWrapper" onClick={handleLineLogin}>
-            <SiLine size={32} color="#00C300" />
+            <p>Login with Google</p>
           </div>
         </div>
         <p className="orText">_________or continue with email_________</p>
