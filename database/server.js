@@ -5,7 +5,7 @@ const questionRoutes = require('./src/presentation/routes/questionRouter');
 const closefriendRouters = require('./src/presentation/routes/closefriendRouter');
 const diaryRouters = require('./src/presentation/routes/diaryRouter');
 const otpRouters = require('./src/presentation/routes/otpRoutes');
-require('dotenv').config();
+// require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT;

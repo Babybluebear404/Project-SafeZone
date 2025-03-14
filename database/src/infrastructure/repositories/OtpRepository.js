@@ -1,18 +1,18 @@
 class OtpRepository {
     constructor() {
-        this.otpStorage = {};
+        this.otpStorage = new Map();
     }
 
-    async saveOtp(email, otp) {
-        this.otpStorage[email] = otp;
+    async saveOtp(email, otp, expiresAt) {
+        this.otpStorage.set(email, {otp, expiresAt});
     }
 
     async getOtp(email) {
-        return this.otpStorage[email] || null;
+        return this.otpStorage.get(email);
     }
 
     async deleteOtp(email) {
-        delete this.otpStorage[email];
+        this.otpStorage.delete(email);
     }
 }
 

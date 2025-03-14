@@ -12,12 +12,17 @@ class EmailService {
         });
     }
 
-    async sendOtp(email, otp) {
+    async sendOtp(email, otp, expiresAt) {
+        const formattedTime = new Date(expiresAt).toLocaleTimeString("th-TH", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+        });
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "รหัส OTP ของคุณ",
-            text: `รหัส OTP ของคุณคือ: ${otp}`,
+            text: `รหัส OTP ของคุณคือ: ${otp} (หมดอายุใน ${formattedTime} นาที)`,
         };
 
         try {

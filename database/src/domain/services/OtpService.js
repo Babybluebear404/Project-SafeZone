@@ -5,14 +5,16 @@ class OtpService {
     }
     
     async generateOtp() {
-        return Math.floor(100000 + Math.random() * 900000); // 6 หลัก
+        const otp = Math.floor(100000 + Math.random() * 900000); // 6 หลัก
+        const expiresAt = Date.now() + 5 * 60 * 1000;
+        return{otp, expiresAt};
     }
 
-    async saveOtp(email, otp) {
-        await this.otpService.saveOtp(email, otp);
+    async saveOtp(email, otp, expiresAt) {
+        await this.otpService.saveOtp(email, otp, expiresAt);
     }
 
-    async verifyOtp(email, otp) {
+    async verifyOtp(email, otp, expiresAt) {
         const storedOtp = OtpRepository.getOtp(email);
         if (storedOtp && storedOtp == otp) {
             OtpRepository.deleteOtp(email);
