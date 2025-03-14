@@ -544,6 +544,7 @@ textarea::placeholder {
   padding: 40px;
   margin-left: 30px;
   height: 1000px;
+  overflow-y: auto;
 }
 
 .friend-Post {
@@ -557,6 +558,7 @@ textarea::placeholder {
   text-align: left;
   font-size: 20px;
   margin-left: 5px;
+  cursor: pointer;
 }
 
 .post-friends{

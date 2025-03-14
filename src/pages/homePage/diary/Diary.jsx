@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 import { FcPlus, FcLike } from "react-icons/fc";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
@@ -12,6 +12,11 @@ import { useNavigate } from "react-router-dom";
 import { FriendFeed } from "./friendFeed";
 
 const Diary = () => {
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0); // เลื่อนหน้าไปที่บนสุด
+}, []);
+
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
@@ -118,7 +123,7 @@ const Diary = () => {
             <button onClick={() => {
               setIsShared(!isShared);
             }} className="share-diary">
-              {isShared ? "Sharing" : "Not Sharing"}
+              {isShared ? "Share" : "Not Share"}
             </button>
           </div>
           <p className="mesStatusShare">
