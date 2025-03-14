@@ -1,12 +1,33 @@
+
+import React, { useState } from "react";
 import { BarChart, CartesianGrid, Legend, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import "../../../style/dashboard.css";
 import dayjs from "dayjs";
 
-export const LineGraphYear = ({ data,COLORS }) => {
+export const LineGraphYear = ({ data, COLORS }) => {
     const today = new Date();
     let thisDay = today.getDate();
     let thisMonth = today.getMonth();
     let thisYear = today.getFullYear();
+    const [selected, setSelected] = useState("twoWeekAgo");
+
+    // คำนวณจำนวนวันที่เลือกจาก dropdown
+    const getDaysAgo = (selectedOption) => {
+        switch (selectedOption) {
+            case "twoWeekAgo":
+                return 14;
+            case "oneMonthAgo":
+                return 30;
+            case "threeMonthAgo":
+                return 90;
+            case "sixMonthAgo":
+                return 180;
+            case "oneYearAgo":
+                return 365;
+            default:
+                return 0;
+        }
+    };
 
     const getMonthName = (name) => {
         const monthNames = [
@@ -32,12 +53,13 @@ export const LineGraphYear = ({ data,COLORS }) => {
         }
     };
 
-    const getSinceBegin = (thisDay, thisMonth, thisYear) => {
+    const getSinceBegin = (thisDay, thisMonth, thisYear, selectedOption) => {
         let dayBegin = thisDay;
         let monthBegin = thisMonth;
         let yearBegin = thisYear;
+        const daysAgo = getDaysAgo(selectedOption);
 
-        for (let i = 0; i < 365; i++) {
+        for (let i = 0; i < daysAgo; i++) {
             dayBegin--;
             if (dayBegin <= 0) {
                 monthBegin--;
@@ -52,23 +74,27 @@ export const LineGraphYear = ({ data,COLORS }) => {
         return { dayBegin, monthBegin, yearBegin };
     };
 
-    const { dayBegin, monthBegin, yearBegin } = getSinceBegin(thisDay, thisMonth, thisYear);
+    const { dayBegin, monthBegin, yearBegin } = getSinceBegin(thisDay, thisMonth, thisYear, selected);
     const monthBeginName = getMonthName(monthBegin);
 
-    const filterLastOneYearData = (data) => {
-        const last365Days = [];
+    // ฟังก์ชันกรองข้อมูลตามจำนวนวันย้อนหลัง
+    const filterData = (data, selectedOption) => {
         const today = dayjs();
+        const lastDays = getDaysAgo(selectedOption);
+        const filteredData = [];
 
-        for (let i = 0; i < 365; i += 1) {
-            const date = today.subtract(i, 'day').format('YYYY-MM-DD');
+        for (let i = 0; i < lastDays; i += 1) {
+            const date = today.subtract(i, 'day').format('YYYY-MM-DD'); // ลดวันย้อนหลัง
             const found = data.find(d => dayjs(d.timestamp).format('YYYY-MM-DD') === date);
             if (found) {
-                last365Days.push(found);
+                filteredData.push(found);
             }
         }
 
-        return last365Days.reverse();
+        return filteredData.reverse();
     };
+
+    const filteredData = filterData(data, selected);
 
     const countLabelsPerMonth = (data) => {
         const counts = {};
@@ -97,15 +123,27 @@ export const LineGraphYear = ({ data,COLORS }) => {
         5: COLORS[4]
     };
 
-    const filteredData = filterLastOneYearData(data);
     const labelCounts = countLabelsPerMonth(filteredData);
+
+    const handleSelectChange = (e) => {
+        setSelected(e.target.value);
+    };
 
     return (
         <div className="lineGraph">
             <span className="Title-chart">กราฟแท่งแสดงอารมณ์ในแต่ละเดือนที่ผ่านมาย้อนหลัง 1 ปี</span>
-            <span className="description-chart">โดยกราฟนี้จะแสดงภาพรวมจำนวนของแต่ระดับของอารมณ์แต่ละเดือนที่ผ่านมาย้อนหลัง 1 ปี</span>
+            <div>
+                <label htmlFor="dropdown">เลือกจำนวนวันย้อนหลัง:</label>
+                <select id="dropdown" value={selected} onChange={handleSelectChange}>
+                    <option value="twoWeekAgo">2 สัปดาห์ที่ผ่านมา</option>
+                    <option value="oneMonthAgo">1 เดือนที่ผ่านมา</option>
+                    <option value="threeMonthAgo">3 เดือนที่ผ่านมา</option>
+                    <option value="sixMonthAgo">6 เดือนที่ผ่านมา</option>
+                    <option value="oneYearAgo">1 ปีที่ผ่านมา</option>
+                </select>
+            </div>
             <div className="yearLineChart">
-                <ResponsiveContainer width={1000} height={400}>
+                <ResponsiveContainer width={500} height={300}>
                     <BarChart
                         data={labelCounts}
                         margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
@@ -126,8 +164,7 @@ export const LineGraphYear = ({ data,COLORS }) => {
                     </BarChart>
                 </ResponsiveContainer>
                 <p></p>
-                <span className="description-chart"> แสดงข้อมูลตั้งแต่วันที่ {dayBegin} {monthBeginName} {yearBegin} ถึงวันที่ {thisDay} {thisMonthName}
-                </span>
+                <span className="description-chart">แสดงข้อมูลตั้งแต่วันที่ {dayBegin} {monthBeginName} {yearBegin} ถึงวันที่ {thisDay} {thisMonthName}</span>
             </div>
         </div>
     );

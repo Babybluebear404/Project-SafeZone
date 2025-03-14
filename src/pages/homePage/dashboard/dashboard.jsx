@@ -39,14 +39,15 @@ const Dashboard = () => {
                         data={data} />
                 </div>
                 <div className="avg-perMonth">
-                    <LineGraphMonth
-                        data={data} />
+                    <LineGraphYear
+                        data={data}
+                        COLORS={COLORS} />
                 </div>
             </div>
             <div className="barPerYear">
-                <LineGraphYear
+                {/*<LineGraphYear
                     data={data}
-                    COLORS={COLORS}  />
+                    COLORS={COLORS}  />*/}
             </div>
             <div className="piePerYear">
                 <PieMonth

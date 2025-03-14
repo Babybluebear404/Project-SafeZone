@@ -34,6 +34,7 @@ const Diary = () => {
   const sendMessage = () => {
     if (input.trim() !== "") {
       const currentTime = new Date();
+      //currentTime.setFullYear(2024, 5, 28);
       const newMessage = {
         text: input,
         timestamp: currentTime.toDateString(),
