@@ -13,16 +13,12 @@ class EmailService {
     }
 
     async sendOtp(email, otp, expiresAt) {
-        const formattedTime = new Date(expiresAt).toLocaleTimeString("th-TH", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-        });
+        const expiresInMinutes = Math.floor((expiresAt - Date.now()) / (60 * 1000));
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "รหัส OTP ของคุณ",
-            text: `รหัส OTP ของคุณคือ: ${otp} (หมดอายุใน ${formattedTime} นาที)`,
+            text: `รหัส OTP ของคุณคือ: ${otp} (มีอยู่การใช้งาน ${expiresInMinutes} นาที)`,
         };
 
         try {

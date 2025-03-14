@@ -1,14 +1,30 @@
 class VerifyOtp {
-    constructor(optService) {
-        this.optService = optService;
+    constructor(otpService, otpRepository) {
+        this.otpService = otpService;
+        this.otpRepository = otpRepository;
     }
 
-    async execute(email, otp) {
+    async execute(email, userotp) {
         try{
-            const isValid = await this.optService.verifyOtp(email, otp);
+            const isValid = await this.otpService.verifyOtp(email);
+
             if (!isValid) {
-                throw new Error("OTP ไม่ถูกต้อง หรือหมดอายุ");
+                return { success: false, message: "ไม่มี OTP สำหรับอีเมลนี้" };
             }
+
+            const { otp, expiresAt } = isValid;
+
+            if (Date.now() > expiresAt) {
+                await this.otpRepository.deleteOtp(email); // ลบ OTP ที่หมดอายุ
+                return { success: false, message: "OTP หมดอายุแล้ว" };
+            }
+
+            if (String(otp) !== userotp) {
+                return { success: false, message: "OTP ไม่ถูกต้อง" };
+            }
+
+            await this.otpRepository.deleteOtp(email); // ใช้แล้วลบออก
+            return { success: true, message: "OTP ถูกต้อง" };
         }catch(error){
             throw error;
         }

@@ -14,17 +14,12 @@ class OtpService {
         await this.otpService.saveOtp(email, otp, expiresAt);
     }
 
-    async verifyOtp(email, otp, expiresAt) {
-        const storedOtp = OtpRepository.getOtp(email);
-        if (storedOtp && storedOtp == otp) {
-            OtpRepository.deleteOtp(email);
-            return true;
-        }
-        return false;
+    async verifyOtp(email) {
+        return await this.otpService.getOtp(email);
     }
 
-    async sendotp(email, otp){
-        return await this.emailService.sendOtp(email, otp);
+    async sendotp(email, otp, expiresAt){
+        return await this.emailService.sendOtp(email, otp, expiresAt);
     }
 }
 
