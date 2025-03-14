@@ -63,7 +63,12 @@
     color: #9293b1;
   }
   
-  .profile-image {
+  .image-selector-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-image {
     position: relative;
     width: 100px;
     height: 100px;
@@ -71,7 +76,72 @@
     overflow: hidden;
     margin: 20px auto;
     background: #cae2ff;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.select-button, .close-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #51468b;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+
+.template-item {
+    cursor: pointer;
+    text-align: center;
+}
+
+.template-image {
+    width: 100%;
+    max-width: 150px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.template-image:hover {
+    transform: scale(1.05);
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
   
   .profile-image img {
     width: 100%;
