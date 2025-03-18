@@ -76,14 +76,44 @@ const Q9 = () => {
     sessionStorage.setItem("q9Answer", JSON.stringify(totalScore));
   };
 
-  const handleNextButton = () => {
+  const handleNextButton = async () => {
     if (result === "ไม่มีภาวะซึมเศร้า") {
-      navigate("/HomeLogin");
+      const token = sessionStorage.getItem("token");
+      const q2Answers = sessionStorage.getItem("q2Answer"); // จะต้องใส่ตัวเลข 0 1 
+      const q9Answers = sessionStorage.getItem("q9Answer") || {};
+
+      if (!token) {
+        alert("No saved answers or token found. Please try again.");
+        return;
+      }
+
+      const requestData = { Q2: q2Answers, Q9: q9Answers };
+      
+      try {
+        const response = await fetch("http://localhost:3000/api/questions/savequestion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, 
+          },
+          body: JSON.stringify(requestData),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log("✅ ", result.message);
+          navigate("/HomeLogin");
+        } else {
+          const errorData = await response.json();
+          console.error("❌ Error:", errorData.error);
+      }
+      } catch (error) {
+        console.error("❌ Network Error:", error);
+      }
     } else {
       navigate("/Q8");
     }
   };
-
 
   return (
     <div className="screening-container">

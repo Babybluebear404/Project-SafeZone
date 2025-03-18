@@ -87,7 +87,7 @@ const Q8 = () => {
     }
 
     const requestData = { Q2: q2Answers, Q9: q9Answers, Q8: q8Answers };
-    console.log(requestData);
+    
     try {
       const response = await fetch("http://localhost:3000/api/questions/savequestion", {
         method: "POST",
@@ -100,7 +100,7 @@ const Q8 = () => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("✅ Success:", result.message);
+        console.log("✅ ", result.message);
         navigate("/HomeLogin");
       } else {
         const errorData = await response.json();
