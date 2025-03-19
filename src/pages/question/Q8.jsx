@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/Q8.css";
+import { useCookies } from "react-cookie";
 
 const Q8 = () => {
+  const [cookies] = useCookies(["token"]);
   const questions = [
     "ช่วง 1 เดือนที่ผ่านมา คิดอยากตาย หรือคิดว่าตายไปจะดีกว่า",
     "ช่วง 1 เดือนที่ผ่านมา อยากทำร้ายตัวเอง หรือทำให้ตัวเองบาดเจ็บ",
@@ -76,7 +78,7 @@ const Q8 = () => {
   };
 
   const handleNext = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = cookies.token;
     const q2Answers = sessionStorage.getItem("q2Answer"); // จะต้องใส่ตัวเลข 0 1 
     const q9Answers = sessionStorage.getItem("q9Answer") || {};
     const q8Answers = sessionStorage.getItem("q8Answer") || {};

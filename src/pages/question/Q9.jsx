@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/Q9.css";
+import { useCookies } from "react-cookie";
 
 const Q9 = () => {
+  const [cookies] = useCookies(["token"]);
   const questions = [
     "เบื่อ ไม่สนใจทำอะไร",
     "ไม่สบายใจ ซึมเศร้า ท้อแท้",
@@ -78,7 +80,7 @@ const Q9 = () => {
 
   const handleNextButton = async () => {
     if (result === "ไม่มีภาวะซึมเศร้า") {
-      const token = sessionStorage.getItem("token");
+      const token = cookies.token;
       const q2Answers = sessionStorage.getItem("q2Answer"); // จะต้องใส่ตัวเลข 0 1 
       const q9Answers = sessionStorage.getItem("q9Answer") || {};
 

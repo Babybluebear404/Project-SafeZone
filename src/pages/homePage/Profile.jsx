@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
+import { useCookies } from "react-cookie";
 
-
-const Profile = ({ userService }) => {
+const Profile = ( userService ) => {
   const navigate = useNavigate();
+  const [cookies, removeCookie] = useCookies(["token"]);
   const [userData, setUserData] = useState({ id: '', name: '', email: '', password: '' });
   const [isChange, setIsChange] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -14,8 +15,7 @@ const Profile = ({ userService }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = sessionStorage.getItem("token");
-
+        const token = cookies.token;
         if (!token) {
           alert("No saved answers or token found. Please try again.");
           return;
@@ -30,9 +30,14 @@ const Profile = ({ userService }) => {
       });
         if (response.ok) {
         const profileData = await response.json();
-        setUserData({ id: profileData.id, name: profileData.username, email: profileData.email });
+        if (profileData) {  // เช็คว่ามีข้อมูลก่อนเซ็ตค่า
+          setUserData({
+            id: profileData.id,
+            name: profileData.username,
+            email: profileData.email
+          });
+        }
         const selecImage = imageTemplates.find(image => String(image.id) === profileData.profile);
-        console.log("Selected Image:", selecImage);
         if (selecImage) {
           setSelectedImage({
             id: selecImage.id,
@@ -54,15 +59,16 @@ const Profile = ({ userService }) => {
     fetchUserData();
   }, [userService]);
 
-  const clearSessionStorage = () => {
-    sessionStorage.clear();
+  const clearCookie = () => {
+    removeCookie("token");
+    navigate("/");
     console.log('Session storage has been cleared');
   };
 
   // อัพเดทข้อมูล user
   const handleSave = async () => {
     try {
-      const token = sessionStorage.getItem("token");
+      const token = cookies.token;
 
       if (!token) {
         alert("No saved answers or token found. Please try again.");
@@ -92,10 +98,6 @@ const Profile = ({ userService }) => {
     } catch (error) {
       console.error('Failed to save user data:', error);
     }
-  };
-
-  const goToHome = () => {
-    navigate("/"); // กลับไปหน้าหลัก
   };
 
   // ลิสต์รูปภาพ
@@ -140,7 +142,7 @@ const Profile = ({ userService }) => {
               <div className="input-setup">
                 <input
                   type="text"
-                  value={userData.name}
+                  value={userData.name || ""}
                   disabled={!isChange}
                   onChange={(e) => setUserData({ ...userData, name: e.target.value })}
                 />
@@ -152,7 +154,7 @@ const Profile = ({ userService }) => {
                 <input
                   type="email"
                   disabled={true}
-                  value={userData.email}
+                  value={userData.email || ""}
                 />
               </div>
 
@@ -161,7 +163,7 @@ const Profile = ({ userService }) => {
                 <input
                   type="password"
                   disabled={true}
-                  value={userData.password}
+                  value={userData.password || ""}
                 />
                 <a className='change-button' onClick={() => navigate("/ChangePassword")}>Change</a>
               </div>
@@ -213,7 +215,7 @@ const Profile = ({ userService }) => {
         </div>
             <div className="idText">User ID</div>
             <div className="idFriend">{userData.id || 'Loading...'}</div><br />
-            <button onClick={() => { goToHome(); clearSessionStorage(); }} className="logout-button"><IoIosLogOut />  Log Out</button>
+            <button onClick={ clearCookie } className="logout-button"><IoIosLogOut />  Log Out</button>
             <button className='delete-account'>Delete Account</button>
           </div>
           

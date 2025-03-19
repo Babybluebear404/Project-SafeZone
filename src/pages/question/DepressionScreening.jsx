@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/DepressionScreening.css";
+import { useCookies } from "react-cookie";
 
 const DepressionScreening = () => {
   const [answers, setAnswers] = useState({ question1: null, question2: null });
   const [result, setResult] = useState(null);
+  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   let totalScore = 0;
 
@@ -34,7 +36,7 @@ const DepressionScreening = () => {
     if (answers.question1 === "yes" || answers.question2 === "yes") {
       navigate("/Q9");
     } else {
-      const token = sessionStorage.getItem("token");
+      const token = cookies.token;
 
       if (!token) {
         alert("No saved answers or token found. Please try again.");
