@@ -32,7 +32,7 @@ class UserController {
         try {
             const dto = req.body;
             const token = await this.loginUserUseCase.execute(dto);
-            res.status(201).json({ message: "Login successfully", token });
+            res.status(200).json({ message: "Login successfully", token });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
