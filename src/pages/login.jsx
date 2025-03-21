@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode"; // ใช้สำหรับถอด�
 const Login = () => {
   const [cookies, setCookie] = useCookies(["token"]);
   const navigate = useNavigate();
-  const [statuslogin, setsatuslohin] = useState(false);
+  const [statuslogin, setsatuslogin] = useState(false);
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -41,7 +41,7 @@ const Login = () => {
 
           // ⬇️ เก็บ Token ไว้ใน Cookie และตั้งค่าให้หมดอายุพร้อม Token
           setCookie("token", data.token, { path: "/", expires: expirationDate });
-          setsatuslohin(true);
+          setsatuslogin(true);
         } else {
           console.error("Login failed:", data.error);
         }
@@ -113,7 +113,7 @@ const Login = () => {
 
         // ⬇️ เก็บ Token ไว้ใน Cookie และตั้งค่าให้หมดอายุพร้อม Token
         setCookie("token", data.token, { path: "/", expires: expirationDate });
-        setsatuslohin(true);
+        setsatuslogin(true);
       } else {
         const errorData = await response.json();
         console.error("❌ Error:", errorData.error);
