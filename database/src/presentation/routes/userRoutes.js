@@ -19,6 +19,6 @@ router.post('/forgot', async (req, res) => await userController.forgot(req, res)
 router.get('/profile', authenticateToken, async (req, res) => await userController.getProfile(req, res));
 router.put('/updateprofile', authenticateToken, async (req, res) => await userController.updateProfile(req, res));
 router.put('/change', authenticateTokenreset, async (req, res) => await userController.change(req, res));
-router.post("/google-login", (req, res) => userController.googleLogin(req, res));
+router.post('/google-login', (req, res) => userController.googleLogin(req, res));
 
 module.exports = router;

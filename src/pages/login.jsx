@@ -4,15 +4,13 @@ import { SiLine } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import "../style/Login.css";
-import liff from '@line/liff';
-
 
 const Login = () => {
   const navigate = useNavigate();
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      // console.log("Google Token:", tokenResponse);
+      //console.log("Google Token:", tokenResponse);
 
       try {
         const res = await fetch("http://localhost:3000/api/users/google-login", {
@@ -32,10 +30,10 @@ const Login = () => {
         const data = await res.json();
 
         if (data.token) {
-          // sessionStorage.setItem("user", JSON.stringify(data.user));
-          sessionStorage.setItem("token", data.token);
-          try{
-            const token = sessionStorage.getItem("token");
+          // Switch from sessionStorage to localStorage
+          localStorage.setItem("token", data.token);
+          try {
+            const token = localStorage.getItem("token");
             const response = await fetch("http://localhost:3000/api/questions/getquestion", { 
               method: "GET",
               headers: {
@@ -46,10 +44,10 @@ const Login = () => {
             const data = await response.json();
             if(data.qusetion){
               navigate("/HomeLogin");
-            }else{
+            } else {
               navigate("/depression-screening");
             }
-          }catch(error){
+          } catch (error) {
             console.error("Error", error.message);
           }
         } else {
@@ -63,24 +61,21 @@ const Login = () => {
   });
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
       navigate("/HomeLogin");
     }
   }, [navigate]);
 
-
-
   const handleEmailLogin = async (e) => {
     e.preventDefault();
-    // console.log("e.target:", e.target);
-  
+
     const email = e.target.email ? e.target.email.value : '';
     const password = e.target.password ? e.target.password.value : '';
-  
+
     const loginData = { email, password };
-  
+
     try {
       const response = await fetch("http://localhost:3000/api/users/login", { 
         method: "POST",
@@ -93,9 +88,9 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json(); 
         console.log("✅ Success:", data.message);
-        sessionStorage.setItem("token", data.token);
-        try{
-          const token = sessionStorage.getItem("token");
+        localStorage.setItem("token", data.token); 
+        try {
+          const token = localStorage.getItem("token");
           const response = await fetch("http://localhost:3000/api/questions/getquestion", { 
             method: "GET",
             headers: {
@@ -106,21 +101,20 @@ const Login = () => {
           const data = await response.json();
           if(data.qusetion){
             navigate("/HomeLogin");
-          }else{
+          } else {
             navigate("/depression-screening");
           }
-        }catch(error){
+        } catch (error) {
           console.error("Error", error.message);
         }
       } else {
         const errorData = await response.json();
         console.error("❌ Error:", errorData.error);
       }
-  
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
-  };  
+  };
 
   return (
     <div className="container">

@@ -2,27 +2,23 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 import { FcPlus, FcLike } from "react-icons/fc";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
-import { FaBook } from "react-icons/fa";
 import { FriendSection } from "./friendsSection";
 import { generateDate, months } from "./calendar";
 import dayjs from "dayjs";
 import "../../../style/Diary.css";
 import Tab from "../../Tab";
-import { useNavigate } from "react-router-dom";
 import { FriendFeed } from "./friendFeed";
 
 const Diary = () => {
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0); // เลื่อนหน้าไปที่บนสุด
-}, []);
+  }, []);
 
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(null);
-
-  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState("Diary");
   const [addfriendSec, setAddfrienSec] = useState(false);
@@ -31,33 +27,49 @@ const Diary = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (input.trim() !== "") {
       const currentTime = new Date();
       //currentTime.setFullYear(2024, 5, 28);
       const newMessage = {
-        text: input,
+        story: input,
         timestamp: currentTime.toDateString(),
-        label: selectedEmoji[selectDate?.toDate().toDateString()] || null,
+        feeling: selectedEmoji[selectDate?.toDate().toDateString()] || null,
         status: isShared
       };
 
-      const storedMessages = JSON.parse(sessionStorage.getItem("messages")) || [];
-      const updatedMessages = [...storedMessages, newMessage];
-      sessionStorage.setItem("messages", JSON.stringify(updatedMessages));
-      setMessages(updatedMessages);
+      try {
+        const response = await fetch("http://localhost:3000/api/diaries/adddiary", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(newMessage),
+        });
 
-      setInput("");
+        if (!response.ok) throw new Error("Failed to send message");
+
+        const result = await response.json();
+        console.log("Message sent:", result);
+
+        const updatedMessages = [...messages, result];
+        setMessages(updatedMessages);
+
+        setInput("");
+
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
+
   const deleteMessage = () => {
     if (!selectDate) return;
 
     setMessages(messages.filter(msg =>
       dayjs(msg.timestamp).format('YYYY-MM-DD') !== selectDate.format('YYYY-MM-DD')
     ));
-
-    sessionStorage.removeItem("messages");
   };
 
   //check selected date have message(no filterred message on this date)
@@ -102,23 +114,58 @@ const Diary = () => {
   };
 
 
-  useEffect(() => {
-    const storedMessages = JSON.parse(sessionStorage.getItem("messages")) || [];
-    setMessages(storedMessages);
-  }, []);
+  const fetchMessages = async () => {
+    if (!selectDate) return;
 
+    try {
+      const formattedDate = selectDate.format("YYYY-MM-DD");
+      const apiUrl = `http://localhost:3000/api/diaries/getdiary?day=${formattedDate}`;
+
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+
+      const result = await response.json();
+      console.log(result);
+
+      if (result && result.length > 0) {
+        const firstMessage = result[0];  
+        console.log(firstMessage); 
+        setMessages([firstMessage]); 
+      } else {
+        console.log("No messages found for the selected date.");
+      }
+
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [selectDate]);
+
+  console.log(messages);
 
   const [isShared, setIsShared] = useState(false);
 
   const showMessages = messages
-    .filter((msg) => selectDate && dayjs(msg.timestamp).format('YYYY-MM-DD') === selectDate.format('YYYY-MM-DD'))
+    .filter((msg) => selectDate && dayjs(msg.date_and_time).format('YYYY-MM-DD') === selectDate.format('YYYY-MM-DD'))
     .map((msg, index) => {
-      const emojiRating = msg.label
+      const emojiRating = msg.feeling
       return (
         <div key={index} className="showMessages">
 
           {emojiRating && getEmojiIcon(emojiRating)}
-          <p className="display-text">{msg.text}</p>
+          <p className="display-text">{msg.story}</p>
           <div className="show-footer">
             <button onClick={deleteMessage} className="delete-diary">Delete</button>
             <button onClick={() => {
@@ -197,12 +244,12 @@ const Diary = () => {
                       : "";
                   const dateString = dayjs(date).format('YYYY-MM-DD');
                   const messageForDate = messages.find(
-                    (msg) => dayjs(msg.timestamp).format('YYYY-MM-DD') === dateString
+                    (msg) => dayjs(msg.date_and_time).format('YYYY-MM-DD') === dateString
                   );
-                  const emojiRating = messageForDate?.label ?? null;
+                  const emojiRating = messageForDate?.feeling ?? null;
 
                   const hasMessages = messages.some(
-                    (msg) => dayjs(msg.timestamp).format('YYYY-MM-DD') === dateString
+                    (msg) => dayjs(msg.date_and_time).format('YYYY-MM-DD') === dateString
                   );
 
                   const ratingClass = hasMessages && emojiRating ? getRatingClass(emojiRating) : "";

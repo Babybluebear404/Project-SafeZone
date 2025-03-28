@@ -76,8 +76,8 @@ const Q8 = () => {
   };
 
   const handleNext = async () => {
-    const token = sessionStorage.getItem("token");
-    const q2Answers = sessionStorage.getItem("q2Answer"); // จะต้องใส่ตัวเลข 0 1 
+    const token = localStorage.getItem("token");
+    const q2Answers = sessionStorage.getItem("q2Answer"); 
     const q9Answers = sessionStorage.getItem("q9Answer") || {};
     const q8Answers = sessionStorage.getItem("q8Answer") || {};
 
@@ -100,14 +100,14 @@ const Q8 = () => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("✅ Success:", result.message);
+        console.log("Success:", result.message);
         navigate("/HomeLogin");
       } else {
         const errorData = await response.json();
-        console.error("❌ Error:", errorData.error);
+        console.error("Error:", errorData.error);
       }
     } catch (error) {
-      console.error("❌ Network Error:", error);
+      console.error("Network Error:", error);
     }
   };
 

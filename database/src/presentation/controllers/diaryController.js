@@ -49,9 +49,10 @@ class DiaryController{
 
     async getdiary(req, res){
         try{
+            const day = req.query.day;
             const dto = {
-                ...req.body,
-                UserID: req.user.id
+                UserID: req.user.id,
+                day: day
             }
             const diary = await this.getdiaryuseCase.execute(dto);
             const diaries =  diary.map(diary => ({

@@ -16,25 +16,21 @@ const DepressionScreening = () => {
     if (answers.question1 === "yes") {totalScore +=1; }
     if (answers.question2 === "yes") {totalScore +=1; }
 
-    if (totalScore >1){
+    if (totalScore >=1){
       setResult(
         "เป็นผู้มีความเสี่ยง หรือมีแนวโน้มที่จะเป็นโรคซึมเศร้า ให้ประเมินต่อด้วยแบบประเมินโรคซึมเศร้าด้วย 9Q และแบบประเมินการฆ่าตัวตาย (8Q)"
       );
     } else {
       setResult("ปกติ ไม่เป็นโรคซึมเศร้า");
     }
-
-    //ไม่แน่ใจว่า database เก็บข้อมูล q2 ยังไง
     sessionStorage.setItem("q2Answer", JSON.stringify(totalScore));// ต้องการเก็บ 0 1
-
   };
-
 
   const handleNext = async () => {
     if (answers.question1 === "yes" || answers.question2 === "yes") {
       navigate("/Q9");
     } else {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       if (!token) {
         alert("No saved answers or token found. Please try again.");
         return;
