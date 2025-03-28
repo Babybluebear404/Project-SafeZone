@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/Q8.css";
+import { useCookies } from "react-cookie";
 
 const Q8 = () => {
+  const [cookies] = useCookies(["token"]);
   const questions = [
     "ช่วง 1 เดือนที่ผ่านมา คิดอยากตาย หรือคิดว่าตายไปจะดีกว่า",
     "ช่วง 1 เดือนที่ผ่านมา อยากทำร้ายตัวเอง หรือทำให้ตัวเองบาดเจ็บ",
@@ -76,8 +78,8 @@ const Q8 = () => {
   };
 
   const handleNext = async () => {
-    const token = localStorage.getItem("token");
-    const q2Answers = sessionStorage.getItem("q2Answer"); 
+    const token = cookies.token;
+    const q2Answers = sessionStorage.getItem("q2Answer"); // จะต้องใส่ตัวเลข 0 1 
     const q9Answers = sessionStorage.getItem("q9Answer") || {};
     const q8Answers = sessionStorage.getItem("q8Answer") || {};
 
@@ -87,7 +89,7 @@ const Q8 = () => {
     }
 
     const requestData = { Q2: q2Answers, Q9: q9Answers, Q8: q8Answers };
-    console.log(requestData);
+    
     try {
       const response = await fetch("http://localhost:3000/api/questions/savequestion", {
         method: "POST",
@@ -100,7 +102,7 @@ const Q8 = () => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Success:", result.message);
+        console.log("✅ ", result.message);
         navigate("/HomeLogin");
       } else {
         const errorData = await response.json();

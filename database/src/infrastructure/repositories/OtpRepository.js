@@ -5,7 +5,6 @@ class OtpRepository {
 
     async saveOtp(email, otp, expiresAt) {
         this.otpStorage.set(email, {otp, expiresAt});
-        console.log(this.otpStorage);
     }
 
     async getOtp(email) {

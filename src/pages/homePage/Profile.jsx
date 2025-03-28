@@ -2,90 +2,102 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
-import image0 from "../../assets/0.png";
-import image1 from "../../assets/1.png";
-import image2 from "../../assets/2.png";
-import image3 from "../../assets/3.png";
-import image4 from "../../assets/4.png";
-import image5 from "../../assets/5.png";
-import image6 from "../../assets/6.png";
-import image7 from "../../assets/7.png";
-import image8 from "../../assets/8.png";
+import { useCookies } from "react-cookie";
+import imageTemplates from '../../components/imageTemplates';
 
-const Profile = () => {
+const Profile = ( userService ) => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({ id: "", username: "", email: "", profile: "" });
-  const [updateData, setUpdateData] = useState({ id: "", newusername: "", profile: "" });
+  const [cookies, removeCookie] = useCookies(["token"]);
+  const [userData, setUserData] = useState({ id: '', name: '', email: '', password: '' });
   const [isChange, setIsChange] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const imageTemplates = [
-    { src: image1, name: "Banana Cat" },
-    { src: image2, name: "Bread Cat" },
-    { src: image3, name: "Cake Cat" },
-    { src: image4, name: "Croissant Cat" },
-    { src: image5, name: "Hot Milk Cat" },
-    { src: image6, name: "Milk Tea Cat" },
-    { src: image7, name: "Pudding Cat" },
-    { src: image8, name: "Berger Cat" },
-  ];
-
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        const token = cookies.token;
+        if (!token) {
+          alert("No saved answers or token found. Please try again.");
+          return;
+        }
 
-  const fetchProfile = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/users/profile", {
+        const response = await fetch("http://localhost:3000/api/users/profile", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        }
       });
+        if (response.ok) {
+        const profileData = await response.json();
+        if (profileData) {  // เช็คว่ามีข้อมูลก่อนเซ็ตค่า
+          setUserData({
+            id: profileData.id,
+            name: profileData.username,
+            email: profileData.email
+          });
+        }
+        const selecImage = imageTemplates.find(image => String(image.id) === profileData.profile);
+        if (selecImage) {
+          setSelectedImage({
+            id: selecImage.id,
+            src: selecImage.src,
+            name: selecImage.name
+          });  // ตั้งค่า selectedImage จาก src ของภาพที่ตรงกัน
+        } else {
+          setSelectedImage(null);  // กรณีไม่พบภาพจะตั้งค่า defaultImage
+        }
+      } else {
+        const errorData = await response.json();
+        console.error("❌ Error:", errorData.error);
+      }
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
 
-      if (!response.ok) throw new Error("Failed to fetch profile");
+    fetchUserData();
+  }, [userService]);
 
-      const data = await response.json();
-      setUserData(data);
-      setUpdateData({ id: data.id, newusername: data.username, profile: data.profile });
-      setSelectedImage(data.profile || image0);
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    }
+  const clearCookie = () => {
+    removeCookie("token");
+    navigate("/");
+    console.log('Session storage has been cleared');
   };
 
-  const handleChange = (e) => {
-    setUpdateData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // อัพเดทข้อมูล user
+  const handleSave = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = cookies.token;
+
+      if (!token) {
+        alert("No saved answers or token found. Please try again.");
+        return;
+      }
+
+      const requestData = {
+        newusername: userData.name,
+        profile: selectedImage.id
+      };
+
       const response = await fetch("http://localhost:3000/api/users/updateprofile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, 
         },
-        body: JSON.stringify({
-          id: updateData.id,
-          newusername: updateData.newusername,
-          profile: updateData.profile
-        }),
+        body: JSON.stringify(requestData),
       });
-
       if (response.ok) {
-        alert("Profile updated successfully!");
-        setIsChange(false);
-        fetchProfile();
+        const result = await response.json();
+        console.log("✅ ", result.message);
       } else {
         const errorData = await response.json();
-        alert("Update failed: " + errorData.error);
+        console.error("❌ Error:", errorData.error);
       }
     } catch (error) {
-      console.error("Error updating profile", error);
+      console.error('Failed to save user data:', error);
     }
   };
 
@@ -94,8 +106,17 @@ const Profile = () => {
   };
 
   const selectImage = (index) => {
+<<<<<<< HEAD
     setSelectedImage(imageTemplates[index]?.src);
     setUpdateData({ ...updateData, profile: index });
+=======
+    const selected = imageTemplates[index];
+    setSelectedImage({
+      id: selected.id,
+      src: selected.src,
+      name: selected.name
+    });
+>>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
     setIsPopupOpen(false);
   };
 
@@ -114,8 +135,12 @@ const Profile = () => {
               <div className="input-setup">
                 <input
                   type="text"
+<<<<<<< HEAD
                   name="newusername"
                   value={updateData.newusername}
+=======
+                  value={userData.name || ""}
+>>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
                   disabled={!isChange}
                   onChange={handleChange}
                 />
@@ -124,12 +149,28 @@ const Profile = () => {
 
               <span>Email</span>
               <div className="input-setup">
+<<<<<<< HEAD
                 <input type="email" disabled value={userData.email} />
+=======
+                <input
+                  type="email"
+                  disabled={true}
+                  value={userData.email || ""}
+                />
+>>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
               </div>
 
               <span>Password</span>
               <div className="input-setup">
+<<<<<<< HEAD
                 <input type="password" />
+=======
+                <input
+                  type="password"
+                  disabled={true}
+                  value={userData.password || ""}
+                />
+>>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
                 <a className='change-button' onClick={() => navigate("/ChangePassword")}>Change</a>
               </div>
 
@@ -141,12 +182,22 @@ const Profile = () => {
           </div>
 
           <div className='image-Section'>
+<<<<<<< HEAD
             <div className="image-selector-container">
               <div className="profile-image">
                 <img
                   src={imageTemplates[updateData.profile]?.src || image0}
                   alt="Profile"
                   className="profile-img"
+=======
+          <div className="image-selector-container">
+            <div className="profile-image">
+                {selectedImage ? (
+                    <img 
+                    src={selectedImage.src}
+                    alt="Profile" 
+                    className="profile-img" 
+>>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
                 />
               </div>
 
@@ -175,9 +226,15 @@ const Profile = () => {
             </div>
 
             <div className="idText">User ID</div>
+<<<<<<< HEAD
             <div className="idFriend">{userData.id || 'Loading...'}</div>
             <button onClick={() => { navigate("/"); sessionStorage.clear(); localStorage.clear();}} className="logout-button"><IoIosLogOut /> Log Out</button>
             {/*<button className='delete-account'>Delete Account</button>*/}
+=======
+            <div className="idFriend">{userData.id || 'Loading...'}</div><br />
+            <button onClick={ clearCookie } className="logout-button"><IoIosLogOut />  Log Out</button>
+            <button className='delete-account'>Delete Account</button>
+>>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
           </div>
         </div>
       </div>

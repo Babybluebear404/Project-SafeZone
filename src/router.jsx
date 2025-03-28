@@ -4,6 +4,7 @@ import {
     Route
 }   from 'react-router-dom'
 
+import PrivateRoute from './Router/PrivateRoute'
 import Home from './pages/home'
 import Login from './pages/login'
 import Register from './pages/register'
@@ -30,18 +31,20 @@ const elements = createRoutesFromElements (
         <Route path="/register" element={<Register />} />
         <Route path="/forget" element={<Forget/>} />
         <Route path="/ChangePassword" element={<ChangePassword/>} />
-        <Route path="/depression-screening" element={<DepressionScreening />} />
-        <Route path="/HomeLogin" element={<HomeLogin />} />
-        <Route path="/Q9" element={<Q9 />} />
-        <Route path="/Q8" element={<Q8 />} />
-        <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/Info" element={<Info />} />
-        <Route path="/Diary" element={<Diary />} />
-        <Route path="/Notification" element={<Notification />} />
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/Tab" element={<Tab />} />
-        <Route path="/friendShare" element={<FriendShare />} />
+        
+        //กำหนดให้ Route ที่อยู่ในนี้ต้อง login ก่อนเสมอ
+        <Route path="/depression-screening" element={<PrivateRoute element={<DepressionScreening />} />} />
+        <Route path="/HomeLogin" element={<PrivateRoute element={<HomeLogin />} />} />
+        <Route path="/Q9" element={<PrivateRoute element={<Q9 />} />} />
+        <Route path="/Q8" element={<PrivateRoute element={<Q8 />} />} />
+        <Route path="/AboutUs" element={<PrivateRoute element={<AboutUs />} />} />
+        <Route path="/Info" element={<PrivateRoute element={<Info />} />} />
+        <Route path="/Diary" element={<PrivateRoute element={<Diary />} />} />
+        <Route path="/Notification" element={<PrivateRoute element={<Notification />} />} />
+        <Route path="/Profile" element={<PrivateRoute element={<Profile />} />} />
+        <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+        <Route path="/Tab" element={<PrivateRoute element={<Tab />} />} />
+        <Route path="/friendShare" element={<PrivateRoute element={<FriendShare />} />} />
     </Route>
 )
 

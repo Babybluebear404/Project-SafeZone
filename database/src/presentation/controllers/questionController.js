@@ -15,7 +15,7 @@ class QuestionController{
                 UserID: req.user.id
             };
             await this.savequestionuseCaes.execute(dto);
-            res.status(201).json({ massage: 'savequestion successfully' });
+            res.status(201).json({ message: 'savequestion successfully' });
         }catch(error){
             res.status(500).json({error: error.message});
         }

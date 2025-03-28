@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/DepressionScreening.css";
+import { useCookies } from "react-cookie";
 
 const DepressionScreening = () => {
   const [answers, setAnswers] = useState({ question1: null, question2: null });
   const [result, setResult] = useState(null);
+  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   let totalScore = 0;
 
@@ -16,25 +18,30 @@ const DepressionScreening = () => {
     if (answers.question1 === "yes") {totalScore +=1; }
     if (answers.question2 === "yes") {totalScore +=1; }
 
-    if (totalScore >=1){
+    if (totalScore >= 1){
       setResult(
         "เป็นผู้มีความเสี่ยง หรือมีแนวโน้มที่จะเป็นโรคซึมเศร้า ให้ประเมินต่อด้วยแบบประเมินโรคซึมเศร้าด้วย 9Q และแบบประเมินการฆ่าตัวตาย (8Q)"
       );
     } else {
       setResult("ปกติ ไม่เป็นโรคซึมเศร้า");
     }
-    sessionStorage.setItem("q2Answer", JSON.stringify(totalScore));// ต้องการเก็บ 0 1
+
+    //ไม่แน่ใจว่า database เก็บข้อมูล q2 ยังไง
+    sessionStorage.setItem("q2Answer", JSON.stringify(1));// ต้องการเก็บ 0 1
+
   };
 
   const handleNext = async () => {
     if (answers.question1 === "yes" || answers.question2 === "yes") {
       navigate("/Q9");
     } else {
-      const token = localStorage.getItem("token");
+      const token = cookies.token;
+
       if (!token) {
         alert("No saved answers or token found. Please try again.");
         return;
       }
+
       const requestData = { Q2: 0}
       try {
         const response = await fetch("http://localhost:3000/api/questions/savequestion", {
@@ -48,7 +55,7 @@ const DepressionScreening = () => {
 
         if (response.ok) {
           const result = await response.json();
-          console.log("✅ Success:", result.message);
+          console.log("✅ ", result.message);
         } else {
           const errorData = await response.json();
           console.error("❌ Error:", errorData.error);
