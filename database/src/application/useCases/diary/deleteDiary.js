@@ -6,7 +6,7 @@ class DeleteDiary{
     async execute(dto){
         const { UserID, diaryid } = dto;
         try{
-            const existingRequest = await this.diaryService.chack(UserID, diaryid);
+            const existingRequest = await this.diaryService.check(UserID, diaryid);
             if (!existingRequest){
                 throw new Error("There is no diary.");
             }

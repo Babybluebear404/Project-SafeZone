@@ -4,13 +4,10 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import "../style/Login.css";
-<<<<<<< HEAD
-=======
 // import liff from '@line/liff';
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode"; // ใช้สำหรับถอดรหัส JWT
 
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -42,33 +39,9 @@ const Login = () => {
           const decoded = jwtDecode(data.token);
           const expirationDate = new Date(decoded.exp * 1000); // แปลงจาก Unix Timestamp เป็น Date
 
-<<<<<<< HEAD
-        if (data.token) {
-          // Switch from sessionStorage to localStorage
-          localStorage.setItem("token", data.token);
-          try {
-            const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:3000/api/questions/getquestion", { 
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`, 
-              }
-            });
-            const data = await response.json();
-            if(data.qusetion){
-              navigate("/HomeLogin");
-            } else {
-              navigate("/depression-screening");
-            }
-          } catch (error) {
-            console.error("Error", error.message);
-          }
-=======
           // ⬇️ เก็บ Token ไว้ใน Cookie และตั้งค่าให้หมดอายุพร้อม Token
           setCookie("token", data.token, { path: "/", expires: expirationDate });
           setsatuslogin(true);
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
         } else {
           console.error("Login failed:", data.error);
         }
@@ -131,28 +104,6 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json(); 
-<<<<<<< HEAD
-        console.log("✅ Success:", data.message);
-        localStorage.setItem("token", data.token); 
-        try {
-          const token = localStorage.getItem("token");
-          const response = await fetch("http://localhost:3000/api/questions/getquestion", { 
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, 
-            }
-          });
-          const data = await response.json();
-          if(data.qusetion){
-            navigate("/HomeLogin");
-          } else {
-            navigate("/depression-screening");
-          }
-        } catch (error) {
-          console.error("Error", error.message);
-        }
-=======
          // ⬇️ ถอดรหัส JWT เพื่อดึงเวลา "exp"
         const decoded = jwtDecode(data.token);
         const expirationDate = new Date(decoded.exp * 1000); // แปลงจาก Unix Timestamp เป็น Date
@@ -160,7 +111,6 @@ const Login = () => {
         // ⬇️ เก็บ Token ไว้ใน Cookie และตั้งค่าให้หมดอายุพร้อม Token
         setCookie("token", data.token, { path: "/", expires: expirationDate });
         setsatuslogin(true);
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
       } else {
         const errorData = await response.json();
         console.error("❌ Error:", errorData.error);

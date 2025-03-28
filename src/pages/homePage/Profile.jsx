@@ -5,7 +5,7 @@ import '../../style/Profile.css';
 import { useCookies } from "react-cookie";
 import imageTemplates from '../../components/imageTemplates';
 
-const Profile = ( userService ) => {
+const Profile = (userService) => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies(["token"]);
   const [userData, setUserData] = useState({ id: '', name: '', email: '', password: '' });
@@ -23,35 +23,35 @@ const Profile = ( userService ) => {
         }
 
         const response = await fetch("http://localhost:3000/api/users/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
-        }
-      });
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          }
+        });
         if (response.ok) {
-        const profileData = await response.json();
-        if (profileData) {  // เช็คว่ามีข้อมูลก่อนเซ็ตค่า
-          setUserData({
-            id: profileData.id,
-            name: profileData.username,
-            email: profileData.email
-          });
-        }
-        const selecImage = imageTemplates.find(image => String(image.id) === profileData.profile);
-        if (selecImage) {
-          setSelectedImage({
-            id: selecImage.id,
-            src: selecImage.src,
-            name: selecImage.name
-          });  // ตั้งค่า selectedImage จาก src ของภาพที่ตรงกัน
+          const profileData = await response.json();
+          if (profileData) {  // เช็คว่ามีข้อมูลก่อนเซ็ตค่า
+            setUserData({
+              id: profileData.id,
+              name: profileData.username,
+              email: profileData.email
+            });
+          }
+          const selecImage = imageTemplates.find(image => String(image.id) === profileData.profile);
+          if (selecImage) {
+            setSelectedImage({
+              id: selecImage.id,
+              src: selecImage.src,
+              name: selecImage.name
+            });  // ตั้งค่า selectedImage จาก src ของภาพที่ตรงกัน
+          } else {
+            setSelectedImage(null);  // กรณีไม่พบภาพจะตั้งค่า defaultImage
+          }
         } else {
-          setSelectedImage(null);  // กรณีไม่พบภาพจะตั้งค่า defaultImage
+          const errorData = await response.json();
+          console.error("❌ Error:", errorData.error);
         }
-      } else {
-        const errorData = await response.json();
-        console.error("❌ Error:", errorData.error);
-      }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
       }
@@ -63,6 +63,7 @@ const Profile = ( userService ) => {
   const clearCookie = () => {
     removeCookie("token");
     navigate("/");
+    sessionStorage.clear();
     console.log('Session storage has been cleared');
   };
 
@@ -85,7 +86,7 @@ const Profile = ( userService ) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(requestData),
       });
@@ -101,22 +102,30 @@ const Profile = ( userService ) => {
     }
   };
 
+  // ลิสต์รูปภาพ
+  const imageTemplates = [
+    { id: 0, src: "/assets/0.png", name: "Banana Cat" },
+    { id: 1, src: "/assets/1.png", name: "Banana Cat" },
+    { id: 2, src: "/assets/2.png", name: "Bread Cat" },
+    { id: 3, src: "/assets/3.png", name: "Cake Cat" },
+    { id: 4, src: "/assets/4.png", name: "Croissant Cat" },
+    { id: 5, src: "/assets/5.png", name: "Hot Milk Cat" },
+    { id: 6, src: "/assets/6.png", name: "Milk Tea Cat" },
+    { id: 7, src: "/assets/7.png", name: "Pudding Cat" },
+    { id: 8, src: "/assets/8.png", name: "Berger Cat" },
+  ];
+
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
 
   const selectImage = (index) => {
-<<<<<<< HEAD
-    setSelectedImage(imageTemplates[index]?.src);
-    setUpdateData({ ...updateData, profile: index });
-=======
     const selected = imageTemplates[index];
     setSelectedImage({
       id: selected.id,
       src: selected.src,
       name: selected.name
     });
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
     setIsPopupOpen(false);
   };
 
@@ -124,81 +133,67 @@ const Profile = ( userService ) => {
     <div className="home-container">
       <div className="profile-container">
         <div className="profile-card">
+
           <div className='setting-Section'>
             <div className='profile-title'>
               <h1 className="profile-title">Profile Setting</h1>
               <span>__ edit your name, picture, password</span>
             </div>
-
             <div className="profile-form">
-              <span>Name</span>
+              <span >Name</span>
               <div className="input-setup">
                 <input
                   type="text"
-<<<<<<< HEAD
-                  name="newusername"
-                  value={updateData.newusername}
-=======
                   value={userData.name || ""}
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
                   disabled={!isChange}
-                  onChange={handleChange}
+                  onChange={(e) => setUserData({ ...userData, name: e.target.value })}
                 />
-                <a className='change-button' onClick={() => setIsChange(!isChange)}>Change</a>
+                <a className='change-button' onClick={() => { setIsChange(!isChange) }}>Change</a>
               </div>
 
               <span>Email</span>
               <div className="input-setup">
-<<<<<<< HEAD
-                <input type="email" disabled value={userData.email} />
-=======
                 <input
                   type="email"
                   disabled={true}
                   value={userData.email || ""}
                 />
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
               </div>
 
               <span>Password</span>
               <div className="input-setup">
-<<<<<<< HEAD
-                <input type="password" />
-=======
                 <input
                   type="password"
                   disabled={true}
                   value={userData.password || ""}
                 />
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
                 <a className='change-button' onClick={() => navigate("/ChangePassword")}>Change</a>
               </div>
-
               <div className='profile-button'>
-                <button className="saveSetting-button" onClick={handleSubmit}>Save</button>
-                <button className="cancelSetting-button" onClick={() => navigate("/HomeLogin")}>Cancel</button>
+                <button className="saveSetting-button"
+                  onClick={() => { handleSave(); setIsChange(false); }}>Save</button>
+                <button className="cancelSetting-button"
+                  onClick={() => navigate("/HomeLogin")}>Cancel</button>
               </div>
             </div>
           </div>
 
           <div className='image-Section'>
-<<<<<<< HEAD
             <div className="image-selector-container">
               <div className="profile-image">
-                <img
-                  src={imageTemplates[updateData.profile]?.src || image0}
-                  alt="Profile"
-                  className="profile-img"
-=======
-          <div className="image-selector-container">
-            <div className="profile-image">
                 {selectedImage ? (
-                    <img 
+                  <img
                     src={selectedImage.src}
-                    alt="Profile" 
-                    className="profile-img" 
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
-                />
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                ) : (
+                  <img
+                    src={imageTemplates[0]}
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                )}
               </div>
 
               <button onClick={togglePopup} className='selected-picture'>
@@ -208,34 +203,31 @@ const Profile = ( userService ) => {
               {isPopupOpen && (
                 <div className="popup">
                   <div className="popup-content">
-                    <h2>Select Your Profile Picture</h2>
+                    <h2>เลือกภาพที่คุณต้องการ</h2>
                     <div className="template-grid">
-                      {imageTemplates.map((image, index) => (
-                        <div key={index} className="template-item" onClick={() => selectImage(index)} >
-                          <img src={image.src} alt={image.name} className="template-image" />
-                          <p>{image.name}</p>
-                        </div>
-                      ))}
+                      {imageTemplates
+                        .filter((_, index) => index > 0)
+                        .map((image, index) => (
+                          <div key={index} className="template-item" onClick={() => selectImage(index + 1)}>
+                            <img src={image.src} alt={image.name} className="template-image" />
+                            <p>{image.name}</p>
+                          </div>
+                        ))}
                     </div>
+
                     <button onClick={togglePopup} className="close-button">
-                      Close
+                      ปิด
                     </button>
                   </div>
                 </div>
               )}
             </div>
-
             <div className="idText">User ID</div>
-<<<<<<< HEAD
-            <div className="idFriend">{userData.id || 'Loading...'}</div>
-            <button onClick={() => { navigate("/"); sessionStorage.clear(); localStorage.clear();}} className="logout-button"><IoIosLogOut /> Log Out</button>
-            {/*<button className='delete-account'>Delete Account</button>*/}
-=======
             <div className="idFriend">{userData.id || 'Loading...'}</div><br />
-            <button onClick={ clearCookie } className="logout-button"><IoIosLogOut />  Log Out</button>
-            <button className='delete-account'>Delete Account</button>
->>>>>>> 2906f5b313e390075c79aa975c7a2ed413f8b60a
+            <button onClick={clearCookie} className="logout-button"><IoIosLogOut />  Log Out</button>
+            {/*<button className='delete-account'>Delete Account</button>*/}
           </div>
+
         </div>
       </div>
     </div>

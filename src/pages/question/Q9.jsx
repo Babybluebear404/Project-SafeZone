@@ -113,36 +113,6 @@ const Q9 = () => {
       }
     } else {
       navigate("/Q8");
-    } else {
-      const token = localStorage.getItem("token");
-      const q2Answers = sessionStorage.getItem("q2Answer");
-      const q9Answers = sessionStorage.getItem("q9Answer") || {};
-      if (!token) {
-        alert("No saved answers or token found. Please try again.");
-        return;
-      }
-      const requestData = { Q2: q2Answers, Q9: q9Answers};
-      try {
-        const response = await fetch("http://localhost:3000/api/questions/savequestion", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          console.log("Success:", result.message);
-        } else {
-          const errorData = await response.json();
-          console.error("Error:", errorData.error);
-        }
-        navigate("/HomeLogin");
-      } catch (error) {
-        console.error("Network Error:", error);
-      }
     }
   };
 

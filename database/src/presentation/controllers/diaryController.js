@@ -96,13 +96,14 @@ class DiaryController{
             const dto = {
                 ...req.body,
                 UserID: req.user.id
-            }
+            };
             await this.deletediaryuseCase.execute(dto);
-            res.status(201).json({ message: "delete successfully" });
+            res.status(200).json({ message: "delete successfully" }); 
         }catch(error){
             res.status(500).json({error: error.message});
         }
     }
+    
 
     async getAverageFeeling(req, res){
         try {

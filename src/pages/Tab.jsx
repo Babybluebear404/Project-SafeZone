@@ -13,7 +13,6 @@ const Tab = () => {
     const fetchUserData = async () => {
       try {
         const token = cookies.token;
-        console.log(token);
         if (!token) {
           console.log("No token found.");
           return;

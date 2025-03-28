@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import "../../../style/Diary.css";
 import Tab from "../../Tab";
 import { FriendFeed } from "./friendFeed";
+import { useCookies } from "react-cookie";
 
 const Diary = () => {
 
@@ -15,6 +16,8 @@ const Diary = () => {
     window.scrollTo(0, 0); // เลื่อนหน้าไปที่บนสุด
   }, []);
 
+  const [cookies] = useCookies(["token"]);
+  const token = cookies.token;
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
@@ -30,7 +33,6 @@ const Diary = () => {
   const sendMessage = async () => {
     if (input.trim() !== "") {
       const currentTime = new Date();
-      //currentTime.setFullYear(2024, 5, 28);
       const newMessage = {
         story: input,
         timestamp: currentTime.toDateString(),
@@ -43,7 +45,7 @@ const Diary = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Authorization": `Bearer ${token}`,
           },
           body: JSON.stringify(newMessage),
         });
@@ -64,12 +66,36 @@ const Diary = () => {
     }
   };
 
-  const deleteMessage = () => {
-    if (!selectDate) return;
+  const deleteMessage = async () => {
+    const selectedDiary = messages.find((msg) => selectDate && dayjs(msg.date_and_time).format('YYYY-MM-DD') === selectDate.format('YYYY-MM-DD'));
+    const diaryId = selectedDiary ? selectedDiary.id : null;
+    if (!diaryId) return;
 
-    setMessages(messages.filter(msg =>
-      dayjs(msg.timestamp).format('YYYY-MM-DD') !== selectDate.format('YYYY-MM-DD')
-    ));
+    try {
+      const response = await fetch('http://localhost:3000/api/diaries/deletediary', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // ส่ง token หากมีการยืนยันตัวตน
+        },
+        body: JSON.stringify({
+          diaryId: diaryId
+        })
+      });
+
+      if (response.ok) {
+        setMessages(messages.filter(msg =>
+          msg.diaryId !== diaryId
+        ));
+        alert('Diary deleted successfully');
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      alert('Error occurred while deleting the diary.');
+    }
   };
 
   //check selected date have message(no filterred message on this date)
@@ -124,7 +150,7 @@ const Diary = () => {
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         }
       });
@@ -137,9 +163,8 @@ const Diary = () => {
       console.log(result);
 
       if (result && result.length > 0) {
-        const firstMessage = result[0];  
-        console.log(firstMessage); 
-        setMessages([firstMessage]); 
+        const firstMessage = result[0];
+        setMessages([firstMessage]);
       } else {
         console.log("No messages found for the selected date.");
       }
@@ -152,8 +177,6 @@ const Diary = () => {
   useEffect(() => {
     fetchMessages();
   }, [selectDate]);
-
-  console.log(messages);
 
   const [isShared, setIsShared] = useState(false);
 
@@ -303,7 +326,7 @@ const Diary = () => {
                     />
                   </div>
                 ) : (
-                  filteredMessages.length <= 0 && selectDate.toDate().toDateString() === today.toDate().toDateString() ? (
+                  filteredMessages.length <= 0 && selectDate && selectDate.isSame(today, 'day') ? (
                     <div className="diary-display">
                       <span className="diary-header">Diary</span>
                       <div className="day-selected">
