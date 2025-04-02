@@ -49,11 +49,9 @@ class DiaryController{
 
     async getdiary(req, res){
         try{
-            const day = req.query.day;
-            const dto = {
-                ...req.body,
-                UserID: req.user.id,
-            }
+            const { day } = req.query;  // รับค่าจาก query
+            const UserID = req.user.id; // รับ user id จาก token
+            const dto = { UserID, day };
             const diary = await this.getdiaryuseCase.execute(dto);
             const diaries =  diary.map(diary => ({
                     id: diary.ID,
