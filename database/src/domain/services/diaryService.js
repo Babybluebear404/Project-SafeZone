@@ -41,7 +41,7 @@ class DiaryService{
         const feelings = await this.diaryRepository.getFeelingsInDateRange(userId, startDate, endDate);
 
         if (feelings.length === 0) {
-            throw new Error("No diary entries found in the given range.");
+            return { averageFeeling: 0 };
         }
 
         // คำนวณค่าเฉลี่ย
@@ -59,7 +59,7 @@ class DiaryService{
         const aifeelings = await this.diaryRepository.getAIFeelingsInDateRange(userId, startDate, endDate);
 
         if (aifeelings.length === 0) {
-            throw new Error("No diary entries found in the given range.");
+            return { averageFeeling: 0 };
         }
 
         // คำนวณค่าเฉลี่ย

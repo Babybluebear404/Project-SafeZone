@@ -107,7 +107,7 @@ class DiaryController{
         try {
             const dto = {
                     UserID: req.user.id,
-                    day: parseInt(req.body.day, 10)
+                    day: parseInt(req.query.day, 10)
             }
             const result = await this.calculateAverageFeelinguseCase.execute(dto);
             res.status(201).json(result);
@@ -120,7 +120,7 @@ class DiaryController{
         try {
             const dto = {
                     UserID: req.user.id,
-                    day: parseInt(req.body.day, 10)
+                    day: parseInt(req.query.day, 10)
             }
             const result = await this.calculateAverageAIFeelinguseCase.execute(dto);
             res.status(201).json(result);
@@ -133,7 +133,7 @@ class DiaryController{
         try {
             const dto = {
                     UserID: req.user.id,
-                    day: parseInt(req.body.day, 10)
+                    day: parseInt(req.query.day, 10)
             }
             const result = await this.getFeelinguseCase.execute(dto);
             const formattedData = result.map(entry => ({
@@ -150,7 +150,7 @@ class DiaryController{
         try {
             const dto = {
                     UserID: req.user.id,
-                    day: parseInt(req.body.day, 10)
+                    day: parseInt(req.query.day, 10)
             }
             const result = await this.getAIFeelinguseCase.execute(dto);
             const formattedData = result.map(entry => ({
