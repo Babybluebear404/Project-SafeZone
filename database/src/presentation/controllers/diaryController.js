@@ -9,7 +9,7 @@ const GetAIFeelings = require('../../application/useCases/diary/getAIFeeling');
 const UpdateStatusDiary = require('../../application/useCases/diary/updatestatusDiary');
 class DiaryController{
     constructor(diaryService){
-        this.deletediary = diaryService;
+        this.diaryService = diaryService;
         this.adddiaryuseCase = new AddDiary(diaryService);
         this.getdiaryuseCase = new GetDiary(diaryService);
         this.getsharediaryuseCase = new GetShareDiary(diaryService);
@@ -51,8 +51,8 @@ class DiaryController{
         try{
             const day = req.query.day;
             const dto = {
+                ...req.body,
                 UserID: req.user.id,
-                day: day
             }
             const diary = await this.getdiaryuseCase.execute(dto);
             const diaries =  diary.map(diary => ({

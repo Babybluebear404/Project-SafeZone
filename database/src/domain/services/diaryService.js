@@ -29,7 +29,7 @@ class DiaryService{
         await this.diaryRepository.delete(userid, diaryid);
     }
 
-    async chack(userid, diaryid){
+    async check(userid, diaryid){
         return await this.diaryRepository.chackdiaryid(userid, diaryid);
     }
 
