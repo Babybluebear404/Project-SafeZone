@@ -104,7 +104,7 @@ const Profile = (userService) => {
 
   // ลิสต์รูปภาพ
   const imageTemplates = [
-    { id: 0, src: "/assets/0.png", name: "Banana Cat" },
+    { id: 0, src: "/assets/0.png", name: "Original Cat" },
     { id: 1, src: "/assets/1.png", name: "Banana Cat" },
     { id: 2, src: "/assets/2.png", name: "Bread Cat" },
     { id: 3, src: "/assets/3.png", name: "Cake Cat" },

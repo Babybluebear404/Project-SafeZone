@@ -4,13 +4,13 @@ class DeleteDiary{
     }
 
     async execute(dto){
-        const { UserID, diaryid } = dto;
+        const { UserID, diaryId } = dto;
         try{
-            const existingRequest = await this.diaryService.check(UserID, diaryid);
+            const existingRequest = await this.diaryService.check(UserID, diaryId);
             if (!existingRequest){
                 throw new Error("There is no diary.");
             }
-            await this.diaryService.deletediary(UserID, diaryid);
+            await this.diaryService.deletediary(UserID, diaryId);
         }catch(error){
             throw error;
         }

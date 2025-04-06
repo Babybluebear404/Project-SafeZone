@@ -76,7 +76,7 @@ const Diary = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // ส่ง token หากมีการยืนยันตัวตน
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           diaryId: diaryId
@@ -160,7 +160,6 @@ const Diary = () => {
       }
 
       const result = await response.json();
-      console.log(result);
 
       if (result && result.length > 0) {
         const firstMessage = result[0];
