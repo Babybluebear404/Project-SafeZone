@@ -101,11 +101,10 @@
     gap: 5px;
 
 }
-.avg-Label .description-chart, .avg-Model .description-chart, .emotionThisday .description-chart{
+.avg-Label .description-chart, .avg-Model .description-chart, .emotionThisday .description-chart, .dropdownChartSelected{
     font-family: "Prompt", serif;
     color: #4e215b;
 }
-
 
 
 .Dashboard-Container {

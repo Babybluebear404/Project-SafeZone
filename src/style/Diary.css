@@ -584,3 +584,7 @@ textarea::placeholder {
 .isView{
   cursor: pointer;
 }
+
+.friendary{
+  font-size: 90px;
+}

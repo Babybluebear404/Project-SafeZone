@@ -88,6 +88,7 @@ const Diary = () => {
           msg.diaryId !== diaryId
         ));
         alert('Diary deleted successfully');
+        window.location.reload();
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message}`);
@@ -138,7 +139,6 @@ const Diary = () => {
         return null;
     }
   };
-
 
   const fetchMessages = async () => {
     if (!selectDate) return;
@@ -383,7 +383,7 @@ const Diary = () => {
                           <span>แชร์เรื่องราวให้เพื่อนของคุณ</span>
                           <a></a>
                           <button onClick={() => {
-                            sendMessage();
+                            sendMessage(); window.location.reload();
                           }} className="save-message"
                             disabled={input.trim() === "" || !selectedEmoji[selectDate?.toDate().toDateString()]}>
                             Save

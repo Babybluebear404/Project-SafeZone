@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
 import { FaRegEye, FaEyeSlash } from "react-icons/fa6";
+import { useCookies } from "react-cookie";
 
 
 export const FriendFeed = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedFriend, setSelectedFriend] = useState(null);
     const [hiddenPosts, setHiddenPosts] = useState(new Set());
+
 
     const friendsData = [
         { name: "Eren", text: "วันนี้ไม่แย่", date:"Wed 12 Mar 2024" },
@@ -36,6 +38,7 @@ export const FriendFeed = () => {
 
     return (
         <div className="feed-section">
+            <h1 className="friendary">Friendary</h1>
             <div className="feed-colunm">
                 <div className="friends-nameFeed">
                     <input

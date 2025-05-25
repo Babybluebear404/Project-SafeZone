@@ -1,20 +1,20 @@
-class GetAcceptedFriend {
-    constructor(closefriendService) {
-        this.closefriendService = closefriendService;
+class GetUserById {
+    constructor(userService) {
+        this.userService = userService;
     }
 
     async execute(dto) {
-        const { UserID } = dto;
+        const { userId } = dto;
         try {
-            const row = await this.closefriendService.getpending(UserID);
-            if (!row){
-                throw new Error("No pending friends found.");
+            const user = await this.userService.getUserById(userId);
+            if (!user) {
+                throw new Error("User not found.");
             }
-            return row;
+            return user;
         } catch (error) {
             throw error;
         }
     }
 }
 
-module.exports = GetAcceptedFriend;
+module.exports = GetUserById;

@@ -102,7 +102,7 @@ export const LineGraph = ({ data }) => {
     return (
         <div className="lineGraph">
             <span className="Title-chart">กราฟแสดงอารมณ์ที่ผ่านมาย้อนหลัง</span>
-            <div>
+            <div className="dropdownChartSelected">
                 <label htmlFor="dropdown">เลือกจำนวนวันย้อนหลัง:</label>
                 <select id="dropdown" value={selected} onChange={handleSelectChange}>
                     <option value="twoWeekAgo">2 สัปดาห์ที่ผ่านมา</option>

@@ -111,7 +111,8 @@ Output{
     message: "Friend request sent"
 }
 
-สำหรับ อัพเดทstatus
+สำหรับ อัพเดทstatus (noti page)
+Patch method
 http://localhost:3000/api/closefriends/updatestatus
 ข้อมูลที่ต้องการ
 Input{
@@ -134,7 +135,7 @@ Output{
     message: "Successfully Delete"
 }
 
-สำหรับ ดูรายชื่อเพื่อน
+สำหรับ ดูรายชื่อเพื่อน 
 http://localhost:3000/api/closefriends/getaccepted
 ข้อมูลที่ต้องการ
 Input{
@@ -146,7 +147,7 @@ Output{
     email: user.email
 }
 
-สำหรับ ดูรายชื่อที่กำลังรอยืนยันสถานะ
+สำหรับ ดูรายชื่อที่กำลังรอยืนยันสถานะ (noti page)
 http://localhost:3000/api/closefriends/getpending
 ข้อมูลที่ต้องการ
 Input{

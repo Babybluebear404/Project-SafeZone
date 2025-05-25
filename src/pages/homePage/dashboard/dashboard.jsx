@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Tab from "../../Tab";
 import "../../../style/dashboard.css"
-import { LineGraphMonth } from "./lineGraphMonth";
-import { LineGraphYear } from "./lineGraphYear";
+import { LineGraphYear } from "./barGraph";
 import { LineGraph } from "./lineGraph";
 import { AverageEmotion } from "./avg";
 import { PieMonth } from "./pieChart";
