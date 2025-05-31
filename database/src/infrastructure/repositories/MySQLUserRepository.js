@@ -21,6 +21,12 @@ class MySQLUserRepository {
         return user[0];
     }
 
+    async getAllUsers(currentUserId) {
+        const query = 'SELECT id, username, email, profile FROM users WHERE id != ?';
+        const [users] = await this.connection.query(query, [currentUserId]);
+        return users;
+    }
+
     async getProfile(UserID) {
         const query = 'SELECT id, username, email, profile FROM users WHERE id = ?';
         const [user] = await this.connection.query(query, [UserID]);

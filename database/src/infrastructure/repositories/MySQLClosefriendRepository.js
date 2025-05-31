@@ -35,7 +35,7 @@ class MySQLClosefriendRepository{
 
     async getpendingFriend(userId){
         const query = `
-                SELECT DISTINCT u.id, u.username, u.email
+                SELECT DISTINCT u.id, u.username, u.email, u.profile
                 FROM closefriend f
                 JOIN users u ON u.ID = f.UserID
                 WHERE f.Status = 'pending'
@@ -47,7 +47,7 @@ class MySQLClosefriendRepository{
 
     async getacceptedFriend(userId){
         const query = `
-                SELECT DISTINCT u.id, u.username, u.email
+                SELECT DISTINCT u.id, u.username, u.email, u.profile
                 FROM closefriend f
                 JOIN users u ON u.ID = 
                     CASE 

@@ -51,7 +51,14 @@ app.use('/api/closefriends', closefriendRouters);
 app.use('/api/diaries', diaryRouters);
 app.use('/api/otps', otpRouters);
 
+// เพิ่ม route / สำหรับตรวจสอบว่าทำงานอยู่
+app.get('/', (req, res) => {
+    res.send('API server is running.');
+});
+
 // เริ่มต้นเซิร์ฟเวอร์
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+
+

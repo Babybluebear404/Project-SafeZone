@@ -13,7 +13,6 @@ const ChangePassword = () => {
 
   const handleConfirm = async () => {
     const token = cookies.tokenforget;
-    console.log(cookies.tokenforget);
     if (!token) {
         alert("No saved token found. Please try again.");
         return;
