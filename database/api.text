@@ -147,7 +147,7 @@ Output{
     email: user.email
 }
 
-สำหรับ ดูรายชื่อที่กำลังรอยืนยันสถานะ (noti page)
+สำหรับ ดูรายชื่อที่กำลังรอยืนยันสถานะ
 http://localhost:3000/api/closefriends/getpending
 ข้อมูลที่ต้องการ
 Input{
@@ -214,7 +214,7 @@ http://localhost:3000/api/diaries/deletediary
 ข้อมูลที่ต้องการ
 Input{
     Token,
-    diaryid
+    diaryId
 }
 Output{
     message

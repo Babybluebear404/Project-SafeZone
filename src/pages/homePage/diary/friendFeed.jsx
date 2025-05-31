@@ -1,39 +1,121 @@
 import { useState, useEffect } from "react";
-import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
-import { FaRegEye, FaEyeSlash } from "react-icons/fa6";
+import { BsEmojiFrownFill, BsEmojiLaughingFill, BsEmojiNeutralFill, BsEmojiSmileFill, BsEmojiTearFill } from "react-icons/bs";
 import { useCookies } from "react-cookie";
-
 
 export const FriendFeed = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedFriend, setSelectedFriend] = useState(null);
-    const [hiddenPosts, setHiddenPosts] = useState(new Set());
+    const [friendsData, setFriendsData] = useState([]);
+    const [friendMap, setFriendMap] = useState({}); // userid → username
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
 
+    const fetchAcceptedFriends = async () => {
+        try {
+            const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
 
-    const friendsData = [
-        { name: "Eren", text: "วันนี้ไม่แย่", date:"Wed 12 Mar 2024" },
-        { name: "Eren", text: "วันนasdsd", date:"Wed 11 Mar 2024" },
-        { name: "Mikasa", text: "elfkdsf;lsdkfe",date:"Wed 10 Mar 2024" },
-        { name: "Armin", text: "epkrpdlfs", date:"Wed 12 Mar 2024"},
-        { name: "Armin", text: "epasdsadlfs", date:"Wed 12 Mar 2024" },
-        { name: "Armin", text: "epasdsadlfs", date:"Wed 12 Mar 2024" },
-        { name: "Armin", text: "epasdsadlfs",date:"Wed 12 Mar 2024" },
-        { name: "Levi", text: "asdkaldsa",date:"Wed 12 Mar 2024" }
-    ].map((friend, index) => ({ ...friend, id: String(index) })).sort((a, b) => new Date(b.date) - new Date(a.date));
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}`);
+            }
 
-    const uniqueFriends = Array.from(new Set(friendsData.map(f => f.name))).map(name => ({
-        name
-    }));
+            const data = await res.json();
+
+            // Map userid → username
+            const map = {};
+            data.forEach(friend => {
+                map[friend.id] = friend.username; // friend.id = userid
+            });
+            setFriendMap(map);
+        } catch (error) {
+            console.error('Failed to fetch accepted friends:', error);
+        }
+    };
+
+    const fetchSharedDiaries = async () => {
+        try {
+            const res = await fetch("http://localhost:3000/api/diaries/getsharediary", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}`);
+            }
+
+            const data = await res.json();
+
+            const processed = data
+                .map((entry, index) => ({
+                    ...entry,
+                    id: String(index),
+                    username: friendMap[entry.userid] || "Unknown"
+
+                }))
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            setFriendsData(processed);
+        } catch (err) {
+            console.error("Can't load Diary:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (token) {
+            fetchAcceptedFriends();
+        }
+    }, [token]);
+
+    useEffect(() => {
+        if (token && Object.keys(friendMap).length > 0) {
+            fetchSharedDiaries();
+        }
+    }, [token, friendMap]);
+
+    const uniqueFriends = Array.from(new Set(friendsData.map(f => f.username))).map(username => ({ username }));
     const filteredFriends = uniqueFriends.filter(friend =>
-        friend.name.toLowerCase().includes(searchTerm.toLowerCase())
+        friend.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const visiblePosts = friendsData.filter(friend =>
-        (selectedFriend ? friend.name === selectedFriend : true) && !hiddenPosts.has(friend.id)
-    );
+    const getRatingClass = (rating) => {
+        switch (rating) {
+            case 5:
+                return "Awesome";
+            case 4:
+                return "Good";
+            case 3:
+                return "Alright";
+            case 2:
+                return "Bad";
+            case 1:
+                return "Awful";
+            default:
+                return "";
+        }
+    };
 
-    const handleSelectFriend = (name) => {
-        setSelectedFriend(selectedFriend === name ? null : name);
+    const getEmojiIcon = (rating) => {
+        switch (rating) {
+            case 5:
+                return <BsEmojiLaughingFill className="awesome-selected" />;
+            case 4:
+                return <BsEmojiSmileFill className="good-selected" />;
+            case 3:
+                return <BsEmojiNeutralFill className="alright-selected" />;
+            case 2:
+                return <BsEmojiFrownFill className="bad-selected" />;
+            case 1:
+                return <BsEmojiTearFill className="awful-selected" />;
+            default:
+                return null;
+        }
     };
 
     return (
@@ -46,20 +128,18 @@ export const FriendFeed = () => {
                         className="search-box"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        autoFocus></input>
+                        autoFocus
+                    />
                     <div className="friend-content">
                         <div className="friends-list">
                             {filteredFriends.length > 0 ? (
                                 filteredFriends.map((friend) => (
                                     <div
-                                    key={friend.name}
-                                    className={`friend-items ${selectedFriend === friend.name ? "selected" : ""}`}
-                                    onClick={() => handleSelectFriend(friend.name)}
-                                >
-                                    <div className="logo-friends"></div>
-                                    <span className="name-friends">{friend.name}</span>
-                                    <div></div>
-                                </div>
+                                        className="friend-items"
+                                        key={friend.username}>
+                                        <div className="logo-friends"></div>
+                                        <span className="name-friends">{friend.username}</span>
+                                    </div>
                                 ))
                             ) : (
                                 <p>No friends found.</p>
@@ -68,24 +148,23 @@ export const FriendFeed = () => {
                     </div>
                 </div>
                 <div className="post-Feed">
-                    {visiblePosts.length > 0 ? (
-                        visiblePosts.map((friend, index) => (
+                    {friendsData.length > 0 ? (
+                        friendsData.map((friend, index) => (
                             <div key={friend.id}>
                                 <div className="friend-Post">
                                     <div className="logo-friends"></div>
-                                    <span className="name-friends">{friend.name}</span>
+                                    <span className="name-friends">{friend.username}</span>
                                     <div className="datePost-friends">
-                                        {new Date(friend.date).toDateString()}
                                     </div>
                                     <div></div>
-                                    <div className="post-friends">{friend.text}</div>
+                                    <div className="post-friends">{friend.story}</div>
                                     <div className="labelPost-friends">
-                                        <BsEmojiLaughingFill className="labelEmoji" />
-                                        <div>Awesome</div>
+                                        <div className="labelEmoji">{getEmojiIcon(friend.feeling)}</div>
+                                        <div>{getRatingClass(friend.feeling)}</div>
                                     </div>
                                 </div>
 
-                                {index !== visiblePosts.length  - 1 && (
+                                {index !== friendsData.length.length - 1 && (
                                     <hr style={{ border: "1px solid rgb(180, 172, 172)", margin: "20px 0" }} />
                                 )}
                             </div>
@@ -94,9 +173,7 @@ export const FriendFeed = () => {
                         <p>No posts available.</p>
                     )}
                 </div>
-
             </div>
         </div>
-
-    )
-}
+    );
+};
