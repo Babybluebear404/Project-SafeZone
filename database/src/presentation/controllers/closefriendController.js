@@ -58,16 +58,22 @@ class friendController{
                 UserID: req.user.id
             };
             const users = await this.getacceptedfrienduseCaes.execute(dto);
-            const friends =  users.map(user => ({
-                    id: user.id,
-                    username: user.username,
-                    email: user.email
-                }))
-            res.status(201).json(friends); 
+            const friends = users.map(user => ({
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                profile: user.profile || null
+            }));
+            res.status(201).json({
+                success: true,
+                data: friends
+            }); 
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
-
     }
 
     async getpending(req, res){
@@ -76,16 +82,22 @@ class friendController{
                 UserID: req.user.id
             };
             const users = await this.getpendingfrienduseCaes.execute(dto);
-            const friends =  users.map(user => ({
-                    id: user.id,
-                    username: user.username,
-                    email: user.email
-                }))
-            res.status(201).json(friends); 
+            const friends = users.map(user => ({
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                profile: user.profile || null
+            }));
+            res.status(201).json({
+                success: true,
+                data: friends
+            }); 
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
-
     }
 }
 

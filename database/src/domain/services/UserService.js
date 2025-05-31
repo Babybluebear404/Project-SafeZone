@@ -26,7 +26,7 @@ class UserService {
         return newtoken;
     }
 
-
+    
     async register(username, email, password) {
         const userId = getuuid();
         const hashpassword = password ? await hashPassword(password) : null;
@@ -50,6 +50,10 @@ class UserService {
 
     async updateUserProfile(userid, newusername, profile){
         await this.userRepository.upDateProfile(userid, newusername, profile);
+    }
+
+    async getAllUsers(currentUserId) {
+        return await this.userRepository.getAllUsers(currentUserId);
     }
 }
 

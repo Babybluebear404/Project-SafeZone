@@ -101,6 +101,28 @@ class UserController {
             res.status(500).json({ error: error.message });
         }
     }
+
+    async getAllUsers(req, res) {
+        try {
+            const currentUserId = req.user.id;
+            const users = await this.userService.getAllUsers(currentUserId);
+            const formattedUsers = users.map(user => ({
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                profile: user.profile || null
+            }));
+            res.status(200).json({
+                success: true,
+                data: formattedUsers
+            });
+        } catch (error) {
+            res.status(500).json({ 
+                success: false,
+                error: error.message 
+            });
+        }
+    }
 }
 
 module.exports = UserController;

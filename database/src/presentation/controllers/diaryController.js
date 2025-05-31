@@ -102,7 +102,7 @@ class DiaryController{
         }
     }
     
-
+    //ฟังชั้นดึงความรู้สึกตามวัน
     async getAverageFeeling(req, res){
         try {
             const dto = {
@@ -115,7 +115,8 @@ class DiaryController{
             res.status(400).json({ error: error.message });
         }
     }
-
+    
+    //ฟังชั้นดึงความรู้สึกจาก AI ตามวัน
     async getAverageAIFeeling(req, res){
         try {
             const dto = {
