@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { BsEmojiFrownFill, BsEmojiLaughingFill, BsEmojiNeutralFill, BsEmojiSmileFill, BsEmojiTearFill } from "react-icons/bs";
 import { useCookies } from "react-cookie";
+import imageTemplates from "../../../components/imageTemplates";
 
 export const FriendFeed = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [friendsData, setFriendsData] = useState([]);
-    const [friendMap, setFriendMap] = useState({}); // userid → username
+    const [friendMap, setFriendMap] = useState({}); //
     const [cookies] = useCookies(["token"]);
     const token = cookies.token;
 
@@ -23,18 +24,28 @@ export const FriendFeed = () => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const data = await res.json();
+            const result = await res.json();
 
-            // Map userid → username
+            const friendsArray = Array.isArray(result)
+                ? result
+                : Array.isArray(result.data)
+                    ? result.data
+                    : [];
+
             const map = {};
-            data.forEach(friend => {
-                map[friend.id] = friend.username; // friend.id = userid
+            friendsArray.forEach(friend => {
+                map[friend.id] = {
+                    username: friend.username,
+                    profile: friend.profile
+                };
             });
             setFriendMap(map);
         } catch (error) {
             console.error('Failed to fetch accepted friends:', error);
+            setFriendMap({});
         }
     };
+
 
     const fetchSharedDiaries = async () => {
         try {
@@ -56,8 +67,8 @@ export const FriendFeed = () => {
                 .map((entry, index) => ({
                     ...entry,
                     id: String(index),
-                    username: friendMap[entry.userid] || "Unknown"
-
+                    username: friendMap[entry.userid]?.username || "Unknown",
+                    profile: friendMap[entry.userid]?.profile || entry.profile || "Unknown",
                 }))
                 .sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -79,7 +90,9 @@ export const FriendFeed = () => {
         }
     }, [token, friendMap]);
 
-    const uniqueFriends = Array.from(new Set(friendsData.map(f => f.username))).map(username => ({ username }));
+    const uniqueFriends = Array.from(
+        new Map(friendsData.map(f => [f.username, f])).values()
+    );
     const filteredFriends = uniqueFriends.filter(friend =>
         friend.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -133,14 +146,22 @@ export const FriendFeed = () => {
                     <div className="friend-content">
                         <div className="friends-list">
                             {filteredFriends.length > 0 ? (
-                                filteredFriends.map((friend) => (
-                                    <div
-                                        className="friend-items"
-                                        key={friend.username}>
-                                        <div className="logo-friends"></div>
-                                        <span className="name-friends">{friend.username}</span>
-                                    </div>
-                                ))
+                                filteredFriends.map((friend) => {
+                                    const template = imageTemplates.find(img => img.id === Number(friend.profile));
+                                    const profileSrc = template?.src || "/assets/0.png";
+                                    return (
+                                        <div
+                                            className="friend-items"
+                                            key={friend.username}>
+                                            <img
+                                                src={profileSrc}
+                                                alt={template?.name || "Unknown Cat"}
+                                                className="logo-friends"
+                                            />
+                                            <span className="name-friends">{friend.username}</span>
+                                        </div>
+                                    )
+                                })
                             ) : (
                                 <p>No friends found.</p>
                             )}
@@ -149,26 +170,34 @@ export const FriendFeed = () => {
                 </div>
                 <div className="post-Feed">
                     {friendsData.length > 0 ? (
-                        friendsData.map((friend, index) => (
-                            <div key={friend.id}>
-                                <div className="friend-Post">
-                                    <div className="logo-friends"></div>
-                                    <span className="name-friends">{friend.username}</span>
-                                    <div className="datePost-friends">
+                        friendsData.map((friend, index) => {
+                            const template = imageTemplates.find(img => img.id === Number(friend.profile));
+                            const profileSrc = template?.src || "/assets/0.png";
+                            return (
+                                <div key={friend.id}>
+                                    <div className="friend-Post">
+                                        <img
+                                            src={profileSrc}
+                                            alt={template?.name || "Unknown Cat"}
+                                            className="logo-friends"
+                                        />
+                                        <span className="name-friends">{friend.username}</span>
+                                        <div className="datePost-friends">
+                                        </div>
+                                        <div></div>
+                                        <div className="post-friends">{friend.story}</div>
+                                        <div className="labelPost-friends">
+                                            <div className="labelEmoji">{getEmojiIcon(friend.feeling)}</div>
+                                            <div>{getRatingClass(friend.feeling)}</div>
+                                        </div>
                                     </div>
-                                    <div></div>
-                                    <div className="post-friends">{friend.story}</div>
-                                    <div className="labelPost-friends">
-                                        <div className="labelEmoji">{getEmojiIcon(friend.feeling)}</div>
-                                        <div>{getRatingClass(friend.feeling)}</div>
-                                    </div>
-                                </div>
 
-                                {index !== friendsData.length.length - 1 && (
-                                    <hr style={{ border: "1px solid rgb(180, 172, 172)", margin: "20px 0" }} />
-                                )}
-                            </div>
-                        ))
+                                    {index !== friendsData.length.length - 1 && (
+                                        <hr style={{ border: "1px solid rgb(180, 172, 172)", margin: "20px 0" }} />
+                                    )}
+                                </div>
+                            )
+                        })
                     ) : (
                         <p>No posts available.</p>
                     )}

@@ -1,10 +1,77 @@
+import React, { useState, useEffect } from "react";
 import "../../../style/dashboard.css"
 import { BsEmojiLaughingFill, BsEmojiSmileFill, BsEmojiNeutralFill, BsEmojiFrownFill, BsEmojiTearFill } from "react-icons/bs";
 import dayjs from "dayjs";
+import { useCookies } from "react-cookie";
 
 export const AverageEmotion = ({ data, COLORS }) => {
-    const averageMood = data.reduce((sum, entry) => sum + entry.label, 0) / data.length;
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
+    const [averageMood, setAverageMood] = useState(0);
+    const [feeling, setFeeling] = useState(null);
+
+    const fetchFeelingData = async (token) => {
+        try {
+            const res = await fetch(`http://localhost:3000/api/diaries/average-feeling?day=365`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}`);
+            }
+
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.error("Failed to fetch feeling data:", error.message);
+            return [];
+        }
+    };
+
+    const fetchTodayFeeling = async () => {
+        const today = dayjs().format("YYYY-MM-DD"); // รูปแบบวัน: 2025-06-01
+        try {
+          const res = await fetch(`http://localhost:3000/api/diaries/getdiary?day=${today}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+  
+          if (!res.ok) {
+            throw new Error(`Error ${res.status}`);
+          }
+  
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setFeeling(data[0].feeling);
+          } else {
+            setFeeling(null);
+          }
+  
+        } catch (error) {
+          console.error("Failed to fetch today's feeling:", error.message);
+        }
+      };
+
+    useEffect(() => {
+        const loadData = async () => {
+            if (token) {
+                const data = await fetchFeelingData(token);
+                setAverageMood(data.averageFeeling || 0);
+            }
+        };
+        loadData();
+        fetchTodayFeeling();
+    }, [token]);
+
     const percentage = (averageMood / 5) * 100;
+
 
     const getColor = (percentage) => {
         if (percentage <= 20) {
@@ -41,13 +108,6 @@ export const AverageEmotion = ({ data, COLORS }) => {
         }
     };
 
-    const labelToday = () => {
-        const today = dayjs().format('YYYY-MM-DD'); // แปลงวันนี้เป็น YYYY-MM-DD
-        const todayData = data.find(item => dayjs(item.timestamp).format('YYYY-MM-DD') === today);
-        return todayData ? todayData.label : null;
-
-    }
-
     const labelMessage = (rating) => {
         switch (rating) {
             case 5:
@@ -67,10 +127,10 @@ export const AverageEmotion = ({ data, COLORS }) => {
 
     return (
         <div className="Emotion-Section">
-            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[labelToday() - 1] }}>
-                <span className="description-chart">ระดับอารมณ์ล่าสุด</span>
-                {getEmojiIcon((labelToday() * 100) / 5)}
-                <span className="description-chart">{labelMessage(labelToday())}</span>
+            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[feeling] }}>
+                <span className="description-chart">ระดับอารมณ์ของวันนี้</span>
+                {getEmojiIcon((feeling * 100) / 5)}
+                <span className="description-chart">{labelMessage(feeling)}</span>
             </div>
             <div className="avg-Label" style={{ backgroundImage: averageColor }}>
                 <span className="description-chart">ระดับอารมณ์โดยเฉลี่ย</span>

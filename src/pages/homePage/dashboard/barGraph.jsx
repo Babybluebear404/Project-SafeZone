@@ -1,15 +1,40 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BarChart, CartesianGrid, Legend, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import "../../../style/dashboard.css";
 import dayjs from "dayjs";
+import { useCookies } from "react-cookie";
 
 export const LineGraphYear = ({ data, COLORS }) => {
+
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
     const today = new Date();
     let thisDay = today.getDate();
     let thisMonth = today.getMonth();
     let thisYear = today.getFullYear();
     const [selected, setSelected] = useState("twoWeekAgo");
+    const [filteredData, setFilteredData] = useState([]);
+
+    const fetchFeelingData = async (day, token) => {
+        try {
+            const res = await fetch(`http://localhost:3000/api/diaries/feeling?day=${day}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}`);
+            }
+
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.error("Failed to fetch feeling data:", error.message);
+        }
+    };
 
     // คำนวณจำนวนวันที่เลือกจาก dropdown
     const getDaysAgo = (selectedOption) => {
@@ -28,6 +53,21 @@ export const LineGraphYear = ({ data, COLORS }) => {
                 return 0;
         }
     };
+
+    useEffect(() => {
+        const loadData = async () => {
+            if (token && selected) {
+                const days = getDaysAgo(selected);
+                const data = await fetchFeelingData(days, token);
+                if (data) {
+                    setFilteredData(data);
+                }
+            }
+        };
+    
+        loadData();
+    }, [token, selected]);
+
 
     const getMonthName = (name) => {
         const monthNames = [
@@ -77,31 +117,12 @@ export const LineGraphYear = ({ data, COLORS }) => {
     const { dayBegin, monthBegin, yearBegin } = getSinceBegin(thisDay, thisMonth, thisYear, selected);
     const monthBeginName = getMonthName(monthBegin);
 
-    // ฟังก์ชันกรองข้อมูลตามจำนวนวันย้อนหลัง
-    const filterData = (data, selectedOption) => {
-        const today = dayjs();
-        const lastDays = getDaysAgo(selectedOption);
-        const filteredData = [];
-
-        for (let i = 0; i < lastDays; i += 1) {
-            const date = today.subtract(i, 'day').format('YYYY-MM-DD'); // ลดวันย้อนหลัง
-            const found = data.find(d => dayjs(d.timestamp).format('YYYY-MM-DD') === date);
-            if (found) {
-                filteredData.push(found);
-            }
-        }
-
-        return filteredData.reverse();
-    };
-
-    const filteredData = filterData(data, selected);
-
     const countLabelsPerMonth = (data) => {
         const counts = {};
 
         data.forEach(item => {
-            const monthKey = dayjs(item.timestamp).format("YYYY-MM");
-            const label = item.label; // ค่าของ label ที่เป็น 1-5
+            const monthKey = dayjs(item.date_and_time).format("YYYY-MM");
+            const label = item.feeling; // ค่าของ label ที่เป็น 1-5
 
             if (!counts[monthKey]) {
                 counts[monthKey] = { month: monthKey, label1: 0, label2: 0, label3: 0, label4: 0, label5: 0 };
@@ -112,7 +133,7 @@ export const LineGraphYear = ({ data, COLORS }) => {
             }
         });
 
-        return Object.values(counts);
+        return Object.values(counts).sort((a, b) => a.month.localeCompare(b.month));
     };
 
     const labelColors = {
@@ -150,8 +171,8 @@ export const LineGraphYear = ({ data, COLORS }) => {
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
-                             dataKey="month"
-                             tickFormatter={(month) => dayjs(month).format("MMM YYYY")}
+                            dataKey="month"
+                            tickFormatter={(month) => dayjs(month).format("MMM YYYY")}
                         />
                         <YAxis domain={[0, "auto"]} />
                         <Tooltip />

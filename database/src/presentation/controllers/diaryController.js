@@ -62,7 +62,7 @@ class DiaryController{
                     aifeeling: diary.AIFeeling,
                     sharestatus: diary.ShareStatus
                 }))
-            res.status(201).json(diaries); 
+            res.status(200).json(diaries); 
         }catch(error){
             res.status(500).json({error: error.message});
         }
@@ -83,7 +83,7 @@ class DiaryController{
                     aifeeling: diary.AIFeeling,
                     sharestatus: diary.ShareStatus
                 }))
-            res.status(201).json(diaries); 
+            res.status(200).json(diaries); 
         }catch(error){
             res.status(500).json({error: error.message});
         }
@@ -141,7 +141,7 @@ class DiaryController{
                 feeling: entry.feeling,
                 date_and_time: entry.date_and_time.toISOString().split("T")[0] // แยกเฉพาะวันที่
             }));
-            res.status(201).json(formattedData);
+            res.status(200).json(formattedData);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -158,7 +158,7 @@ class DiaryController{
                 aifeeling: entry.aifeeling,
                 date_and_time: entry.date_and_time.toISOString().split("T")[0] // แยกเฉพาะวันที่
             }));
-            res.status(201).json(formattedData);
+            res.status(200).json(formattedData);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }

@@ -6,10 +6,15 @@ import { FaUserFriends } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import "../../../style/Diary.css";
 import { useCookies } from "react-cookie";
+import imageTemplates from "../../../components/imageTemplates";
 
 export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [cookies] = useCookies(["token"]);
+  const [loading, setLoading] = useState(true);
+
+  const [friends, setFriends] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const token = cookies.token;
 
@@ -28,8 +33,14 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
           throw new Error(`Error ${res.status}`)
         }
 
-        const data = await res.json()
-        setFriends(data)
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setFriends(data);
+        } else if (data.data && Array.isArray(data.data)) {
+          setFriends(data.data); // กรณี API ตอบแบบ { success: true, data: [...] }
+        } else {
+          setFriends([]); // fallback
+        }
       } catch (error) {
         console.error('Failed to fetch accepted friends:', error)
       } finally {
@@ -40,18 +51,39 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
     fetchAcceptedFriends()
   }, [token])
 
-  const [friends, setFriends] = useState([]);
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/users/allusers', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-  const user = [
-    { id: "test1", name: "Eren" },
-    { id: "test2", name: "Mikasa" },
-    { id: "test3", name: "Armin" },
-    { id: "test4", name: "Levi" },
-    { id: "test5", name: "Himmel" },
-    { id: "test6", name: "Frieren" },
-    { id: "test7", name: "Heiter" },
-    { id: "test8", name: "Eisen" }
-  ];
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}`);
+        }
+
+        const result = await res.json();
+        if (result.success) {
+          setUsers(result.data);
+        } else {
+          console.error('API error:', result.error);
+        }
+
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchAllUsers();
+    }
+  }, [token]);
 
   const [request, Setrequest] = useState([])
 
@@ -59,18 +91,45 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
     friend.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredUser = user.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUser = users.filter((users) =>
+    users.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const addFriend = (friend) => {
-    Setrequest([...friends, friend]);
-    toast.success(`คำขอเป็นเพื่อนกับ ${friend.name} ถูกส่งไปแล้ว`, {
-      position: "top-center",
-      autoClose: 2000,
-      closeButton: false,
-    });
+  const addFriend = async (friend) => {
+    try {
+      const res = await fetch("http://localhost:3000/api/closefriends/addfriend", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ friendid: friend.id }), // ส่ง friendid
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}`);
+      }
+
+      const result = await res.json();
+
+      // เพิ่มเพื่อนใน state ขอเป็นเพื่อน
+      Setrequest(prev => [...prev, friend]);
+
+      toast.success(`คำขอเป็นเพื่อนกับ ${friend.username} ถูกส่งไปแล้ว`, {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false,
+      });
+    } catch (error) {
+      toast.error("ไม่สามารถส่งคำขอได้", {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false,
+      });
+      console.error("Failed to add friend:", error);
+    }
   };
+
 
   const unrequest = (id) => {
     setFriends((prevFriends) => prevFriends.filter((f) => f.id !== id));
@@ -109,7 +168,6 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
     }
   };
 
-
   return (
     addfriendSec ? (
       <div className="friend-display">
@@ -126,35 +184,43 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
           onChange={(e) => setSearchTerm(e.target.value)}
           autoFocus />
         {searchTerm.trim() !== "" && (
-          <div className="friends-list">
-            {filteredUser.length > 0 ? (
-              filteredUser.map((friend) => {
-                const isRequest = request.some((f) => f.id === friend.id);
-                const isFriends = friends.some((f) => f.id === friend.id);
+          <div className="friend-content">
+            <div className="friends-list">
+              {filteredUser.length > 0 ? (
+                filteredUser.map((friend) => {
+                  const isRequest = request.some((f) => f.id === friend.id);
+                  const isFriends = friends.some((f) => f.id === friend.id);
 
-                return (
-                  <div key={friend.id} className="friend-item">
-                    <div className="pic-friends"></div>
-                    <span>{friend.name}</span>
-                    {isFriends ? (
-                      <span className="friend-emojicon" ><FaUserFriends /></span>
-                    ) : (isRequest ? (
-                      <span className="friend-icon" onClick={() => unrequest(friend.id)} >Pending...</span>
-                    ) : (<FcPlus
-                      className="add-button"
-                      onClick={() => {
-                        addFriend(friend);
-                      }}
-                    />
-                    )
-                    )}
-                  </div>
-                );
-              })
+                  const template = imageTemplates.find(img => img.id === Number(friend.profile));
+                  const profileSrc = template?.src || "/assets/0.png";
+                  return (
+                    <div key={friend.id} className="friend-item">
+                      <img
+                        src={profileSrc}
+                        alt={template?.name || "Unknown Cat"}
+                        className="logo-friends"
+                      />
+                      <span>{friend.username}</span>
+                      {isFriends ? (
+                        <span className="friend-emojicon" ><FaUserFriends /></span>
+                      ) : (isRequest ? (
+                        <span className="friend-icon" onClick={() => unrequest(friend.id)} >Pending...</span>
+                      ) : (<FcPlus
+                        className="add-button"
+                        onClick={() => {
+                          addFriend(friend);
+                        }}
+                      />
+                      )
+                      )}
+                    </div>
+                  );
+                })
 
-            ) : (
-              <p>No friends found.</p>
-            )}
+              ) : (
+                <p>No friends found.</p>
+              )}
+            </div>
           </div>
         )}
 
@@ -174,18 +240,26 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
           onChange={(e) => setSearchTerm(e.target.value)}
           autoFocus />
         <div className="friend-content">
-          <div className="friends-list">
+          <div className="friend-list">
             {filteredFriends.length > 0 ? (
-              filteredFriends.map((friend) => (
-                <div key={friend.id} className="friend-item">
-                  <div className="logo-friends"></div>
-                  <span>{friend.username}</span>
-                  <TiDelete
-                    className="delete-button"
-                    onClick={() => removeFriend(friend.id)}
-                  />
-                </div>
-              ))
+              filteredFriends.map((friend) => {
+                const template = imageTemplates.find(img => img.id === Number(friend.profile));
+                const profileSrc = template?.src || "/assets/0.png";
+                return (
+                  <div key={friend.id} className="friend-item">
+                    <img
+                        src={profileSrc}
+                        alt={template?.name || "Unknown Cat"}
+                        className="logo-friends"
+                      />
+                    <span>{friend.username}</span>
+                    <TiDelete
+                      className="delete-button"
+                      onClick={() => removeFriend(friend.id)}
+                    />
+                  </div>
+                )
+              })
             ) : (
               <p>No friends found.</p>
             )}
