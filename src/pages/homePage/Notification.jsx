@@ -71,13 +71,15 @@ const Notification = ({ onConfirm }) => {
 
     const fetchAll = async () => {
       await Promise.all([fetchFriends(), fetchSharedDiaries()]);
-      const pendingFriends = await getPendingFriends();
+      const response = await getPendingFriends();
+      const pendingFriends = response.data || [];
 
       const friendNotifications = pendingFriends.map(friend => ({
         type: "friendRequest",
         friendId: friend.id,
         friendName: friend.username,
       }));
+
 
       const diaryNotifications = sharedDiaries.map(diary => ({
         type: "diaryShare",

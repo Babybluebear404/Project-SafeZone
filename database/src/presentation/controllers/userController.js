@@ -83,7 +83,7 @@ class UserController {
                 email: user.email,
                 profile: user.profile
             }
-            res.status(200).json(users);
+            res.status(201).json(users);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -112,7 +112,7 @@ class UserController {
                 email: user.email,
                 profile: user.profile || null
             }));
-            res.status(200).json({
+            res.status(201).json({
                 success: true,
                 data: formattedUsers
             });

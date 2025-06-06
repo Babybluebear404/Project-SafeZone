@@ -64,7 +64,7 @@ const HomeLogin = () => {
         </button>
 
         <button onClick={openPopup} className="consult-button">
-          ช่องทางการปรึกษา
+          ช่องทางการฮีลใจ
         </button>
       </main>
 
