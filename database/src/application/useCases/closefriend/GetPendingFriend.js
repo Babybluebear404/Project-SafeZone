@@ -1,16 +1,16 @@
 class GetUserById {
-    constructor(userService) {
-        this.userService = userService;
+    constructor(closefriendService) {
+        this.closefriendService = closefriendService;
     }
 
     async execute(dto) {
-        const { userId } = dto;
+        const { UserID } = dto;
         try {
-            const user = await this.userService.getUserById(userId);
-            if (!user) {
-                throw new Error("User not found.");
+            const users = await this.closefriendService.getpending(UserID);
+            if (!users) {
+                throw new Error("No pending friends found.");
             }
-            return user;
+            return users;
         } catch (error) {
             throw error;
         }
