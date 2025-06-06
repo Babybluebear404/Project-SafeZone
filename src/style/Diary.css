@@ -518,6 +518,10 @@ textarea::placeholder {
 
 
 /* Diary's Friend Feed */
+
+.friendary {
+  font-size: 60px;
+}
 .friendFeed {
   background-color: #FFFFFF;
   width: 100%;
@@ -564,12 +568,16 @@ textarea::placeholder {
   color: #555459;
   text-align: left;
   font-size: 20px;
-  margin-left: 5px;
+  margin-left: 10px;
+}
+
+.labelPost-friends{
+  color: #555459;
+  font-size: 15px;
 }
 
 .labelEmoji{
-  font-size: 50px;
-  color: #e990c2;
+  font-size: 10px;
 }
 
 .friend-items {
@@ -583,8 +591,4 @@ textarea::placeholder {
 
 .isView{
   cursor: pointer;
-}
-
-.friendary{
-  font-size: 90px;
 }

@@ -13,7 +13,7 @@ import { useCookies } from "react-cookie";
 const Diary = () => {
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0); // เลื่อนหน้าไปที่บนสุด
+    window.scrollTo(0, 0);
   }, []);
 
   const [cookies] = useCookies(["token"]);
@@ -185,19 +185,77 @@ const Diary = () => {
       const emojiRating = msg.feeling
       return (
         <div key={index} className="showMessages">
-
           {emojiRating && getEmojiIcon(emojiRating)}
           <p className="display-text">{msg.story}</p>
           <div className="show-footer">
             <button onClick={deleteMessage} className="delete-diary">Delete</button>
-            <button onClick={() => {
-              setIsShared(!isShared);
-            }} className="share-diary">
-              {isShared ? "Share" : "Not Share"}
+            <button
+              onClick={async () => {
+                const selectedDiary = messages.find(
+                  (msg) =>
+                    selectDate &&
+                    dayjs(msg.date_and_time).format("YYYY-MM-DD") === selectDate.format("YYYY-MM-DD")
+                );
+                const diaryId = selectedDiary?.id;
+
+                if (!diaryId) {
+                  alert("No diary found to update sharing status.");
+                  return;
+                }
+
+                try {
+                  // Step 1: Delete the existing diary
+                  const deleteResponse = await fetch("http://localhost:3000/api/diaries/deletediary", {
+                    method: "DELETE",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ diaryId: diaryId }),
+                  });
+
+                  if (!deleteResponse.ok) throw new Error("Failed to delete diary.");
+                  console.log(selectedDiary.sharestatus);
+                  // Step 2: Add a new diary with toggled status
+                  const newDiary = {
+                    story: selectedDiary.story,
+                    feeling: selectedDiary.feeling,
+                    status: selectedDiary.sharestatus === 1 ? 0 : 1,
+                  };
+                  
+                  const addResponse = await fetch("http://localhost:3000/api/diaries/adddiary", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(newDiary),
+                  });
+
+                  if (!addResponse.ok) throw new Error("Failed to add updated diary.");
+
+                  const result = await addResponse.json();
+                  console.log("Diary updated:", result.message);
+
+                  setIsShared(selectedDiary.sharestatus);
+
+                  // Optional: refetch messages or reload
+                 window.location.reload();
+
+
+                } catch (error) {
+                  console.error("Error updating diary sharing status:", error);
+                  alert("Failed to update sharing status.");
+                }
+              }}
+              className="share-diary"
+            >
+              {msg.sharestatus === 0 ? "Share" : "Not Share"}
             </button>
+
           </div>
           <p className="mesStatusShare">
-            {isShared ? (
+            {msg.sharestatus === 0 ? (
               <>
                 ไดอารี่นี้ของคุณไม่ได้ถูกแชร์ให้ใคร <br />
                 กดปุ่มแชร์เมื่อต้องการแชร์ให้เพื่อนของคุณ
