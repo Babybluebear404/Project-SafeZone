@@ -27,10 +27,15 @@ class MySQLClosefriendRepository{
        const query = `
         UPDATE closefriend 
         SET Status = ? 
-        WHERE UserID = ? 
-        AND FriendID = ? 
+        WHERE ((UserID = ? AND FriendID = ?) OR (UserID = ? AND FriendID = ?))
         AND Status = 'pending'`;
-       await this.connection.query(query, [upstatus.status, upstatus.userid, upstatus.friendid]);
+       await this.connection.query(query, [
+           upstatus.status, 
+           upstatus.userid, 
+           upstatus.friendid,
+           upstatus.friendid,
+           upstatus.userid
+       ]);
     }
 
     async getpendingFriend(userId){
