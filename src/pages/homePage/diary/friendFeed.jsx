@@ -182,7 +182,7 @@ export const FriendFeed = () => {
                                             className="logo-friends"
                                         />
                                         <span className="name-friends">{friend.username}</span>
-                                        <div className="datePost-friends">
+                                        <div className="datePost-friends">{friend.date_and_time}
                                         </div>
                                         <div></div>
                                         <div className="post-friends">{friend.story}</div>

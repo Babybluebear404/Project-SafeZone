@@ -4,6 +4,8 @@ import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
 import { useCookies } from "react-cookie";
 import imageTemplates from '../../components/imageTemplates';
+import { toast } from 'react-toastify';
+
 
 const Profile = (userService) => {
   const navigate = useNavigate();
@@ -91,14 +93,23 @@ const Profile = (userService) => {
         body: JSON.stringify(requestData),
       });
       if (response.ok) {
-        const result = await response.json();
-        console.log("✅ ", result.message);
+        toast.success(`Update Profile successfully.`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
       } else {
         const errorData = await response.json();
         console.error("❌ Error:", errorData.error);
       }
     } catch (error) {
-      console.error('Failed to save user data:', error);
+      toast.error(`Failed to save user data: ${error}`,
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
     }
   };
 

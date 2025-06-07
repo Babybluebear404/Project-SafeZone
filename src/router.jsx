@@ -22,7 +22,6 @@ import Dashboard from './pages/homePage/dashboard/dashboard'
 import Profile from './pages/homePage/Profile'
 import ErrorPage from './pages/errorpage'
 import Tab from './pages/Tab'
-import FriendShare from './pages/homePage/diary/friendShare'
 
 const elements = createRoutesFromElements (
     <Route errorElement={<ErrorPage />}>  {/* Parent route with errorElement */}
@@ -44,7 +43,6 @@ const elements = createRoutesFromElements (
         <Route path="/Profile" element={<PrivateRoute element={<Profile />} />} />
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/Tab" element={<PrivateRoute element={<Tab />} />} />
-        <Route path="/friendShare" element={<PrivateRoute element={<FriendShare />} />} />
     </Route>
 )
 

@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import '../../style/Notification.css';
 import Tab from "../Tab";
 import { useCookies } from "react-cookie";
+import { toast } from 'react-toastify';
 
 const Notification = ({ onConfirm }) => {
   const [showNotification, setShowNotification] = useState([]);
   const [showButtons, setShowButtons] = useState(true);
   const [friends, setFriends] = useState([]);
   const [sharedDiaries, setSharedDiaries] = useState([]);
-  const [notificationMessage, setNotificationMessage] = useState("");
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
   const token = cookies.token;
@@ -24,27 +24,29 @@ const Notification = ({ onConfirm }) => {
         },
       });
       if (!res.ok) throw new Error(`Error ${res.status}`);
-      return await res.json();
+      const json = await res.json();
+      return Array.isArray(json.data) ? json.data : [];
     } catch (error) {
       console.error("Failed to fetch pending friends:", error);
       return [];
     }
   };
 
-  const fetchFriends = async () => {
+  const fetchFriendsReturn = async () => {
     try {
       const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch friends list");
       const data = await res.json();
-      setFriends(data);
+      return Array.isArray(data.data) ? data.data : [];
     } catch (err) {
       console.error(err);
+      return [];
     }
   };
 
-  const fetchSharedDiaries = async () => {
+  const fetchSharedDiariesReturn = async () => {
     try {
       const res = await fetch('http://localhost:3000/api/diaries/getsharediary', {
         headers: {
@@ -54,45 +56,47 @@ const Notification = ({ onConfirm }) => {
       });
       if (!res.ok) throw new Error("Failed to fetch shared diaries");
       const data = await res.json();
-      setSharedDiaries(data);
+      return Array.isArray(data) ? data : [];
     } catch (err) {
       console.error(err);
-      setSharedDiaries([]);
+      return [];
     }
   };
 
-  const getUsernameByUserId = (userid) => {
-    const friend = friends.find(f => f.id === userid);
-    return friend ? friend.username : "Unknown User";
+  const fetchAll = async () => {
+    const [friendsList, sharedList, pendingFriends] = await Promise.all([
+      fetchFriendsReturn(),
+      fetchSharedDiariesReturn(),
+      getPendingFriends()
+    ]);
+
+    const friendNotifications = pendingFriends.map(friend => ({
+      type: "friendRequest",
+      friendId: friend.id,
+      friendName: friend.username,
+    }));
+
+    const getUsernameByUserId = (userid) => {
+      const friend = friendsList.find(f => f.id === userid);
+      return friend ? friend.username : "Unknown User";
+    };
+
+    const diaryNotifications = sharedList.map(diary => ({
+      type: "diaryShare",
+      diaryId: diary.id,
+      userId: diary.userid,
+      username: getUsernameByUserId(diary.userid),
+    }));
+
+    setFriends(friendsList);
+    setSharedDiaries(sharedList);
+    setShowNotification([...friendNotifications, ...diaryNotifications]);
   };
 
   useEffect(() => {
     if (!token) return;
-
-    const fetchAll = async () => {
-      await Promise.all([fetchFriends(), fetchSharedDiaries()]);
-      const response = await getPendingFriends();
-      const pendingFriends = response.data || [];
-
-      const friendNotifications = pendingFriends.map(friend => ({
-        type: "friendRequest",
-        friendId: friend.id,
-        friendName: friend.username,
-      }));
-
-
-      const diaryNotifications = sharedDiaries.map(diary => ({
-        type: "diaryShare",
-        diaryId: diary.id,
-        userId: diary.userid,
-        username: getUsernameByUserId(diary.userid),
-      }));
-
-      setShowNotification([...friendNotifications, ...diaryNotifications]);
-    };
-
     fetchAll().catch(console.error);
-  }, [token, friends, sharedDiaries]);
+  }, [token]);
 
   const handleYesClick = async (friendId, friendName) => {
     try {
@@ -104,7 +108,11 @@ const Notification = ({ onConfirm }) => {
         },
         body: JSON.stringify({ friendid: friendId, status: 'accepted' }),
       });
-      setNotificationMessage(`คุณเป็นเพื่อนกับ ${friendName} แล้ว`);
+      toast.success(`You are now friends with ${friendName}.`, {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false,
+      });
       setShowButtons(false);
       setShowNotification(prev => prev.filter(n => n.friendId !== friendId));
       if (onConfirm) onConfirm(true);
@@ -123,7 +131,11 @@ const Notification = ({ onConfirm }) => {
         },
         body: JSON.stringify({ friendid: friendId, status: 'refuse' }),
       });
-      setNotificationMessage(`คุณปฏิเสธการเป็นเพื่อนกับ ${friendName} แล้ว`);
+      toast.error(`You declined ${friendName}’s friend request.`, {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false,
+      });
       setShowButtons(false);
       setShowNotification(prev => prev.filter(n => n.friendId !== friendId));
       if (onConfirm) onConfirm(false);
@@ -172,10 +184,6 @@ const Notification = ({ onConfirm }) => {
           ))
         ) : (
           <div className="no-notifications">No Notification Yet.</div>
-        )}
-
-        {notificationMessage && (
-          <p className="notification-message">{notificationMessage}</p>
         )}
       </div>
     </div>

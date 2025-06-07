@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 // import { SiLine } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import { toast } from 'react-toastify';
 import "../style/Login.css";
 // import liff from '@line/liff';
 import { useCookies } from "react-cookie";
@@ -16,8 +17,6 @@ const Login = () => {
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      //console.log("Google Token:", tokenResponse);
-
       try {
         const res = await fetch("http://localhost:3000/api/users/google-login", {
           method: "POST",
@@ -35,15 +34,24 @@ const Login = () => {
 
         if (res.ok) {
           const data = await res.json();
-           // ⬇️ ถอดรหัส JWT เพื่อดึงเวลา "exp"
           const decoded = jwtDecode(data.token);
           const expirationDate = new Date(decoded.exp * 1000); // แปลงจาก Unix Timestamp เป็น Date
 
-          // ⬇️ เก็บ Token ไว้ใน Cookie และตั้งค่าให้หมดอายุพร้อม Token
+           toast.success("Login successful",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
+
           setCookie("token", data.token, { path: "/", expires: expirationDate });
           setsatuslogin(true);
         } else {
-          console.error("Login failed:", data.error);
+          toast.error(`"Login failed:" ${errorData.error}`, {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false
+        });
         }
       } catch (err) {
         console.error("Fetch error:", err.message);
@@ -53,12 +61,11 @@ const Login = () => {
   });
 
   useEffect(() => {
-    // ตรวจสอบว่า cookies.token มีการเปลี่ยนแปลงหรือไม่
     let token = cookies.token;
     if (!token || token === "undefined" || token === "null" || token === "text") {
       token = "";
     }
-    // ถ้ามี token ให้ทำการส่ง request ไปที่ API
+
     if (token) {
       const fetchData = async () => {
         try {
@@ -80,7 +87,7 @@ const Login = () => {
           console.error("Error", error.message);
         }
       };
-      
+
       fetchData();
     }
   }, [statuslogin, cookies.token, navigate]);
@@ -94,7 +101,7 @@ const Login = () => {
     const loginData = { email, password };
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/login", { 
+      const response = await fetch("http://localhost:3000/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,17 +110,26 @@ const Login = () => {
       });
 
       if (response.ok) {
-        const data = await response.json(); 
-         // ⬇️ ถอดรหัส JWT เพื่อดึงเวลา "exp"
+        const data = await response.json();
+        // ⬇️ ถอดรหัส JWT เพื่อดึงเวลา "exp"
         const decoded = jwtDecode(data.token);
         const expirationDate = new Date(decoded.exp * 1000); // แปลงจาก Unix Timestamp เป็น Date
 
         // ⬇️ เก็บ Token ไว้ใน Cookie และตั้งค่าให้หมดอายุพร้อม Token
         setCookie("token", data.token, { path: "/", expires: expirationDate });
         setsatuslogin(true);
+        toast.success("Login successful",
+          {
+            position: "top-center",
+            autoClose: 500,
+            closeButton: false,
+          });
       } else {
-        const errorData = await response.json();
-        console.error("❌ Error:", errorData.error);
+        toast.error("Incorrect email or password.", {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false
+        });
       }
     } catch (error) {
       console.error("Error logging in:", error.message);

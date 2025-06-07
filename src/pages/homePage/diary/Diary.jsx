@@ -9,6 +9,8 @@ import "../../../style/Diary.css";
 import Tab from "../../Tab";
 import { FriendFeed } from "./friendFeed";
 import { useCookies } from "react-cookie";
+import { toast } from 'react-toastify';
+
 
 const Diary = () => {
 
@@ -39,7 +41,6 @@ const Diary = () => {
         feeling: selectedEmoji[selectDate?.toDate().toDateString()] || null,
         status: isShared
       };
-
       try {
         const response = await fetch("http://localhost:3000/api/diaries/adddiary", {
           method: "POST",
@@ -50,18 +51,29 @@ const Diary = () => {
           body: JSON.stringify(newMessage),
         });
 
-        if (!response.ok) throw new Error("Failed to send message");
+        if (!response.ok) throw new Error("");
 
         const result = await response.json();
-        console.log("Message sent:", result);
-
         const updatedMessages = [...messages, result];
         setMessages(updatedMessages);
 
         setInput("");
-
+        toast.success("Your diary entry has been saved.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2500);
       } catch (error) {
         console.error("Error sending message:", error);
+        toast.error("Unable to save your diary entry. Please try again.", {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false
+        });
       }
     }
   };
@@ -87,15 +99,30 @@ const Diary = () => {
         setMessages(messages.filter(msg =>
           msg.diaryId !== diaryId
         ));
-        alert('Diary deleted successfully');
-        window.location.reload();
+        toast.warning("Diary deleted successfully",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2500);
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        toast.error(`Error: ${errorData.message}`, {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false
+        });
       }
     } catch (error) {
       console.error('Error deleting message:', error);
-      alert('Error occurred while deleting the diary.');
+      toast.error(`Error occurred while deleting the diary.`, {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false
+      });
     }
   };
 
@@ -199,12 +226,16 @@ const Diary = () => {
                 const diaryId = selectedDiary?.id;
 
                 if (!diaryId) {
-                  alert("No diary found to update sharing status.");
+                  toast.warning("No diary found to update sharing status.",
+                    {
+                      position: "top-center",
+                      autoClose: 2000,
+                      closeButton: false,
+                    });
                   return;
                 }
 
                 try {
-                  // Step 1: Delete the existing diary
                   const deleteResponse = await fetch("http://localhost:3000/api/diaries/deletediary", {
                     method: "DELETE",
                     headers: {
@@ -222,7 +253,7 @@ const Diary = () => {
                     feeling: selectedDiary.feeling,
                     status: selectedDiary.sharestatus === 1 ? 0 : 1,
                   };
-                  
+
                   const addResponse = await fetch("http://localhost:3000/api/diaries/adddiary", {
                     method: "POST",
                     headers: {
@@ -234,18 +265,28 @@ const Diary = () => {
 
                   if (!addResponse.ok) throw new Error("Failed to add updated diary.");
 
-                  const result = await addResponse.json();
-                  console.log("Diary updated:", result.message);
 
                   setIsShared(selectedDiary.sharestatus);
 
                   // Optional: refetch messages or reload
-                 window.location.reload();
-
+                  toast.success("Your diary sharing status has been updated successfully.",
+                    {
+                      position: "top-center",
+                      autoClose: 2000,
+                      closeButton: false,
+                    });
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2500);
 
                 } catch (error) {
                   console.error("Error updating diary sharing status:", error);
-                  alert("Failed to update sharing status.");
+                  toast.error("Failed to update sharing status.",
+                    {
+                      position: "top-center",
+                      autoClose: 2000,
+                      closeButton: false,
+                    });
                 }
               }}
               className="share-diary"
@@ -441,7 +482,7 @@ const Diary = () => {
                           <span>แชร์เรื่องราวให้เพื่อนของคุณ</span>
                           <a></a>
                           <button onClick={() => {
-                            sendMessage(); window.location.reload();
+                            sendMessage();
                           }} className="save-message"
                             disabled={input.trim() === "" || !selectedEmoji[selectDate?.toDate().toDateString()]}>
                             Save

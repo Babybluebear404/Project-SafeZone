@@ -127,7 +127,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
 
     return (
         <div className="Emotion-Section">
-            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[feeling] }}>
+            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[feeling-1] }}>
                 <span className="description-chart">ระดับอารมณ์ของวันนี้</span>
                 {getEmojiIcon((feeling * 100) / 5)}
                 <span className="description-chart">{labelMessage(feeling)}</span>

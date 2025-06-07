@@ -41,22 +41,6 @@ export const AverageEmotion = ({ data, COLORS }) => {
         }
     }, [token]);
 
-    const getColor = (percentage) => {
-        if (percentage <= 20) {
-            return `linear-gradient(90deg, #C599B6 0%, ${COLORS[0]} 100%)`;
-        }
-        if (percentage <= 40) {
-            return `linear-gradient(90deg,rgb(223, 160, 143) 0%, ${COLORS[1]} 100%)`;
-        }
-        if (percentage <= 60) {
-            return `linear-gradient(90deg, #F2E2B1 0%, ${COLORS[2]} 100%)`;
-        }
-        if (percentage <= 80) {
-            return `linear-gradient(90deg,rgb(185, 232, 203) 0%, ${COLORS[3]} 100%)`;
-        }
-        return `linear-gradient(90deg,#C7D9DD 0%, ${COLORS[4]} 100%)`;
-    };
-
     const colorEmoji = ['#D0D0D0', '#E1BBFF', '#ABDCFF', '#FDBA83', '#FF92CD'];
 
     const getEmojiIcon = (percentage) => {
@@ -89,10 +73,9 @@ export const AverageEmotion = ({ data, COLORS }) => {
                 return "NaN";
         }
     };
-
     return (
         <div className="EmotionWrapper">
-            <div className="EmotionDay" style={{ backgroundColor: colorEmoji[feeling] }}>
+            <div className="EmotionDay" style={{ backgroundColor: colorEmoji[feeling-1] }}>
                 <span className="description-chart">ระดับอารมณ์ล่าสุดของวันนี้</span>
                 {getEmojiIcon((feeling * 100) / 5)}
                 <span className="description-chart">{labelMessage(feeling)}</span>

@@ -109,19 +109,16 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
       if (!res.ok) {
         throw new Error(`Error ${res.status}`);
       }
-
-      const result = await res.json();
-
       // เพิ่มเพื่อนใน state ขอเป็นเพื่อน
       Setrequest(prev => [...prev, friend]);
 
-      toast.success(`คำขอเป็นเพื่อนกับ ${friend.username} ถูกส่งไปแล้ว`, {
+      toast.success(`A friend request has been sent to ${friend.username}.`, {
         position: "top-center",
         autoClose: 2000,
         closeButton: false,
       });
     } catch (error) {
-      toast.error("ไม่สามารถส่งคำขอได้", {
+      toast.error("Failed to send the request.", {
         position: "top-center",
         autoClose: 2000,
         closeButton: false,
@@ -151,7 +148,6 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
       }
 
       const result = await res.json();
-      console.log(result.message); // "Successfully"
       return result;
     } catch (error) {
       console.error("Failed to delete friend:", error);
@@ -164,7 +160,14 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
       await deleteFriend(token, id);
       setFriend((prev) => prev.filter((f) => f.id !== id));
     } catch (err) {
-      window.location.reload();
+      toast.warning("You have unfriended this person.", {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     }
   };
 
@@ -248,10 +251,10 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
                 return (
                   <div key={friend.id} className="friend-item">
                     <img
-                        src={profileSrc}
-                        alt={template?.name || "Unknown Cat"}
-                        className="logo-friends"
-                      />
+                      src={profileSrc}
+                      alt={template?.name || "Unknown Cat"}
+                      className="logo-friends"
+                    />
                     <span>{friend.username}</span>
                     <TiDelete
                       className="delete-button"

@@ -4,6 +4,8 @@ import { FaLock } from "react-icons/fa";
 import "../style/ChangePassword.css";
 import { useCookies } from "react-cookie";
 import axios from "axios"; // ใช้ axios เพื่อยิง API
+import { toast } from 'react-toastify';
+
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -14,48 +16,73 @@ const ChangePassword = () => {
   const handleConfirm = async () => {
     const token = cookies.tokenforget;
     if (!token) {
-        alert("No saved token found. Please try again.");
-        return;
+      alert("No saved token found. Please try again.");
+      return;
     }
 
     if (newPassword !== confirmPassword || newPassword.length === 0) {
-        alert("Passwords do not match or are empty!");
-        return;
+      toast.warning("Passwords do not match or are empty!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
+      return;
     }
 
     try {
-        const response = await axios.put(
-            "http://localhost:3000/api/users/change",
-            {
-                newPassword: newPassword,  // ✅ ถ้ามี oldPassword ต้องเพิ่มตรงนี้
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // ✅ ส่ง Token ไป
-                },
-            }
-        );
-
-        alert(response.data.message); // ✅ API ส่ง response กลับมา ใช้ response.data.message
-        setNewPassword(""); // ✅ เคลียร์ state
-        setConfirmPassword("");
-        removeCookie("tokenforget");
-        navigate("/login"); // ✅ นำทางไปหน้า Login หลังเปลี่ยนรหัสผ่านสำเร็จ
-    } catch (error) {
-        if (error.response) {
-            // ❌ เซิร์ฟเวอร์ส่ง response กลับมา แต่มี error (เช่น 400, 500)
-            console.error("❌ Server Error:", error.response.data.error);
-            alert(error.response.data.error);
-        } else if (error.request) {
-            // ❌ Request ถูกส่งออกไป แต่ไม่มี response (เช่น เซิร์ฟเวอร์ดับ)
-            console.error("❌ No Response from Server:", error.request);
-            alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
-        } else {
-            // ❌ Error อื่นๆ เช่น Axios ตั้งค่าผิดพลาด
-            console.error("❌ Request Setup Error:", error.message);
-            alert("เกิดข้อผิดพลาด กรุณาลองใหม่");
+      const response = await axios.put(
+        "http://localhost:3000/api/users/change",
+        {
+          newPassword: newPassword,  // ✅ ถ้ามี oldPassword ต้องเพิ่มตรงนี้
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // ✅ ส่ง Token ไป
+          },
         }
+      );
+
+      alert(response.data.message); // ✅ API ส่ง response กลับมา ใช้ response.data.message
+      toast.success("Password changed successfully!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
+
+      setNewPassword(""); // ✅ เคลียร์ state
+      setConfirmPassword("");
+      removeCookie("tokenforget");
+      navigate("/login"); // ✅ นำทางไปหน้า Login หลังเปลี่ยนรหัสผ่านสำเร็จ
+    } catch (error) {
+      if (error.response) {
+        console.error("Server Error:", error.response.data.error);
+        toast.error("Something went wrong.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
+      } else if (error.request) {
+        toast.error("Something went wrong.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
+        console.error("❌ No Response from Server:", error.request);
+      } else {
+        // ❌ Error อื่นๆ เช่น Axios ตั้งค่าผิดพลาด
+        console.error("❌ Request Setup Error:", error.message);
+        toast.error("Something went wrong.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
+      }
     }
   };
 

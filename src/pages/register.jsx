@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../style/register.css";
+import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -11,11 +12,16 @@ const SignUp = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (form.password !== form.passwordConfirm) {
-      alert("Passwords do not match!");
+      toast.warning("Please enter your email before sending the OTP!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
       return;
     }
 
@@ -26,7 +32,6 @@ const SignUp = () => {
     };
 
     try {
-      // ส่งคำขอ POST ไปยัง API
       const response = await fetch("http://localhost:3000/api/users/register", {
         method: "POST",
         headers: {
@@ -36,12 +41,20 @@ const SignUp = () => {
       });
 
       if (response.ok) {
-        const data = await response.json(); 
-        console.log("✅ Success:", data.message);
+        toast.success("Registration successful. Please log in.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
         navigate("/login");
       } else {
         const errorData = await response.json();
-        console.error("❌ Error:", errorData.error);
+        toast.error(`${errorData.error}`, {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
       }
     } catch (error) {
       console.error("Error during registration:", error.message);
@@ -90,7 +103,7 @@ const SignUp = () => {
           <input
             type="password"
             name="passwordConfirm"
-            placeholder="Password Confirm"
+            placeholder="Confirm Password"
             value={form.passwordConfirm}
             onChange={handleChange}
             required

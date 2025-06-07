@@ -5,10 +5,11 @@ import axios from "axios"; // ใช้ axios เพื่อยิง API
 import "../style/Forget.css";
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode"; // ใช้สำหรับถอดรหัส JWT
+import { toast } from 'react-toastify';
+
 
 const Forget = () => {
   const [form, setForm] = useState({ email_address: "", otp: "" });
-  const [message, setMessage] = useState(""); // เก็บข้อความแจ้งเตือน
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["token"]);
   // จัดการการเปลี่ยนแปลงของ input
@@ -19,7 +20,12 @@ const Forget = () => {
   // ส่ง OTP ไปยังอีเมลที่กรอก
   const handleResendOTP = async () => {
     if (!form.email_address) {
-      setMessage("กรุณากรอกอีเมลก่อนส่ง OTP!");
+      toast.warning("Please enter your email before sending the OTP!",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
       return;
     }
 
@@ -28,9 +34,18 @@ const Forget = () => {
         email: form.email_address,
       });
 
-      setMessage("OTP ถูกส่งไปยังอีเมลของคุณแล้ว!");
+      toast.success("An OTP has been sent to your email address.",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
     } catch (error) {
-      setMessage("เกิดข้อผิดพลาดในการส่ง OTP");
+      toast.error("An error occurred while sending the OTP.", {
+        position: "top-center",
+        autoClose: 2000,
+        closeButton: false
+      });
       console.error("OTP Error:", error);
     }
   };
@@ -46,7 +61,12 @@ const Forget = () => {
         otp: form.otp,
       });
 
-      setMessage("✅ OTP ถูกต้อง! กำลังเปลี่ยนรหัสผ่าน...");
+      toast.success("The OTP is correct! Changing your password…",
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+        });
 
       // 🔹 ขอ Token สำหรับเปลี่ยนรหัสผ่าน
       const response = await axios.post("http://localhost:3000/api/users/forgot", {
@@ -67,11 +87,21 @@ const Forget = () => {
       navigate("/ChangePassword");
     } catch (error) {
       if (error.response) {
-        console.error("❌ Error:", error.response.data.error);
-        setMessage(error.response.data.error || "เกิดข้อผิดพลาด");
+        console.error("Error:", error.response.data.error);
+        toast.error("The OTP is incorrect.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
       } else {
-        console.error("❌ Unexpected Error:", error.message);
-        setMessage("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+        console.error("Unexpected Error:", error.message);
+        toast.error("Something went wrong.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+          });
       }
     }
   };
@@ -80,7 +110,6 @@ const Forget = () => {
   return (
     <div className="forget-box">
       <h1 className="forget-title">Forget Password</h1>
-      {message && <p className="message">{message}</p>}
       <form onSubmit={handleSubmit} className="forget-form">
         <div className="input-group">
           <FaEnvelope className="input-icon" />
