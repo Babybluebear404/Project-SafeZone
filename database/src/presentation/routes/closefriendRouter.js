@@ -17,5 +17,6 @@ router.patch('/updatestatus', authenticateToken, async (req, res) => await close
 router.delete('/deletefrined', authenticateToken, async (req, res) => await closefriendController.deletefriend(req, res));
 router.get('/getaccepted', authenticateToken, async (req, res) => await closefriendController.getaccepted(req, res));
 router.get('/getpending', authenticateToken, async (req, res) => await closefriendController.getpending(req, res));
+router.get('/getAllStatusFriend', authenticateToken, async (req, res) => await closefriendController.getAllStatusFriend(req, res));
 
 module.exports = router;

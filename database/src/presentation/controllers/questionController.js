@@ -15,9 +15,15 @@ class QuestionController{
                 UserID: req.user.id
             };
             await this.savequestionuseCaes.execute(dto);
-            res.status(201).json({ message: 'savequestion successfully' });
+            res.status(201).json({
+                success: true,
+                message: 'savequestion successfully'
+            });
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -27,9 +33,15 @@ class QuestionController{
                     UserID: req.user.id
             };
             const qusetion = await this.getquestionuseCaes.execute(dto);
-            res.status(201).json({qusetion});
+            res.status(201).json({
+                success: true,
+                data: qusetion
+            });
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 }

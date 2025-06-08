@@ -159,6 +159,16 @@ Output{
     email: user.email
 }
 
+สำหรับ ดึงสถานะ
+http://localhost:3000/api/closefriends/getAllStatusFriend
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    friend_id,
+    status
+}
 end closefriends
 
 start Diary
@@ -235,6 +245,16 @@ http://localhost:3000/api/diaries/feeling
 http://localhost:3000/api/diaries/aifeeling
 http://localhost:3000/api/diaries/updatestatus
 
+สำหรับ ดึงวันและอารมณ์
+http://localhost:3000/api/diaries/time-feeling
+ข้อมูลที่ต้องการ
+Input{
+    Token
+}
+Output{
+    Feeling,
+    date_and_time
+}
 end Diary
 
 start OTP

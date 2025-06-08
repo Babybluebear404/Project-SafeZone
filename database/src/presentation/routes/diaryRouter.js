@@ -21,5 +21,6 @@ router.get('/average-aifeeling', authenticateToken, async (req, res) => await di
 router.get('/feeling', authenticateToken, async (req, res) => await diaryController.getFeeling(req, res));
 router.get('/aifeeling', authenticateToken, async (req, res) => await diaryController.getAIFeeling(req, res));
 router.put('/updatestatus', authenticateToken, async (req, res) => await diaryController.updatestatusdiary(req, res));
+router.get('/time-feeling', authenticateToken, async (req, res) => await diaryController.getDiaryTimeFeeling(req, res));
 
 module.exports = router;

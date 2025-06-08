@@ -65,6 +65,21 @@ class MySQLClosefriendRepository{
         const [rows] = await this.connection.query(query, [userId, userId, userId, userId]);
         return rows;
     }
+
+    async getAllStatusFriend(userId) {
+        const query = `
+            SELECT DISTINCT 
+                CASE 
+                    WHEN f.UserID = ? THEN f.FriendID 
+                    ELSE f.UserID 
+                END as friend_id,
+                f.Status
+            FROM closefriend f
+            WHERE (f.Status = 'accepted' OR f.Status = 'pending')
+            AND (f.UserID = ? OR f.FriendID = ?)`;
+        const [rows] = await this.connection.query(query, [userId, userId, userId]);
+        return rows;
+    }
 }
 
 module.exports = MySQLClosefriendRepository;

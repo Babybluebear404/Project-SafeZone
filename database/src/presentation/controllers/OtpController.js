@@ -15,17 +15,26 @@ class OtpController {
 
             // ตรวจสอบว่ามีอีเมลที่ส่งมาหรือไม่
             if (!email) {
-                return res.status(400).json({ error: "กรุณากรอกอีเมล" });
+                return res.status(400).json({
+                    success: false,
+                    error: "กรุณากรอกอีเมล"
+                });
             }
 
             // เรียกใช้งาน UseCase เพื่อสร้าง OTP
             await this.generateOtpuseCase.execute(email);
             
             // ส่งข้อความตอบกลับเมื่อ OTP ถูกส่งสำเร็จ
-            res.status(201).json({ message: "OTP ส่งสำเร็จ!" });
+            res.status(201).json({
+                success: true,
+                message: "OTP ส่งสำเร็จ!"
+            });
         } catch (error) {
             // ส่งข้อความตอบกลับหากเกิดข้อผิดพลาด
-            res.status(400).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -36,7 +45,10 @@ class OtpController {
 
             // ตรวจสอบว่ามีข้อมูลที่จำเป็นหรือไม่
             if (!email || !otp) {
-                return res.status(400).json({ error: "กรุณากรอกอีเมลและ OTP" });
+                return res.status(400).json({
+                    success: false,
+                    error: "กรุณากรอกอีเมลและ OTP"
+                });
             }
 
             // เรียกใช้งาน UseCase เพื่อตรวจสอบ OTP
@@ -44,14 +56,23 @@ class OtpController {
 
             // ส่งข้อความตอบกลับ
             if (result.success) {
-                return res.status(201).json(result); // ส่งข้อความสำเร็จ
+                return res.status(201).json({
+                    success: true,
+                    message: "OTP ถูกต้อง!"
+                }); // ส่งข้อความสำเร็จ
             } else {
                 // หาก OTP ไม่ถูกต้องหรือหมดอายุ
-                return res.status(400).json(result); // ส่งข้อความผิดพลาด
+                return res.status(400).json({
+                    success: false,
+                    error: result.error
+                }); // ส่งข้อความผิดพลาด
             }
         } catch (error) {
             // ส่งข้อความตอบกลับหากเกิดข้อผิดพลาด
-            res.status(400).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 }

@@ -22,9 +22,15 @@ class UserController {
         try {
             const dto = req.body;
             await this.registerUserUseCase.execute(dto);
-            res.status(201).json({ massage: 'User registered successfully' });
+            res.status(201).json({
+                success: true,
+                message: 'User registered successfully'
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -32,9 +38,16 @@ class UserController {
         try {
             const dto = req.body;
             const token = await this.loginUserUseCase.execute(dto);
-            res.status(200).json({ message: "Login successfully", token });
+            res.status(200).json({
+                success: true,
+                message: "Login successfully",
+                token
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
     
@@ -42,9 +55,16 @@ class UserController {
         try {
             const { access_token  } = req.body;
             const token = await this.googleLoginUseCase.execute({ access_token });
-            res.status(200).json({ message: "Google Login successful",token });
+            res.status(200).json({
+                success: true,
+                message: "Google Login successful",
+                token
+            });
         } catch (error) {   
-            res.status(500).json({ error: error.message }); 
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
     
@@ -52,9 +72,15 @@ class UserController {
         try {
             const dto = req.body;
             const token = await this.forgotPasswordUseCase.execute(dto);
-            res.status(201).json({token});
+            res.status(201).json({
+                success: true,
+                token
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -65,9 +91,15 @@ class UserController {
                 UserID: req.user.id
             };
             await this.changePasswordUseCase.execute(dto);
-            res.status(201).json({ message: 'Password changed successfully' });
+            res.status(201).json({
+                success: true,
+                message: 'Password changed successfully'
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -83,9 +115,15 @@ class UserController {
                 email: user.email,
                 profile: user.profile
             }
-            res.status(201).json(users);
+            res.status(201).json({
+                success: true,
+                data: users
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -96,9 +134,15 @@ class UserController {
                 UserID: req.user.id
             };
             await this.UpdateProfileUseCase.execute(dto);
-            res.status(201).json({ message: 'Update Profile successfully' });
+            res.status(201).json({
+                success: true,
+                message: 'Update Profile successfully'
+            });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 

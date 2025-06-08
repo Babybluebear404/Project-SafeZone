@@ -54,6 +54,12 @@ class MySQLDiaryRepository{
         await this.connection.query(query, [userid, diaryid]);
     }
 
+    async getDiaryTimeFeelingByID(userid){
+        const query = `SELECT Feeling, date_and_time FROM diary WHERE UserID = ?`;
+        const [rows] = await this.connection.query(query, [userid]);
+        return rows;
+    }
+
     async getFeelingsInDateRange(userId, startDate, endDate) {
         const query = `
             SELECT feeling, date_and_time FROM diary 

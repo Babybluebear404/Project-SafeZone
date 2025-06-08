@@ -7,6 +7,8 @@ const GetShareDiary = require('../../application/useCases/diary/getsharediary');
 const GetFeelings = require('../../application/useCases/diary/getFeeling');
 const GetAIFeelings = require('../../application/useCases/diary/getAIFeeling');
 const UpdateStatusDiary = require('../../application/useCases/diary/updatestatusDiary');
+const getDiaryTimeFeelinguse = require('../../application/useCases/diary/getDiaryTimeFeelinguse');
+
 class DiaryController{
     constructor(diaryService){
         this.diaryService = diaryService;
@@ -19,6 +21,7 @@ class DiaryController{
         this.getFeelinguseCase = new GetFeelings(diaryService);
         this.getAIFeelinguseCase = new GetAIFeelings(diaryService);
         this.updatestatusdiaryuseCase = new UpdateStatusDiary(diaryService);
+        this.getDiaryTimeFeelinguseCase = new getDiaryTimeFeelinguse(diaryService);
     }
 
     async adddiary(req, res){
@@ -28,9 +31,15 @@ class DiaryController{
                 UserID: req.user.id
             }
             await this.adddiaryuseCase.execute(dto);
-            res.status(201).json({ message: "Record successfully" });
+            res.status(201).json({
+                success: true,
+                message: "Record successfully"
+            });
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -40,10 +49,17 @@ class DiaryController{
                 ...req.body,
                 UserID: req.user.id
             }
+            
             const success = await this.updatestatusdiaryuseCase.execute(dto);
-            res.status(201).json(success);
+            res.status(200).json({
+                success: true,
+                data: success
+            });
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -62,9 +78,15 @@ class DiaryController{
                     aifeeling: diary.AIFeeling,
                     sharestatus: diary.ShareStatus
                 }))
-            res.status(200).json(diaries); 
+            res.status(200).json({
+                success: true,
+                data: diaries
+            }); 
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -83,9 +105,15 @@ class DiaryController{
                     aifeeling: diary.AIFeeling,
                     sharestatus: diary.ShareStatus
                 }))
-            res.status(200).json(diaries); 
+            res.status(200).json({
+                success: true,
+                data: diaries
+            }); 
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -96,9 +124,15 @@ class DiaryController{
                 UserID: req.user.id
             };
             await this.deletediaryuseCase.execute(dto);
-            res.status(200).json({ message: "delete successfully" }); 
+            res.status(200).json({
+                success: true,
+                message: "delete successfully"
+            }); 
         }catch(error){
-            res.status(500).json({error: error.message});
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
     
@@ -110,9 +144,15 @@ class DiaryController{
                     day: parseInt(req.query.day, 10)
             }
             const result = await this.calculateAverageFeelinguseCase.execute(dto);
-            res.status(201).json(result);
+            res.status(201).json({
+                success: true,
+                data: result
+            });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
     
@@ -124,9 +164,15 @@ class DiaryController{
                     day: parseInt(req.query.day, 10)
             }
             const result = await this.calculateAverageAIFeelinguseCase.execute(dto);
-            res.status(201).json(result);
+            res.status(201).json({
+                success: true,
+                data: result
+            });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -141,9 +187,15 @@ class DiaryController{
                 feeling: entry.feeling,
                 date_and_time: entry.date_and_time.toISOString().split("T")[0] // แยกเฉพาะวันที่
             }));
-            res.status(200).json(formattedData);
+            res.status(200).json({
+                success: true,
+                data: formattedData
+            });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 
@@ -158,9 +210,33 @@ class DiaryController{
                 aifeeling: entry.aifeeling,
                 date_and_time: entry.date_and_time.toISOString().split("T")[0] // แยกเฉพาะวันที่
             }));
-            res.status(200).json(formattedData);
+            res.status(200).json({
+                success: true,
+                data: formattedData
+            });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
+        }
+    }
+
+    async getDiaryTimeFeeling(req, res){
+        try{
+            const dto = {
+                UserID: req.user.id
+            }
+            const result = await this.getDiaryTimeFeelinguseCase.execute(dto);
+            res.status(200).json({
+                success: true, 
+                data: result
+            });
+        }catch(error){
+            res.status(500).json({
+                success: false,
+                error: error.message
+            });
         }
     }
 }

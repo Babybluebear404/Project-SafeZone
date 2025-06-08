@@ -84,6 +84,13 @@ class DiaryService{
     
         return await this.diaryRepository.getAIFeelingsInDateRange(userid, startDate, endDate);
     }
+
+    async getDiaryTimeFeelinguse(userid) {
+        if (!userid) {
+            throw new Error("Missing required parameters");
+        }
+        return await this.diaryRepository.getDiaryTimeFeelingByID(userid);
+    }
 }
 
 module.exports = DiaryService;

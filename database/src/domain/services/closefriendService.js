@@ -29,6 +29,10 @@ class ClosefriendService{
     async getpending(UserID){
         return await this.closefriendRepository.getpendingFriend(UserID);
     }
+    
+    async getAllStatusFriend(UserID){
+        return await this.closefriendRepository.getAllStatusFriend(UserID);
+    }
 }
 
 module.exports = ClosefriendService;
