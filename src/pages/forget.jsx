@@ -25,6 +25,7 @@ const Forget = () => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
       return;
     }
@@ -39,12 +40,14 @@ const Forget = () => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
     } catch (error) {
       toast.error("An error occurred while sending the OTP.", {
         position: "top-center",
         autoClose: 2000,
-        closeButton: false
+        closeButton: false,
+        hideProgressBar: true,
       });
       console.error("OTP Error:", error);
     }
@@ -66,6 +69,7 @@ const Forget = () => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
 
       // 🔹 ขอ Token สำหรับเปลี่ยนรหัสผ่าน
@@ -93,6 +97,7 @@ const Forget = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
       } else {
         console.error("Unexpected Error:", error.message);
@@ -101,6 +106,7 @@ const Forget = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
       }
     }

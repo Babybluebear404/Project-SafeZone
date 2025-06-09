@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/DepressionScreening.css";
 import { useCookies } from "react-cookie";
+import { toast } from 'react-toastify';
+
 
 const DepressionScreening = () => {
   const [answers, setAnswers] = useState({ question1: null, question2: null });
@@ -54,15 +56,32 @@ const DepressionScreening = () => {
         });
 
         if (response.ok) {
-          const result = await response.json();
-          console.log("✅ ", result.message);
+          toast.success("Your depression screening results have been saved.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
         } else {
           const errorData = await response.json();
-          console.error("❌ Error:", errorData.error);
+          toast.error(`Error: ${errorData.error}`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
         }
         navigate("/HomeLogin");
       }   catch (error) {
-        console.error("❌ Network Error:", error);
+        toast.error(`Error: ${error}`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
       }
     }
   };

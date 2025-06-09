@@ -99,6 +99,7 @@ const Profile = (userService) => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
       } else {
         const errorData = await response.json();
@@ -110,6 +111,7 @@ const Profile = (userService) => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
     }
   };

@@ -63,6 +63,7 @@ const Diary = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
         setTimeout(() => {
           window.location.reload();
@@ -72,7 +73,8 @@ const Diary = () => {
         toast.error("Unable to save your diary entry. Please try again.", {
           position: "top-center",
           autoClose: 2000,
-          closeButton: false
+          closeButton: false,
+          hideProgressBar: true,
         });
       }
     }
@@ -104,6 +106,7 @@ const Diary = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
         setTimeout(() => {
           window.location.reload();
@@ -113,7 +116,8 @@ const Diary = () => {
         toast.error(`Error: ${errorData.message}`, {
           position: "top-center",
           autoClose: 2000,
-          closeButton: false
+          closeButton: false,
+          hideProgressBar: true,
         });
       }
     } catch (error) {
@@ -121,7 +125,8 @@ const Diary = () => {
       toast.error(`Error occurred while deleting the diary.`, {
         position: "top-center",
         autoClose: 2000,
-        closeButton: false
+        closeButton: false,
+        hideProgressBar: true,
       });
     }
   };
@@ -188,6 +193,7 @@ const Diary = () => {
 
       const json = await response.json();
       const result = json.data;
+      console.log(result);
 
       if (result && result.length > 0) {
         const firstMessage = result[0];
@@ -201,7 +207,7 @@ const Diary = () => {
     }
   };
 
-  const [colorLabel,setColorLabel] = useState([]);
+  const [colorLabel, setColorLabel] = useState([]);
 
   const fetchColorLabel = async () => {
     try {
@@ -264,6 +270,7 @@ const Diary = () => {
                       position: "top-center",
                       autoClose: 2000,
                       closeButton: false,
+                      hideProgressBar: true,
                     });
                   return;
                 }
@@ -307,6 +314,7 @@ const Diary = () => {
                       position: "top-center",
                       autoClose: 2000,
                       closeButton: false,
+                      hideProgressBar: true,
                     });
                   setTimeout(() => {
                     window.location.reload();
@@ -319,6 +327,7 @@ const Diary = () => {
                       position: "top-center",
                       autoClose: 2000,
                       closeButton: false,
+                      hideProgressBar: true,
                     });
                 }
               }}
@@ -355,6 +364,8 @@ const Diary = () => {
       }));
     }
   };
+
+  const [isSaving, setIsSaving] = useState(false);
 
   return (
     <div className="diary-container">
@@ -511,10 +522,22 @@ const Diary = () => {
                           />
                           <span>แชร์เรื่องราวให้เพื่อนของคุณ</span>
                           <a></a>
-                          <button onClick={() => {
-                            sendMessage();
-                          }} className="save-message"
-                            disabled={input.trim() === "" || !selectedEmoji[selectDate?.toDate().toDateString()]}>
+                          <button
+                            onClick={() => {
+                              setIsSaving(true); // disable ปุ่มทันที
+                              toast.info("Recording your diary...", {
+                                position: "top-center",
+                                autoClose: 2000,
+                                closeButton: false,
+                                hideProgressBar: true,
+                              });
+                              sendMessage();
+                            }}
+                            className="save-message"
+                            disabled={
+                              isSaving 
+                            }
+                          >
                             Save
                           </button>
                         </div>

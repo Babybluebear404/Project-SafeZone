@@ -46,6 +46,7 @@ const Login = () => {
               position: "top-center",
               autoClose: 2000,
               closeButton: false,
+              hideProgressBar: true,
             });
 
           setCookie("token", json.token, { path: "/", expires: expirationDate });
@@ -54,7 +55,8 @@ const Login = () => {
           toast.error(`"Login failed:" ${errorData.error}`, {
             position: "top-center",
             autoClose: 2000,
-            closeButton: false
+            closeButton: false,
+            hideProgressBar: true
           });
         }
       } catch (err) {
@@ -131,12 +133,14 @@ const Login = () => {
             position: "top-center",
             autoClose: 500,
             closeButton: false,
+            hideProgressBar: true
           });
       } else {
         toast.error("Incorrect email or password.", {
           position: "top-center",
           autoClose: 2000,
-          closeButton: false
+          closeButton: false,
+          hideProgressBar: true
         });
       }
     } catch (error) {

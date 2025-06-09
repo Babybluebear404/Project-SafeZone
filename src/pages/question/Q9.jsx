@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/Q9.css";
 import { useCookies } from "react-cookie";
+import { toast } from 'react-toastify';
+
 
 const Q9 = () => {
   const [cookies] = useCookies(["token"]);
@@ -89,27 +91,44 @@ const Q9 = () => {
       }
 
       const requestData = { Q2: q2Answers, Q9: q9Answers };
-      
+
       try {
         const response = await fetch("http://localhost:3000/api/questions/savequestion", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(requestData),
         });
 
         if (response.ok) {
-          const result = await response.json();
-          console.log("✅ ", result.message);
-          navigate("/HomeLogin");
+          toast.success("Your depression screening results have been saved.",
+            {
+              position: "top-center",
+              autoClose: 2000,
+              closeButton: false,
+              hideProgressBar: true,
+            });
         } else {
           const errorData = await response.json();
-          console.error("❌ Error:", errorData.error);
-      }
+          toast.error(`Error: ${errorData.error}`,
+            {
+              position: "top-center",
+              autoClose: 2000,
+              closeButton: false,
+              hideProgressBar: true,
+            });
+        }
+        navigate("/HomeLogin");
       } catch (error) {
-        console.error("❌ Network Error:", error);
+        toast.error(`Error: ${error}`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
       }
     } else {
       navigate("/Q8");

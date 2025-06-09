@@ -114,6 +114,7 @@ const Notification = ({ onConfirm }) => {
         position: "top-center",
         autoClose: 2000,
         closeButton: false,
+        hideProgressBar: true,
       });
       setShowButtons(false);
       setShowNotification(prev => prev.filter(n => n.friendId !== friendId));
@@ -137,6 +138,7 @@ const Notification = ({ onConfirm }) => {
         position: "top-center",
         autoClose: 2000,
         closeButton: false,
+        hideProgressBar: true,
       });
       setShowButtons(false);
       setShowNotification(prev => prev.filter(n => n.friendId !== friendId));

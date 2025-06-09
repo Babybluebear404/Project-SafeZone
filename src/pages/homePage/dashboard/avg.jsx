@@ -9,6 +9,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
     const token = cookies.token;
     const [averageMood, setAverageMood] = useState(0);
     const [feeling, setFeeling] = useState(null);
+    const [aifeeling, setAifeeling] = useState(null);
 
     const fetchFeelingData = async (token) => {
         try {
@@ -54,6 +55,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
             const data = json.data;
             if (Array.isArray(data) && data.length > 0) {
                 setFeeling(data[0].feeling);
+                setAifeeling(data[0].aifeeling);
             } else {
                 setFeeling(null);
             }
@@ -141,10 +143,10 @@ export const AverageEmotion = ({ data, COLORS }) => {
                 {getEmojiIcon(percentage)}
                 <span className="description-chart">{averageMood.toFixed(2)}</span>
             </div>
-            <div className="avg-Model" style={{ backgroundImage: getColor(40) }}>
+            <div className="avg-Model" style={{ backgroundColor: colorEmoji[aifeeling - 1] }}>
                 <span className="description-chart">ผลประเมินระดับอารมณ์จาก AI ล่าสุด</span>
-                {getEmojiIcon(percentage)}
-                <span className="description-chart">{averageMood.toFixed(2)}</span>
+                {getEmojiIcon((aifeeling * 100) / 5)}
+                <span className="description-chart">{labelMessage(aifeeling)}</span>
             </div>
 
 

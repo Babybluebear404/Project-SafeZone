@@ -24,7 +24,8 @@ export const AverageEmotion = ({ data, COLORS }) => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const data = await res.json();
+            const json = await res.json();
+            const data = json.data;
             if (Array.isArray(data) && data.length > 0) {
                 setFeeling(data[0].feeling);
             } else {

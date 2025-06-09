@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/Q8.css";
 import { useCookies } from "react-cookie";
+import { toast } from 'react-toastify';
+
 
 const Q8 = () => {
   const [cookies] = useCookies(["token"]);
@@ -101,16 +103,33 @@ const Q8 = () => {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("✅ ", result.message);
+          toast.success("Your depression screening results have been saved.",
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
+        } else {
+          const errorData = await response.json();
+          toast.error(`Error: ${errorData.error}`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
+        }
         navigate("/HomeLogin");
-      } else {
-        const errorData = await response.json();
-        console.error("Error:", errorData.error);
+      }   catch (error) {
+        toast.error(`Error: ${error}`,
+          {
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
       }
-    } catch (error) {
-      console.error("Network Error:", error);
-    }
   };
 
   return (

@@ -10,6 +10,7 @@ class DiaryService{
     async addDiary(userid, story, feeling, status){
         const diaryid = generateUUID();
         const aifeeling = await analyzeEmotion(story);
+        console.log(aifeeling);
         const diary = new Diary(diaryid, userid, story, feeling, aifeeling, status);
         await this.diaryRepository.save(diary);
     }

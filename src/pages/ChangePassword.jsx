@@ -26,6 +26,7 @@ const ChangePassword = () => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
       return;
     }
@@ -44,12 +45,12 @@ const ChangePassword = () => {
         }
       );
 
-      alert(response.data.message); // ✅ API ส่ง response กลับมา ใช้ response.data.message
       toast.success("Password changed successfully!",
         {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true
         });
 
       setNewPassword(""); // ✅ เคลียร์ state
@@ -64,6 +65,7 @@ const ChangePassword = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
       } else if (error.request) {
         toast.error("Something went wrong.",
@@ -71,6 +73,7 @@ const ChangePassword = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
         console.error("❌ No Response from Server:", error.request);
       } else {
@@ -81,6 +84,7 @@ const ChangePassword = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
       }
     }

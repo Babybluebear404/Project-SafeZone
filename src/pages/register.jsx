@@ -21,6 +21,7 @@ const SignUp = () => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
       return;
     }
@@ -46,6 +47,7 @@ const SignUp = () => {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
+            hideProgressBar: true,
           });
         navigate("/login");
       } else {
@@ -54,6 +56,7 @@ const SignUp = () => {
           position: "top-center",
           autoClose: 2000,
           closeButton: false,
+          hideProgressBar: true,
         });
       }
     } catch (error) {

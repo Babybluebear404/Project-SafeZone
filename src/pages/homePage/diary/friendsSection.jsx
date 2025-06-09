@@ -141,14 +141,20 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
 
       toast.success(`A friend request has been sent to ${friend.username}.`, {
         position: "top-center",
-        autoClose: 2000,
+        autoClose: 1500,
         closeButton: false,
+        hideProgressBar: true,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
+
     } catch (error) {
       toast.error("Failed to send the request.", {
         position: "top-center",
         autoClose: 2000,
         closeButton: false,
+        hideProgressBar: true,
       });
       console.error("Failed to add friend:", error);
     }
@@ -186,10 +192,11 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
       await deleteFriend(token, id);
       setFriend((prev) => prev.filter((f) => f.id !== id));
     } catch (err) {
-      toast.warning("You have unfriended this person.", {
+      toast.error("You have unfriended this person.", {
         position: "top-center",
         autoClose: 2000,
         closeButton: false,
+        hideProgressBar: true
       });
       setTimeout(() => {
         window.location.reload();
