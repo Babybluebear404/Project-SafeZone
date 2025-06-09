@@ -186,7 +186,8 @@ const Diary = () => {
         throw new Error("Failed to fetch messages");
       }
 
-      const result = await response.json();
+      const json = await response.json();
+      const result = json.data;
 
       if (result && result.length > 0) {
         const firstMessage = result[0];
@@ -200,8 +201,40 @@ const Diary = () => {
     }
   };
 
+  const [colorLabel,setColorLabel] = useState([]);
+
+  const fetchColorLabel = async () => {
+    try {
+      const apiUrl = `http://localhost:3000/api/diaries/time-feeling`;
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+
+      const json = await response.json();
+      const result = json.data;
+
+      if (result && result.length > 0) {
+        setColorLabel(result);
+      } else {
+        console.log("No Label found for the selected date.");
+      }
+
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+
   useEffect(() => {
     fetchMessages();
+    fetchColorLabel();
   }, [selectDate]);
 
   const [isShared, setIsShared] = useState(false);
@@ -363,17 +396,14 @@ const Diary = () => {
                     selectDate && selectDate.toDate().toDateString() === date.toDate().toDateString()
                       ? "bg-black"
                       : "";
+
                   const dateString = dayjs(date).format('YYYY-MM-DD');
-                  const messageForDate = messages.find(
+                  const messageForDate = colorLabel.find(
                     (msg) => dayjs(msg.date_and_time).format('YYYY-MM-DD') === dateString
                   );
-                  const emojiRating = messageForDate?.feeling ?? null;
+                  const emojiRating = messageForDate?.Feeling ?? null;
 
-                  const hasMessages = messages.some(
-                    (msg) => dayjs(msg.date_and_time).format('YYYY-MM-DD') === dateString
-                  );
-
-                  const ratingClass = hasMessages && emojiRating ? getRatingClass(emojiRating) : "";
+                  const ratingClass = colorLabel ? getRatingClass(emojiRating) : "";
 
                   const handleDateClick = () => {
                     if (selectDate && selectDate.toDate().toDateString() === date.toDate().toDateString()) {

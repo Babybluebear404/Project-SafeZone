@@ -14,73 +14,100 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
   const [loading, setLoading] = useState(true);
 
   const [friends, setFriends] = useState([]);
+  const [showStatus, setShowStatus] = useState([]);
   const [users, setUsers] = useState([]);
 
   const token = cookies.token;
 
-  useEffect(() => {
-    const fetchAcceptedFriends = async () => {
-      try {
-        const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        })
+  const fetchAcceptedFriends = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
 
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}`)
-        }
-
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setFriends(data);
-        } else if (data.data && Array.isArray(data.data)) {
-          setFriends(data.data); // กรณี API ตอบแบบ { success: true, data: [...] }
-        } else {
-          setFriends([]); // fallback
-        }
-      } catch (error) {
-        console.error('Failed to fetch accepted friends:', error)
-      } finally {
-        setLoading(false)
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}`)
       }
+
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setFriends(data);
+      } else if (data.data && Array.isArray(data.data)) {
+        setFriends(data.data);
+      } else {
+        setFriends([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch accepted friends:', error)
+    } finally {
+      setLoading(false)
     }
+  }
 
-    fetchAcceptedFriends()
-  }, [token])
+  const fetchShowStatus = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/closefriends/getAllStatusFriend', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}`);
+      }
+
+      const result = await res.json();
+      if (result.success) {
+        setShowStatus(result.data);
+      } else {
+        console.error('API error:', result.error);
+      }
+
+    } catch (error) {
+      console.error('Failed to fetch status users:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAllUsers = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/users/allusers', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}`);
+      }
+
+      const result = await res.json();
+      if (result.success) {
+        setUsers(result.data);
+      } else {
+        console.error('API error:', result.error);
+      }
+
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchAllUsers = async () => {
-      try {
-        const res = await fetch('http://localhost:3000/api/users/allusers', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}`);
-        }
-
-        const result = await res.json();
-        if (result.success) {
-          setUsers(result.data);
-        } else {
-          console.error('API error:', result.error);
-        }
-
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (token) {
+      fetchAcceptedFriends()
+      fetchShowStatus();
       fetchAllUsers();
     }
   }, [token]);
@@ -126,7 +153,6 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
       console.error("Failed to add friend:", error);
     }
   };
-
 
   const unrequest = (id) => {
     setFriends((prevFriends) => prevFriends.filter((f) => f.id !== id));
@@ -191,11 +217,12 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
             <div className="friends-list">
               {filteredUser.length > 0 ? (
                 filteredUser.map((friend) => {
-                  const isRequest = request.some((f) => f.id === friend.id);
-                  const isFriends = friends.some((f) => f.id === friend.id);
+                  const statusEntry = showStatus.find((s) => s.friend_id === friend.id);
+                  const friendStatus = statusEntry ? statusEntry.Status : null;
 
                   const template = imageTemplates.find(img => img.id === Number(friend.profile));
                   const profileSrc = template?.src || "/assets/0.png";
+
                   return (
                     <div key={friend.id} className="friend-item">
                       <img
@@ -204,25 +231,27 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
                         className="logo-friends"
                       />
                       <span>{friend.username}</span>
-                      {isFriends ? (
-                        <span className="friend-emojicon" ><FaUserFriends /></span>
-                      ) : (isRequest ? (
-                        <span className="friend-icon" onClick={() => unrequest(friend.id)} >Pending...</span>
-                      ) : (<FcPlus
-                        className="add-button"
-                        onClick={() => {
-                          addFriend(friend);
-                        }}
-                      />
-                      )
+
+                      {/* แสดง icon หรือข้อความตาม friendStatus */}
+                      {friendStatus === "accepted" ? (
+                        <span className="friend-emojicon"><FaUserFriends /></span>
+                      ) : friendStatus === "pending" ? (
+                        <span className="friend-icon" onClick={() => unrequest(friend.id)}>
+                          Pending...
+                        </span>
+                      ) : (
+                        <FcPlus
+                          className="add-button"
+                          onClick={() => addFriend(friend)}
+                        />
                       )}
                     </div>
                   );
                 })
-
               ) : (
-                <p>No friends found.</p>
+                <p>No users found.</p>
               )}
+
             </div>
           </div>
         )}

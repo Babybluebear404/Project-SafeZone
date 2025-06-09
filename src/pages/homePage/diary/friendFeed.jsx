@@ -24,7 +24,8 @@ export const FriendFeed = () => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const result = await res.json();
+            const json = await res.json();
+            const result = json.data;
 
             const friendsArray = Array.isArray(result)
                 ? result
@@ -61,7 +62,8 @@ export const FriendFeed = () => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const data = await res.json();
+            const json = await res.json();
+            const data = json.data;
 
             const processed = data
                 .map((entry, index) => ({

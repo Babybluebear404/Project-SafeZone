@@ -32,7 +32,8 @@ const Profile = (userService) => {
           }
         });
         if (response.ok) {
-          const profileData = await response.json();
+          const json = await response.json();
+          const profileData = json.data;
           if (profileData) {  // เช็คว่ามีข้อมูลก่อนเซ็ตค่า
             setUserData({
               id: profileData.id,

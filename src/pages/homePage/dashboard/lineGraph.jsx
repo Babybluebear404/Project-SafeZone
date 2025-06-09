@@ -16,59 +16,61 @@ export const LineGraph = ({ data }) => {
     const [filteredData, setFilteredData] = useState([]);
 
     const fetchFeelingData = async (day, token) => {
-            try {
-                const res = await fetch(`http://localhost:3000/api/diaries/feeling?day=${day}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-    
-                if (!res.ok) {
-                    throw new Error(`Error ${res.status}`);
+        try {
+            const res = await fetch(`http://localhost:3000/api/diaries/feeling?day=${day}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}`);
+            }
+
+
+            const json = await res.json();
+            const data = json.data;
+            return data;
+        } catch (error) {
+            console.error("Failed to fetch feeling data:", error.message);
+        }
+    };
+
+    // คำนวณจำนวนวันที่เลือกจาก dropdown
+    const getDaysAgo = (selectedOption) => {
+        switch (selectedOption) {
+            case "twoWeekAgo":
+                return 14;
+            case "oneMonthAgo":
+                return 30;
+            case "threeMonthAgo":
+                return 90;
+            case "sixMonthAgo":
+                return 180;
+            case "oneYearAgo":
+                return 365;
+            default:
+                return 0;
+        }
+    };
+
+    useEffect(() => {
+        const loadData = async () => {
+            if (token && selected) {
+                const days = getDaysAgo(selected);
+                const data = await fetchFeelingData(days, token);
+                if (data) {
+                    const sortedData = data.sort((a, b) => new Date(a.date_and_time) - new Date(b.date_and_time));
+                    setFilteredData(sortedData);
                 }
-    
-                const data = await res.json();
-                return data;
-            } catch (error) {
-                console.error("Failed to fetch feeling data:", error.message);
             }
         };
-    
-        // คำนวณจำนวนวันที่เลือกจาก dropdown
-        const getDaysAgo = (selectedOption) => {
-            switch (selectedOption) {
-                case "twoWeekAgo":
-                    return 14;
-                case "oneMonthAgo":
-                    return 30;
-                case "threeMonthAgo":
-                    return 90;
-                case "sixMonthAgo":
-                    return 180;
-                case "oneYearAgo":
-                    return 365;
-                default:
-                    return 0;
-            }
-        };
-    
-        useEffect(() => {
-            const loadData = async () => {
-                if (token && selected) {
-                    const days = getDaysAgo(selected);
-                    const data = await fetchFeelingData(days, token);
-                    if (data) {
-                        const sortedData = data.sort((a, b) => new Date(a.date_and_time) - new Date(b.date_and_time));
-                        setFilteredData(sortedData);
-                    }
-                }
-            };
-        
-            loadData();
-        }, [token, selected]);
-        
+
+        loadData();
+    }, [token, selected]);
+
 
     const getMonthName = (name) => {
         const monthNames = [

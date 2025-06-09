@@ -24,7 +24,9 @@ export const AverageEmotion = ({ data, COLORS }) => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const data = await res.json();
+
+            const json = await res.json();
+            const data = json.data;
             return data;
         } catch (error) {
             console.error("Failed to fetch feeling data:", error.message);
@@ -35,29 +37,31 @@ export const AverageEmotion = ({ data, COLORS }) => {
     const fetchTodayFeeling = async () => {
         const today = dayjs().format("YYYY-MM-DD"); // รูปแบบวัน: 2025-06-01
         try {
-          const res = await fetch(`http://localhost:3000/api/diaries/getdiary?day=${today}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
-  
-          if (!res.ok) {
-            throw new Error(`Error ${res.status}`);
-          }
-  
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            setFeeling(data[0].feeling);
-          } else {
-            setFeeling(null);
-          }
-  
+            const res = await fetch(`http://localhost:3000/api/diaries/getdiary?day=${today}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error(`Error ${res.status}`);
+            }
+
+
+            const json = await res.json();
+            const data = json.data;
+            if (Array.isArray(data) && data.length > 0) {
+                setFeeling(data[0].feeling);
+            } else {
+                setFeeling(null);
+            }
+
         } catch (error) {
-          console.error("Failed to fetch today's feeling:", error.message);
+            console.error("Failed to fetch today's feeling:", error.message);
         }
-      };
+    };
 
     useEffect(() => {
         const loadData = async () => {
@@ -127,7 +131,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
 
     return (
         <div className="Emotion-Section">
-            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[feeling-1] }}>
+            <div className="emotionThisday" style={{ backgroundColor: colorEmoji[feeling - 1] }}>
                 <span className="description-chart">ระดับอารมณ์ของวันนี้</span>
                 {getEmojiIcon((feeling * 100) / 5)}
                 <span className="description-chart">{labelMessage(feeling)}</span>

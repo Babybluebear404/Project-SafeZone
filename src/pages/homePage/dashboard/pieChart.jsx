@@ -28,7 +28,9 @@ export const PieMonth = ({ COLORS }) => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const data = await res.json();
+            
+            const json= await res.json();
+            const data = json.data;
             return data;
         } catch (error) {
             console.error("Failed to fetch feeling data:", error.message);

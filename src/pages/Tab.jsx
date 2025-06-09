@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
-import "../style/Tab.css"; 
+import "../style/Tab.css";
 import imageTemplates from "../components/imageTemplates";
 import { useCookies } from "react-cookie";
 
@@ -27,7 +27,8 @@ const Tab = () => {
         });
 
         if (response.ok) {
-          const profileData = await response.json();
+          const json = await response.json();
+          const profileData = json.data;
           const selecImage = imageTemplates.find((image) => String(image.id) === String(profileData?.profile));
           setSelectedImage(selecImage || null);
         } else {
@@ -40,7 +41,7 @@ const Tab = () => {
 
     fetchUserData();
   }, []);
-  
+
   return (
     <div className="home-container">
       <header className="navbar">
@@ -63,7 +64,7 @@ const Tab = () => {
           ) : (
             <div className="profile-picture-placeholder"></div>
           )}
-        </a>  
+        </a>
       </header>
     </div>
   );

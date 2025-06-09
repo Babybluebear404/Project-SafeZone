@@ -55,7 +55,9 @@ const Notification = ({ onConfirm }) => {
         }
       });
       if (!res.ok) throw new Error("Failed to fetch shared diaries");
-      const data = await res.json();
+
+      const json = await res.json();
+      const data = json.data;
       return Array.isArray(data) ? data : [];
     } catch (err) {
       console.error(err);

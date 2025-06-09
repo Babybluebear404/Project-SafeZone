@@ -33,25 +33,29 @@ const Login = () => {
         }
 
         if (res.ok) {
-          const data = await res.json();
-          const decoded = jwtDecode(data.token);
+          const json = await res.json();
+          if (!json.token) {
+            throw new Error("Missing token from response");
+          }
+
+          const decoded = jwtDecode(json.token);
           const expirationDate = new Date(decoded.exp * 1000); // แปลงจาก Unix Timestamp เป็น Date
 
-           toast.success("Login successful",
-          {
-            position: "top-center",
-            autoClose: 2000,
-            closeButton: false,
-          });
+          toast.success("Login successful",
+            {
+              position: "top-center",
+              autoClose: 2000,
+              closeButton: false,
+            });
 
-          setCookie("token", data.token, { path: "/", expires: expirationDate });
+          setCookie("token", json.token, { path: "/", expires: expirationDate });
           setsatuslogin(true);
         } else {
           toast.error(`"Login failed:" ${errorData.error}`, {
-          position: "top-center",
-          autoClose: 2000,
-          closeButton: false
-        });
+            position: "top-center",
+            autoClose: 2000,
+            closeButton: false
+          });
         }
       } catch (err) {
         console.error("Fetch error:", err.message);
@@ -77,8 +81,9 @@ const Login = () => {
             },
           });
 
-          const data = await response.json();
-          if (data.qusetion) {
+          const json = await response.json();
+          const data = json.data;
+          if (data) {
             navigate("/HomeLogin");
           } else {
             navigate("/depression-screening");
@@ -110,7 +115,10 @@ const Login = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
+
+        const json = await response.json();
+        const data = json.data;
+
         // ⬇️ ถอดรหัส JWT เพื่อดึงเวลา "exp"
         const decoded = jwtDecode(data.token);
         const expirationDate = new Date(decoded.exp * 1000); // แปลงจาก Unix Timestamp เป็น Date
