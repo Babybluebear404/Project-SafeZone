@@ -1,5 +1,6 @@
 const generateUUID = require("../../utils/uuid/getuuid");
 const Diary = require("../entities/diary");
+const { analyzeEmotion } = require("../../infrastructure/api/aifeeling");
 
 class DiaryService{
     constructor(diaryRepository){
@@ -8,7 +9,7 @@ class DiaryService{
 
     async addDiary(userid, story, feeling, status){
         const diaryid = generateUUID();
-        const aifeeling = 0; // รอ API
+        const aifeeling = await analyzeEmotion(story);
         const diary = new Diary(diaryid, userid, story, feeling, aifeeling, status);
         await this.diaryRepository.save(diary);
     }
