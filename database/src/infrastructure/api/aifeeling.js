@@ -3,8 +3,8 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  baseURL: "https://yqbv69dp12j0cexn.us-east4.gcp.endpoints.huggingface.cloud/v1/",
-  apiKey: "hf_XXXXX" // <-- ใส่ API key ของคุณตรงนี้
+  baseURL: process.env.HF_BASE_URL,
+  apiKey: process.env.HF_API_KEY
 });
 
 const analyzeEmotion = async (text) => {
