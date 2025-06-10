@@ -390,6 +390,11 @@ textarea::placeholder {
   color: #5f5d5d;
 }
 
+.mesAI {
+  font-size: 12px;
+  color: #5f5d5d;
+}
+
 /*Friend Popup*/
 .friend-display {
   display: flex;

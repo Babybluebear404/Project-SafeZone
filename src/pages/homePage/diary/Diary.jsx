@@ -238,6 +238,24 @@ const Diary = () => {
     }
   };
 
+  const labelMessage = (rating) => {
+        switch (rating) {
+            case 5:
+                return "Answer";
+            case 4:
+                return "Good";
+            case 3:
+                return "Alright";
+            case 2:
+                return "Bad";
+            case 1:
+                return "Awful";
+            default:
+                return "NaN";
+        }
+    };
+
+
   useEffect(() => {
     fetchMessages();
     fetchColorLabel();
@@ -253,6 +271,7 @@ const Diary = () => {
         <div key={index} className="showMessages">
           {emojiRating && getEmojiIcon(emojiRating)}
           <p className="display-text">{msg.story}</p>
+           <p className="mesAI">จากการวิเคราะห์ของ AI อารมณ์ของคุณคือ {labelMessage(msg.aifeeling)}</p>
           <div className="show-footer">
             <button onClick={deleteMessage} className="delete-diary">Delete</button>
             <button
