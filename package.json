@@ -25,6 +25,7 @@
     "helmet": "^8.1.0",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.474.0",
+    "mysql2": "^3.14.1",
     "openai": "^5.0.2",
     "react": "^18.3.1",
     "react-cookie": "^8.0.1",
