@@ -1,82 +1,89 @@
-
 .Dashboard-Section {
-    display: grid;
-    grid-template-columns: 1fr 4fr; 
-    grid-template-rows: 1fr 3fr; 
-    gap: 20px; 
-    width: 1080px;
-    margin-top: 0px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 3fr;
+  gap: 20px;
+  width: 1080px;
+  margin-top: 0px;
 }
 
 .Title {
-    font-size: 60px;
-    align-items: center;
-    margin-bottom: 0px;
-    margin-top: 10px;
+  font-size: 60px;
+  align-items: center;
+  margin-bottom: 0px;
+  margin-top: 10px;
 }
 
 .TitleSub {
-    display: flex;
-    font-family: "Prompt", serif;
-    flex-direction: column;
-    font-size: 14px;
-    width: 500px;
+  display: flex;
+  font-family: "Prompt", serif;
+  flex-direction: column;
+  font-size: 14px;
+  width: 500px;
 }
 
-.Emotion-Section{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; 
-    height: 100%;
-    gap: 20px;
+.Emotion-Section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+  gap: 20px;
 }
 
-.emotionThisday{
-    border-radius: 40px;
-    box-Shadow : 0px 8px 8px rgba(0, 0, 0, 0.3);
-    background-color: #f7cfcf;
+.emotionThisday {
+  border-radius: 40px;
+  box-Shadow: 0px 8px 8px rgba(0, 0, 0, 0.3);
+  background-color: #f7cfcf;
 }
 
-.avg-Label{
-    border-radius: 40px;
-    box-Shadow : 0px 4px 8px rgba(0, 0, 0, 0.3);
+.avg-Label {
+  border-radius: 40px;
+  box-Shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.avg-Model{
-    border-radius: 40px;
-    box-Shadow : 0px 4px 8px rgba(0, 0, 0, 0.3);
+.avg-Model {
+  border-radius: 40px;
+  box-Shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.avg-perWeek{
-    height: 100%;
-    background-color: #FFFFFF;
-    border-radius: 20px;
+.avg-perWeek {
+  height: 100%;
+  background-color: #FFFFFF;
+  border-radius: 20px;
 }
 
 .lineGraph {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 
-.avg-perWeek .Title-chart, .avg-perMonth .Title-chart, .barPerYear .Title-chart, .piePerYear .Title-chart{
-    font-family: "Prompt", serif;
-    color: #69247C;
-    font-size: 18px;
+.avg-perWeek .Title-chart,
+.avg-perMonth .Title-chart,
+.barPerYear .Title-chart,
+.piePerYear .Title-chart {
+  font-family: "Prompt", serif;
+  color: #69247C;
+  font-size: 18px;
 }
 
-.avg-perWeek .description-chart, .avg-perMonth .description-chart, .barPerYear .description-chart,.piePerYear .description-chart {
-    font-family: "Prompt", serif;
-    color: #69247C;
-    font-size: 10px;
+.avg-perWeek .description-chart,
+.avg-perMonth .description-chart,
+.barPerYear .description-chart,
+.piePerYear .description-chart {
+  font-family: "Prompt", serif;
+  color: #69247C;
+  font-size: 10px;
 }
 
-.avg-perMonth,.barPerYear,.piePerYear{
-    background-color: #FFFFFF;
-    border-radius: 20px;
+.avg-perMonth,
+.barPerYear,
+.piePerYear {
+  background-color: #FFFFFF;
+  border-radius: 20px;
 }
 
-.barPerYear{
+.barPerYear {
   background-color: #FFFFFF;
   border-radius: 20px;
   margin: 20px 0px;
@@ -90,62 +97,88 @@
 
 
 .Icon-Emoji {
-    font-size: 40px;
-    color: #f6efef;
+  font-size: 40px;
+  color: #f6efef;
 }
-.avg-Label, .avg-Model, .emotionThisday{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
+
+.avg-Label,
+.avg-Model,
+.emotionThisday {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 
 }
-.avg-Label .description-chart, .avg-Model .description-chart, .emotionThisday .description-chart, .dropdownChartSelected{
-    font-family: "Prompt", serif;
-    color: #4e215b;
+
+.avg-Label .description-chart,
+.avg-Model .description-chart,
+.emotionThisday .description-chart,
+.dropdownChartSelected {
+  font-family: "Prompt", serif;
+  color: #4e215b;
+}
+
+.dropdownChartSelected .dropdown {
+  font-family: "Prompt", serif;
+  color: #4e215b;
 }
 
 
 .Dashboard-Container {
-    position: relative;
+  position: relative;
+}
+
+
+.recharts-legend-item-text {
+  font-family: 'Prompt', sans-serif !important;
+}
+
+
+.CF-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 150px;
+  /* ปรับขนาดรูป */
+  height: auto;
+  z-index: -1;
+  /* ทำให้รูปอยู่ด้านหลังสุด */
+}
+
+.CF {
+  width: 220%;
+  /* ให้รูปเต็มขนาด container */
+  height: auto;
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
   }
-  
-  .CF-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 150px;  /* ปรับขนาดรูป */
-    height: auto;
-    z-index: -1;  /* ทำให้รูปอยู่ด้านหลังสุด */
+
+  50% {
+    transform: translateY(-20px);
+    /* ลอยขึ้น */
   }
-  
-  .CF {
-    width: 220%; /* ให้รูปเต็มขนาด container */
-    height: auto;
-    animation: floatAnimation 3s ease-in-out infinite;
+
+  100% {
+    transform: translateY(0);
   }
-  
-  @keyframes floatAnimation {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px); /* ลอยขึ้น */
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  
-  .cat-tongue {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: -1; /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
-  }
-  
-  .cat-tongue {
-    width: 300px;  /* ปรับขนาดรูปตามที่ต้องการ */
-    height: auto;
-  }
+}
+
+.cat-tongue {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  /* ทำให้รูปอยู่ด้านหลังเนื้อหาหลัก */
+}
+
+.cat-tongue {
+  width: 300px;
+  /* ปรับขนาดรูปตามที่ต้องการ */
+  height: auto;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CartesianGrid, ReferenceLine, Area, XAxis, YAxis, AreaChart, Tooltip, ResponsiveContainer } from "recharts";
+import { CartesianGrid, ReferenceLine, Area, XAxis, YAxis, AreaChart, Tooltip, ResponsiveContainer, Label } from "recharts";
 import "../../../style/dashboard.css";
 import dayjs from "dayjs";
 import { useCookies } from "react-cookie";
@@ -127,9 +127,9 @@ export const LineGraph = ({ data }) => {
     return (
         <div className="lineGraph">
             <span className="Title-chart">กราฟแสดงอารมณ์ที่ผ่านมาย้อนหลัง</span>
-            <div>
+            <div className="dropdownChartSelected">
                 <label htmlFor="dropdown">เลือกจำนวนวันย้อนหลัง:</label>
-                <select id="dropdown" value={selected} onChange={handleSelectChange}>
+                <select id="dropdown" className="dropdown" value={selected} onChange={handleSelectChange}>
                     <option value="twoWeekAgo">2 สัปดาห์ที่ผ่านมา</option>
                     <option value="oneMonthAgo">1 เดือนที่ผ่านมา</option>
                     <option value="threeMonthAgo">3 เดือนที่ผ่านมา</option>
@@ -142,9 +142,24 @@ export const LineGraph = ({ data }) => {
                     <AreaChart data={filteredData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                         <XAxis
                             dataKey="date_and_time"
-                            tickFormatter={(date) => new Date(date).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}
-                        />
-                        <YAxis domain={[1, 5]} />
+                            tickFormatter={(date) =>
+                                new Date(date).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })
+                            }
+                            height={50} 
+                        >
+                            <Label 
+                                value="วันที่ที่บันทึกไดอารี่"
+                                dy= {0}
+                                className="description-chart"
+                                position="insideBottom" />
+                        </XAxis>
+                        <YAxis domain={[1, 5]} >
+                            <Label
+                                value="ระดับอารมณ์"
+                                angle={-90}
+                                className="description-chart"
+                            />
+                        </YAxis>
                         <CartesianGrid strokeDasharray="3 3" />
                         <Tooltip />
                         <ReferenceLine x="Page C" stroke="green" label="Min PAGE" />
@@ -156,6 +171,6 @@ export const LineGraph = ({ data }) => {
                     แสดงข้อมูลตั้งแต่วันที่ {dayBegin} {monthBeginName} {yearBegin} ถึงวันที่ {thisDay} {thisMonthName}
                 </span>
             </div>
-        </div>
+        </div >
     );
 };

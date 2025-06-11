@@ -61,17 +61,17 @@ export const AverageEmotion = ({ data, COLORS }) => {
     const labelMessage = (rating) => {
         switch (rating) {
             case 5:
-                return "Answer";
+                return "สุดยอด";
             case 4:
-                return "Good";
+                return "ดี";
             case 3:
-                return "Alright";
+                return "ก็ดีนะ";
             case 2:
-                return "Bad";
+                return "ไม่ดีเลย";
             case 1:
-                return "Awful";
+                return "แย่มาก";
             default:
-                return "NaN";
+                return "รอการป้อนข้อมูล...";
         }
     };
     return (

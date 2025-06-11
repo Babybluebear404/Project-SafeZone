@@ -7,9 +7,9 @@ import { generateDate, months } from "./calendar";
 import dayjs from "dayjs";
 import "../../../style/Diary.css";
 import Tab from "../../Tab";
-import { FriendFeed } from "./friendFeed";
 import { useCookies } from "react-cookie";
 import { toast } from 'react-toastify';
+import { YesNoPage } from "./confirmBox.jsx";
 
 
 const Diary = () => {
@@ -101,7 +101,7 @@ const Diary = () => {
         setMessages(messages.filter(msg =>
           msg.diaryId !== diaryId
         ));
-        toast.warning("Diary deleted successfully",
+        toast.error("Diary deleted successfully",
           {
             position: "top-center",
             autoClose: 2000,
@@ -193,7 +193,6 @@ const Diary = () => {
 
       const json = await response.json();
       const result = json.data;
-      console.log(result);
 
       if (result && result.length > 0) {
         const firstMessage = result[0];
@@ -239,21 +238,21 @@ const Diary = () => {
   };
 
   const labelMessage = (rating) => {
-        switch (rating) {
-            case 5:
-                return "Answer";
-            case 4:
-                return "Good";
-            case 3:
-                return "Alright";
-            case 2:
-                return "Bad";
-            case 1:
-                return "Awful";
-            default:
-                return "NaN";
-        }
-    };
+    switch (rating) {
+      case 5:
+        return "สุดยอด";
+      case 4:
+        return "ดี";
+      case 3:
+        return "ก็ดีนะ";
+      case 2:
+        return "ไม่ดีเลย";
+      case 1:
+        return "แย่มาก";
+      default:
+        return "กำลังประมวลผล...";
+    }
+  };
 
 
   useEffect(() => {
@@ -271,19 +270,16 @@ const Diary = () => {
         <div key={index} className="showMessages">
           {emojiRating && getEmojiIcon(emojiRating)}
           <p className="display-text">{msg.story}</p>
-           <p className="mesAI">จากการวิเคราะห์ของ AI อารมณ์ของคุณคือ {labelMessage(msg.aifeeling)}</p>
+          <p className="mesAI">จากการวิเคราะห์ของ AI อารมณ์ของคุณคือ {labelMessage(msg.aifeeling)}</p>
           <div className="show-footer">
-            <button onClick={deleteMessage} className="delete-diary">Delete</button>
+            <button onClick={() => setShowConfirm(true)} className="delete-diary">ลบไดอารี่</button>
             <button
               onClick={async () => {
-                const selectedDiary = messages.find(
-                  (msg) =>
-                    selectDate &&
-                    dayjs(msg.date_and_time).format("YYYY-MM-DD") === selectDate.format("YYYY-MM-DD")
-                );
-                const diaryId = selectedDiary?.id;
+                const diaryId = msg?.id;
+                const status = msg?.sharestatus === 0 ? 1 : 0;
+                console.log(msg);
 
-                if (!diaryId) {
+                if (!token || !diaryId) {
                   toast.warning("No diary found to update sharing status.",
                     {
                       position: "top-center",
@@ -295,49 +291,29 @@ const Diary = () => {
                 }
 
                 try {
-                  const deleteResponse = await fetch("http://localhost:3000/api/diaries/deletediary", {
-                    method: "DELETE",
+                  const response = await fetch("http://localhost:3000/api/diaries/updatestatus", {
+                    method: "PUT",
                     headers: {
                       "Content-Type": "application/json",
                       Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ diaryId: diaryId }),
+                    body: JSON.stringify({ diaryid: diaryId, status: status }),
                   });
 
-                  if (!deleteResponse.ok) throw new Error("Failed to delete diary.");
-                  console.log(selectedDiary.sharestatus);
-                  // Step 2: Add a new diary with toggled status
-                  const newDiary = {
-                    story: selectedDiary.story,
-                    feeling: selectedDiary.feeling,
-                    status: selectedDiary.sharestatus === 1 ? 0 : 1,
-                  };
-
-                  const addResponse = await fetch("http://localhost:3000/api/diaries/adddiary", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(newDiary),
-                  });
-
-                  if (!addResponse.ok) throw new Error("Failed to add updated diary.");
-
-
-                  setIsShared(selectedDiary.sharestatus);
+                  if (!response.ok) throw new Error("Failed to update diary status.");
+                  setIsShared(status === 0 ? false : true);
 
                   // Optional: refetch messages or reload
                   toast.success("Your diary sharing status has been updated successfully.",
                     {
                       position: "top-center",
-                      autoClose: 2000,
+                      autoClose: 1000,
                       closeButton: false,
                       hideProgressBar: true,
                     });
                   setTimeout(() => {
                     window.location.reload();
-                  }, 2500);
+                  }, 1500);
 
                 } catch (error) {
                   console.error("Error updating diary sharing status:", error);
@@ -352,7 +328,7 @@ const Diary = () => {
               }}
               className="share-diary"
             >
-              {msg.sharestatus === 0 ? "Share" : "Not Share"}
+              {msg.sharestatus === 0 ? "แชร์ไดอารี่" : "ยกเลิกการแชร์"}
             </button>
 
           </div>
@@ -385,6 +361,8 @@ const Diary = () => {
   };
 
   const [isSaving, setIsSaving] = useState(false);
+
+  const [showConfirm, setShowConfirm] = useState(false);
 
   return (
     <div className="diary-container">
@@ -493,7 +471,7 @@ const Diary = () => {
                         </h1>
                       </div>
                       <div className="emoji-selected">
-                        <span className="text-general">How are you?</span>
+                        <span className="text-general">วันนี้เป็นอย่างไรบ้าง? มาเล่าให้ฟังหน่อย</span>
                         <div className="emoji-icon" key={selectDate?.toDate().toDateString()}>
                           <BsEmojiLaughingFill
                             className={`awesome-icon ${selectedEmoji[selectDate?.toDate().toDateString()] === 5 ? 'selected' : ''}`}
@@ -518,11 +496,11 @@ const Diary = () => {
                         </div>
 
                         <div className="emoji-text">
-                          <a className="text-general">Awesome</a>
-                          <a className="text-general">Good</a>
-                          <a className="text-general">Alright</a>
-                          <a className="text-general">Bad</a>
-                          <a className="text-general">Awful</a>
+                          <a className="text-general">สุดยอด</a>
+                          <a className="text-general">ดี</a>
+                          <a className="text-general">ก็ดีนะ</a>
+                          <a className="text-general">ไม่ดีเลย</a>
+                          <a className="text-general">แย่มาก</a>
                         </div>
                       </div>
 
@@ -554,10 +532,10 @@ const Diary = () => {
                             }}
                             className="save-message"
                             disabled={
-                              isSaving 
+                              isSaving
                             }
                           >
-                            Save
+                            บันทึก
                           </button>
                         </div>
                       </div>
@@ -579,9 +557,15 @@ const Diary = () => {
           </div> {/*End of Diary Section*/}
         </div>
       </div>
-      <div className="friendFeed">
-        <FriendFeed />
-      </div>
+      {showConfirm && <YesNoPage
+        question="คุณแน่ใจที่จะลบไดอารี่ของวันที่นี้หรือไม่?"
+        onYes={() => {
+          deleteMessage();
+          setShowConfirm(false);
+        }}
+        onNo={() => setShowConfirm(false)}
+        datePick={selectDate}
+      />}
     </div>
 
 

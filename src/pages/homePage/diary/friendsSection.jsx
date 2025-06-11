@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import "../../../style/Diary.css";
 import { useCookies } from "react-cookie";
 import imageTemplates from "../../../components/imageTemplates";
+import { YesNoPage } from "./confirmBox.jsx";
+
 
 export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,6 +16,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
   const [loading, setLoading] = useState(true);
 
   const [friends, setFriends] = useState([]);
+  const [removeFriName, setRemoveFriends] = useState("");
   const [showStatus, setShowStatus] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -204,6 +207,8 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
     }
   };
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
   return (
     addfriendSec ? (
       <div className="friend-display">
@@ -256,7 +261,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
                   );
                 })
               ) : (
-                <p>No users found.</p>
+                <p className="text-general" style={{ fontSize: '16px' }}>ไม่พบรายชื่อผู้ใช้</p>
               )}
 
             </div>
@@ -294,16 +299,29 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
                     <span>{friend.username}</span>
                     <TiDelete
                       className="delete-button"
-                      onClick={() => removeFriend(friend.id)}
+                      onClick={() => {
+                        setShowConfirm(true);
+                        setRemoveFriends(friend.id);
+                      }}
+                    // onClick={
+                    //   () => removeFriend(friend.id)}
                     />
                   </div>
                 )
               })
             ) : (
-              <p>No friends found.</p>
+              <p className="text-general" style={{ fontSize: '16px' }}>ไม่พบรายชื่อเพื่อน</p>
             )}
           </div>
         </div>
+        {showConfirm && <YesNoPage
+          question="คุณต้องการที่จะยกเลิกการเป็นเพื่อนใช่หรือไม่?"
+          onYes={() => {
+            removeFriend(removeFriName);
+            setShowConfirm(false);
+          }}
+          onNo={() => setShowConfirm(false)}
+        />}
       </div>
     )
   )

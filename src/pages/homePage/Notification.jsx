@@ -149,7 +149,7 @@ const Notification = ({ onConfirm }) => {
   };
 
   const handleViewDiary = () => {
-    navigate("/Diary");
+    navigate("/friendFeed");
   };
 
   return (
@@ -187,7 +187,7 @@ const Notification = ({ onConfirm }) => {
             </div>
           ))
         ) : (
-          <div className="no-notifications">No Notification Yet.</div>
+          <div className="no-notifications">ไม่พบแจ้งเตือนในขณะนี้</div>
         )}
       </div>
     </div>

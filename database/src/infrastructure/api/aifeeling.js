@@ -8,7 +8,7 @@ const openai = new OpenAI({
 
 const analyzeEmotion = async (text) => {
   const promptStyle = `Select a feeling value from 1 to 5 according to the emotion level below.
-Only show the emotion level value as numbers.
+Only show the emotion level value as numbers. Please response with only the number, nothing else.
 
 Emotion Level :
 1 - Worst

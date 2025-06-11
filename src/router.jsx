@@ -17,6 +17,7 @@ import Q8 from './pages/question/Q8'
 import AboutUs from './pages/homePage/AboutUs'
 import Info from './pages/homePage/Info'
 import Diary from './pages/homePage/diary/Diary'
+import Friendary from './pages/homePage/diary/friendFeed'
 import Notification from './pages/homePage/Notification'
 import Dashboard from './pages/homePage/dashboard/dashboard'
 import Profile from './pages/homePage/Profile'
@@ -39,6 +40,7 @@ const elements = createRoutesFromElements (
         <Route path="/AboutUs" element={<PrivateRoute element={<AboutUs />} />} />
         <Route path="/Info" element={<PrivateRoute element={<Info />} />} />
         <Route path="/Diary" element={<PrivateRoute element={<Diary />} />} />
+        <Route path="/friendFeed" element={<PrivateRoute element={<Friendary />} />} />
         <Route path="/Notification" element={<PrivateRoute element={<Notification />} />} />
         <Route path="/Profile" element={<PrivateRoute element={<Profile />} />} />
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />

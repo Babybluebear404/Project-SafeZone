@@ -215,7 +215,8 @@ textarea::placeholder {
 }
 
 .text-general {
-  font-size: 20px;
+  font-family: "Prompt", serif;
+  font-size: 10px;
   color: #28159B;
 }
 
@@ -245,7 +246,10 @@ textarea::placeholder {
 }
 
 .save-message {
+  font-family: "Prompt", serif;
   background-color: #265ebf;
+  font-size: 14px;
+  border-radius: 50px;
 }
 
 
@@ -374,15 +378,18 @@ textarea::placeholder {
 
 .show-footer button {
   width: 150px;
-  font-family: 'Nanum Pen Script', serif;
+   font-family: "Prompt", serif;
+   font-size: 14px;
 }
 
 .share-diary {
   background-color: #7da6ff;
+  border-radius: 20px;
 }
 
 .delete-diary {
   background-color: #ce4d4d;
+  border-radius: 20px;
 }
 
 .mesStatusShare {
@@ -451,8 +458,8 @@ textarea::placeholder {
 
 .logo-friends {
   margin-right: 10px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
@@ -522,80 +529,3 @@ textarea::placeholder {
 }
 
 /*End Friend popup Section*/
-
-
-/* Diary's Friend Feed */
-
-.friendary {
-  font-size: 60px;
-}
-.friendFeed {
-  background-color: #FFFFFF;
-  width: 100%;
-  height: 100%;
-  margin-top: 20%;
-  padding: calc(50px + 8vw);
-  font-family: "Prompt", serif;
-}
-
-.feed-section {
-  width: 100%;
-}
-
-.feed-colunm {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  padding: 0px;
-}
-
-.post-Feed {
-  max-width: 800px;
-  border: 1px solid rgb(180, 172, 172);
-  padding: 40px;
-  margin-left: 30px;
-  height: 1000px;
-  overflow-y: auto;
-}
-
-.friend-Post {
-  display: grid;
-  grid-template-columns: 0.5fr 4fr 1.5fr;
-}
-
-
-.name-friends{
-  color: #0E0735;
-  text-align: left;
-  font-size: 20px;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.post-friends{
-  color: #555459;
-  text-align: left;
-  font-size: 20px;
-  margin-left: 10px;
-}
-
-.labelPost-friends{
-  color: #555459;
-  font-size: 15px;
-}
-
-.labelEmoji{
-  font-size: 10px;
-}
-
-.friend-items {
-  display: grid;
-  grid-template-columns: 1fr 3fr 0.5fr;
-  align-items: center;
-  justify-content: left;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.isView{
-  cursor: pointer;
-}

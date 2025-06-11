@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BarChart, CartesianGrid, Legend, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, CartesianGrid, Legend, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from "recharts";
 import "../../../style/dashboard.css";
 import dayjs from "dayjs";
 import { useCookies } from "react-cookie";
@@ -29,7 +29,7 @@ export const LineGraphYear = ({ data, COLORS }) => {
                 throw new Error(`Error ${res.status}`);
             }
 
-            const json= await res.json();
+            const json = await res.json();
             const data = json.data;
             return data;
         } catch (error) {
@@ -65,7 +65,7 @@ export const LineGraphYear = ({ data, COLORS }) => {
                 }
             }
         };
-    
+
         loadData();
     }, [token, selected]);
 
@@ -153,11 +153,10 @@ export const LineGraphYear = ({ data, COLORS }) => {
 
     return (
         <div className="lineGraph">
-            <span className="Title-chart">กราฟแท่งแสดงอารมณ์ในแต่ละเดือนที่ผ่านมาย้อนหลัง</span>
+            <span className="Title-chart">กราฟแสดงความถี่ของแต่ละระดับอารมณ์ในแต่ละเดือน</span>
             <div className="dropdownChartSelected">
-                <label htmlFor="dropdown">เลือกจำนวนวันย้อนหลัง:</label>
-                <select id="dropdown" value={selected} onChange={handleSelectChange}>
-                    <option value="twoWeekAgo">2 สัปดาห์ที่ผ่านมา</option>
+                <label htmlFor="dropdown">เลือกช่วงเวลาย้อนหลัง:</label>
+                <select id="dropdown" className="dropdown" value={selected} onChange={handleSelectChange}>
                     <option value="oneMonthAgo">1 เดือนที่ผ่านมา</option>
                     <option value="threeMonthAgo">3 เดือนที่ผ่านมา</option>
                     <option value="sixMonthAgo">6 เดือนที่ผ่านมา</option>
@@ -173,16 +172,32 @@ export const LineGraphYear = ({ data, COLORS }) => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
                             dataKey="month"
-                            tickFormatter={(month) => dayjs(month).format("MMM YYYY")}
-                        />
-                        <YAxis domain={[0, "auto"]} />
+                            tickFormatter={(month) => dayjs(month).format("MMM YYYY")} 
+                            height={50} 
+                            tick={{ dy: 10 }}
+                            >
+                            <Label
+                                value="เดือนที่บันทึกไดอารี่"
+                                className="description-chart"
+                                dy={20}
+                                position="Bottom" />
+                        </XAxis>
+
+                        <YAxis domain={[0, "auto"]} >
+                            <Label
+                                value="ความถี่ของแต่ละระดับอารมณ์"
+                                angle={-90}
+                                dx={-22}
+                                className="description-chart"
+                            />
+                        </YAxis>
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="label1" fill={labelColors[1]} name="Awful" />
-                        <Bar dataKey="label2" fill={labelColors[2]} name="Bad" />
-                        <Bar dataKey="label3" fill={labelColors[3]} name="Alright" />
-                        <Bar dataKey="label4" fill={labelColors[4]} name="Good" />
-                        <Bar dataKey="label5" fill={labelColors[5]} name="Awesome" />
+                        <Bar dataKey="label1" fill={labelColors[1]} name="แย่มาก"  />
+                        <Bar dataKey="label2" fill={labelColors[2]} name="ไม่ดีเลย" />
+                        <Bar dataKey="label3" fill={labelColors[3]} name="ก็ดีนะ" />
+                        <Bar dataKey="label4" fill={labelColors[4]} name="ดี" />
+                        <Bar dataKey="label5" fill={labelColors[5]} name="สุดยอด" />
                     </BarChart>
                 </ResponsiveContainer>
                 <p></p>

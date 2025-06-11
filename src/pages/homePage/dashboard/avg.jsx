@@ -13,7 +13,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
 
     const fetchFeelingData = async (token) => {
         try {
-            const res = await fetch(`http://localhost:3000/api/diaries/average-feeling?day=365`, {
+            const res = await fetch(`http://localhost:3000/api/diaries/average-feeling?day=7`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -117,17 +117,17 @@ export const AverageEmotion = ({ data, COLORS }) => {
     const labelMessage = (rating) => {
         switch (rating) {
             case 5:
-                return "Answer";
+                return "สุดยอด";
             case 4:
-                return "Good";
+                return "ดี";
             case 3:
-                return "Alright";
+                return "ก็ดีนะ";
             case 2:
-                return "Bad";
+                return "ไม่ดีเลย";
             case 1:
-                return "Awful";
+                return "แย่มาก";
             default:
-                return "NaN";
+                return "รอการป้อนข้อมูล...";
         }
     };
 
@@ -139,17 +139,15 @@ export const AverageEmotion = ({ data, COLORS }) => {
                 <span className="description-chart">{labelMessage(feeling)}</span>
             </div>
             <div className="avg-Label" style={{ backgroundImage: averageColor }}>
-                <span className="description-chart">ระดับอารมณ์โดยเฉลี่ย</span>
+                <span className="description-chart">ระดับอารมณ์<br/>โดยเฉลี่ยใน 1 สัปดาห์</span>
                 {getEmojiIcon(percentage)}
                 <span className="description-chart">{averageMood.toFixed(2)}</span>
             </div>
             <div className="avg-Model" style={{ backgroundColor: colorEmoji[aifeeling - 1] }}>
-                <span className="description-chart">ผลประเมินระดับอารมณ์จาก AI ล่าสุด</span>
+                <span className="description-chart">ผลประเมินระดับอารมณ์จาก AI ของวันนี้</span>
                 {getEmojiIcon((aifeeling * 100) / 5)}
                 <span className="description-chart">{labelMessage(aifeeling)}</span>
             </div>
-
-
         </div>
     )
 

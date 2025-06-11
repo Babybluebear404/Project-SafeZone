@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
 import { BsEmojiFrownFill, BsEmojiLaughingFill, BsEmojiNeutralFill, BsEmojiSmileFill, BsEmojiTearFill } from "react-icons/bs";
+import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 import { useCookies } from "react-cookie";
 import imageTemplates from "../../../components/imageTemplates";
+import "../../../style/Friendary.css";
+import Tab from "../../Tab";
 
-export const FriendFeed = () => {
+export const Friendary = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [friendsData, setFriendsData] = useState([]);
-    const [friendMap, setFriendMap] = useState({}); //
+    const [friendMap, setFriendMap] = useState({});
     const [cookies] = useCookies(["token"]);
     const token = cookies.token;
+    const [currentPage, setCurrentPage] = useState(0);
+    const postsPerPage = 4;
 
     const fetchAcceptedFriends = async () => {
         try {
@@ -47,7 +53,6 @@ export const FriendFeed = () => {
         }
     };
 
-
     const fetchSharedDiaries = async () => {
         try {
             const res = await fetch("http://localhost:3000/api/diaries/getsharediary", {
@@ -64,17 +69,18 @@ export const FriendFeed = () => {
 
             const json = await res.json();
             const data = json.data;
-
             const processed = data
                 .map((entry, index) => ({
                     ...entry,
                     id: String(index),
                     username: friendMap[entry.userid]?.username || "Unknown",
                     profile: friendMap[entry.userid]?.profile || entry.profile || "Unknown",
+                    isView: true
                 }))
                 .sort((a, b) => new Date(b.date) - new Date(a.date));
 
             setFriendsData(processed);
+            setCurrentPage(0); // Reset to first page when data changes
         } catch (err) {
             console.error("Can't load Diary:", err);
         }
@@ -102,17 +108,17 @@ export const FriendFeed = () => {
     const getRatingClass = (rating) => {
         switch (rating) {
             case 5:
-                return "Awesome";
+                return "สุดยอด";
             case 4:
-                return "Good";
+                return "ดี";
             case 3:
-                return "Alright";
+                return "ก็ดีนะ";
             case 2:
-                return "Bad";
+                return "ไม่ดีเลย";
             case 1:
-                return "Awful";
+                return "แย่มาก";
             default:
-                return "";
+                return "กำลังประมวลผล...";
         }
     };
 
@@ -133,9 +139,40 @@ export const FriendFeed = () => {
         }
     };
 
+    const toggleView = (id) => {
+        setFriendsData(prev => {
+            const targetDiary = prev.find(diary => diary.id === id);
+            if (!targetDiary) return prev; 
+
+            const targetUserId = targetDiary.userid;
+
+            return prev.map(diary =>
+                diary.userid === targetUserId
+                    ? { ...diary, isView: !diary.isView }
+                    : diary
+            );
+        });
+    };
+
+    // Filter visible posts and calculate pagination
+    const visiblePosts = friendsData.filter(friend => friend.isView);
+    const totalPages = Math.ceil(visiblePosts.length / postsPerPage);
+    const currentPosts = visiblePosts.slice(
+        currentPage * postsPerPage,
+        (currentPage + 1) * postsPerPage
+    );
+
+    const goToPage = (page) => {
+        if (page >= 0 && page < totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     return (
         <div className="feed-section">
+            <Tab />
             <h1 className="friendary">Friendary</h1>
+            <span className="descripFeed">เรื่องราวของเพื่อนของคุณที่แบ่งปันมาให้คุณ อ่านบันทึกของเพื่อนคุณได้เลย!</span>
             <div className="feed-colunm">
                 <div className="friends-nameFeed">
                     <input
@@ -161,50 +198,87 @@ export const FriendFeed = () => {
                                                 className="logo-friends"
                                             />
                                             <span className="name-friends">{friend.username}</span>
+                                            {friend.isView ? (
+                                                <RiEyeFill
+                                                    style={{ color: "#ffffff" }}
+                                                    cursor="pointer"
+                                                    onClick={() => toggleView(friend.id)}
+                                                />
+                                            ) : (
+                                                <RiEyeOffFill
+                                                    style={{ color: "#ffffff" }}
+                                                    cursor="pointer"
+                                                    onClick={() => toggleView(friend.id)}
+                                                />
+                                            )}
                                         </div>
                                     )
                                 })
                             ) : (
-                                <p>No friends found.</p>
+                                <p>ไม่พบรายชื่อเพื่อน</p>
                             )}
                         </div>
                     </div>
                 </div>
-                <div className="post-Feed">
-                    {friendsData.length > 0 ? (
-                        friendsData.map((friend, index) => {
-                            const template = imageTemplates.find(img => img.id === Number(friend.profile));
-                            const profileSrc = template?.src || "/assets/0.png";
-                            return (
-                                <div key={friend.id}>
-                                    <div className="friend-Post">
-                                        <img
-                                            src={profileSrc}
-                                            alt={template?.name || "Unknown Cat"}
-                                            className="logo-friends"
-                                        />
-                                        <span className="name-friends">{friend.username}</span>
-                                        <div className="datePost-friends">{friend.date_and_time}
+                <div className="post-Column">
+                    <div className="post-Feed">
+                        {currentPosts.length > 0 ? (
+                            currentPosts.map((friend, index) => {
+                                const template = imageTemplates.find(img => img.id === Number(friend.profile));
+                                const profileSrc = template?.src || "/assets/0.png";
+                                return (
+                                    <div key={friend.id}>
+                                        <div className="friend-Post">
+                                            <img
+                                                src={profileSrc}
+                                                alt={template?.name || "Unknown Cat"}
+                                                className="logo-friends"
+                                            />
+                                            <span className="name-friends">{friend.username}</span>
+                                            <div className="datePost-friends">{friend.date_and_time}</div>
+                                            <div></div>
+                                            <div className="post-friends">{friend.story}</div>
+                                            <div className="labelPost-friends">
+                                                <div className="labelEmoji">{getEmojiIcon(friend.feeling)}</div>
+                                                <div>{getRatingClass(friend.feeling)}</div>
+                                            </div>
                                         </div>
-                                        <div></div>
-                                        <div className="post-friends">{friend.story}</div>
-                                        <div className="labelPost-friends">
-                                            <div className="labelEmoji">{getEmojiIcon(friend.feeling)}</div>
-                                            <div>{getRatingClass(friend.feeling)}</div>
-                                        </div>
-                                    </div>
 
-                                    {index !== friendsData.length.length - 1 && (
-                                        <hr style={{ border: "1px solid rgb(180, 172, 172)", margin: "20px 0" }} />
-                                    )}
-                                </div>
-                            )
-                        })
-                    ) : (
-                        <p>No posts available.</p>
+                                        {index !== currentPosts.length - 1 && (
+                                            <hr style={{ border: "1px solid rgb(180, 172, 172)", margin: "20px 0" }} />
+                                        )}
+                                    </div>
+                                )
+                            })
+                        ) : (
+                            <p>ไม่มีโพสต์ในขณะนี้</p>
+                        )}
+                    </div  >
+                    {totalPages > 1 && (
+                        <div className="arrowEndFeed">
+                            <FaArrowAltCircleLeft 
+                                onClick={() => goToPage(currentPage - 1)}
+                                style={{ 
+                                    cursor: currentPage > 0 ? 'pointer' : 'not-allowed', 
+                                    opacity: currentPage > 0 ? 1 : 0.5 
+                                }}
+                            />
+                            <span style={{ margin: '0 10px' }}>
+                                หน้า {currentPage + 1} จาก {totalPages}
+                            </span>
+                            <FaArrowAltCircleRight 
+                                onClick={() => goToPage(currentPage + 1)}
+                                style={{ 
+                                    cursor: currentPage < totalPages - 1 ? 'pointer' : 'not-allowed', 
+                                    opacity: currentPage < totalPages - 1 ? 1 : 0.5 
+                                }}
+                            />
+                        </div>
                     )}
                 </div>
             </div>
         </div>
     );
 };
+
+export default Friendary;

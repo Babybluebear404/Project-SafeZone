@@ -1,0 +1,98 @@
+.feed-section {
+  width: 100%;
+}
+
+.friendary {
+  font-size: 70px;
+  margin-bottom: 0px;
+}
+
+.descripFeed {
+  font-size: 15px;
+  color: #555459;
+  font-family: "Prompt", serif;
+}
+
+
+.feed-colunm {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: radial-gradient(circle closest-side, #7d7d7d, #5f5d5d);
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  width: 1000px; 
+  height: 700px;
+}
+
+.post-Column{
+  display: grid;
+  grid-template-rows: 11fr 1fr;
+  background-color: #FFFFFF;
+  border-radius: 50px;
+}
+
+.post-Feed, .friends-nameFeed {
+  max-width: 800px;
+  border-radius: 30px;
+  padding: 40px;
+  overflow-y: auto;
+  font-family: "Prompt", serif;
+  max-height: 550px;
+}
+
+.friends-nameFeed .name-friends{
+  color: #FFFFFF;
+  cursor: default;
+}
+
+.search-box{
+  border-radius: 30px;
+}
+
+.friend-Post {
+  display: grid;
+  margin-top: 20px;
+  grid-template-columns: 0.5fr 4fr 1.5fr;
+}
+
+.name-friends {
+  color: #0E0735;
+  text-align: left;
+  font-size: 16px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.post-friends {
+  color: #555459;
+  text-align: left;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.labelPost-friends {
+  color: #555459;
+  font-size: 15px;
+}
+
+.labelEmoji {
+  font-size: 10px;
+}
+
+.friend-items {
+  display: grid;
+  grid-template-columns: 1fr 3fr 0.5fr;
+  align-items: center;
+  justify-content: left;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.arrowEndFeed {
+  color: #555459;
+  font-family: "Prompt", serif;
+  font-size: 15px;
+}

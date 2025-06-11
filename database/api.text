@@ -243,7 +243,12 @@ Output{
 http://localhost:3000/api/diaries/average-aifeeling
 http://localhost:3000/api/diaries/feeling
 http://localhost:3000/api/diaries/aifeeling
-http://localhost:3000/api/diaries/updatestatus
+http://localhost:3000/api/diaries/updatestatus (Put method)
+Input{
+    userid,
+    diaryid,
+    status,
+}
 
 สำหรับ ดึงวันและอารมณ์
 http://localhost:3000/api/diaries/time-feeling

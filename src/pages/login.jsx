@@ -118,8 +118,7 @@ const Login = () => {
 
       if (response.ok) {
 
-        const json = await response.json();
-        const data = json.data;
+        const data = await response.json();
 
         // ⬇️ ถอดรหัส JWT เพื่อดึงเวลา "exp"
         const decoded = jwtDecode(data.token);

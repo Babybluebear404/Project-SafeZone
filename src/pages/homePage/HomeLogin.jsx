@@ -60,11 +60,11 @@ const HomeLogin = () => {
           และเราสามารถช่วยคุณในการประเมินระดับโรคซึมเศร้า
         </p>
         <button onClick={goToDepressionScreening} className="quiz-button">
-          แบบทดสอบโรคซึมเศร้า
+          เช็กสุขภาพใจของคุณ
         </button>
 
         <button onClick={openPopup} className="consult-button">
-          ช่องทางการฮีลใจ
+          ช่องทางหาที่ฮีลใจ
         </button>
       </main>
 

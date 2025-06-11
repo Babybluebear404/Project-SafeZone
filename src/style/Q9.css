@@ -1,17 +1,3 @@
-.screening-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-  overflow: hidden;
-}
-
-body {
-  overflow: hidden;
-}
-
 .question-card,
 .result-card {
   width: 100%;
@@ -111,7 +97,7 @@ body {
 }
 
 .next-Question {
-  width: 20%;
+  width: 50%;
   background-color: #5A00CC;
   border-radius: 30px;
 }
