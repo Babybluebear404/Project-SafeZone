@@ -45,7 +45,7 @@ const DepressionScreening = () => {
 
       const requestData = { Q2: 0}
       try {
-        const response = await fetch("http://localhost:3000/api/questions/savequestion", {
+        const response = await fetch("https://project-safezone.onrender.com/api/questions/savequestion", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -42,7 +42,7 @@ const Diary = () => {
         status: isShared
       };
       try {
-        const response = await fetch("http://localhost:3000/api/diaries/adddiary", {
+        const response = await fetch("https://project-safezone.onrender.com/api/diaries/adddiary", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const Diary = () => {
     if (!diaryId) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/diaries/deletediary', {
+      const response = await fetch('https://project-safezone.onrender.com/api/diaries/deletediary', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const Diary = () => {
 
     try {
       const formattedDate = selectDate.format("YYYY-MM-DD");
-      const apiUrl = `http://localhost:3000/api/diaries/getdiary?day=${formattedDate}`;
+      const apiUrl = `https://project-safezone.onrender.com/api/diaries/getdiary?day=${formattedDate}`;
 
       const response = await fetch(apiUrl, {
         method: "GET",
@@ -210,7 +210,7 @@ const Diary = () => {
 
   const fetchColorLabel = async () => {
     try {
-      const apiUrl = `http://localhost:3000/api/diaries/time-feeling`;
+      const apiUrl = `https://project-safezone.onrender.com/api/diaries/time-feeling`;
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -291,7 +291,7 @@ const Diary = () => {
                 }
 
                 try {
-                  const response = await fetch("http://localhost:3000/api/diaries/updatestatus", {
+                  const response = await fetch("https://project-safezone.onrender.com/api/diaries/updatestatus", {
                     method: "PUT",
                     headers: {
                       "Content-Type": "application/json",

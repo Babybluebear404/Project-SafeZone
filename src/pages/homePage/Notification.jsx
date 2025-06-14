@@ -16,7 +16,7 @@ const Notification = ({ onConfirm }) => {
 
   const getPendingFriends = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/closefriends/getpending', {
+      const res = await fetch('https://project-safezone.onrender.com/api/closefriends/getpending', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -34,7 +34,7 @@ const Notification = ({ onConfirm }) => {
 
   const fetchFriendsReturn = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
+      const res = await fetch('https://project-safezone.onrender.com/api/closefriends/getaccepted', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch friends list");
@@ -48,7 +48,7 @@ const Notification = ({ onConfirm }) => {
 
   const fetchSharedDiariesReturn = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/diaries/getsharediary', {
+      const res = await fetch('https://project-safezone.onrender.com/api/diaries/getsharediary', {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ const Notification = ({ onConfirm }) => {
 
   const handleYesClick = async (friendId, friendName) => {
     try {
-      await fetch('http://localhost:3000/api/closefriends/updatestatus', {
+      await fetch('https://project-safezone.onrender.com/api/closefriends/updatestatus', {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -126,7 +126,7 @@ const Notification = ({ onConfirm }) => {
 
   const handleNoClick = async (friendId, friendName) => {
     try {
-      await fetch('http://localhost:3000/api/closefriends/updatestatus', {
+      await fetch('https://project-safezone.onrender.com/api/closefriends/updatestatus', {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

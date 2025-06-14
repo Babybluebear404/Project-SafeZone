@@ -111,7 +111,7 @@ const Q9 = () => {
       const requestData = { Q2: q2Answers, Q9: q9Answers };
 
       try {
-        const response = await fetch("http://localhost:3000/api/questions/savequestion", {
+        const response = await fetch("https://project-safezone.onrender.com/api/questions/savequestion", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

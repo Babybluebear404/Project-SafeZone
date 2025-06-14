@@ -33,7 +33,7 @@ const ChangePassword = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/users/change",
+        "https://project-safezone.onrender.com/api/users/change",
         {
           newPassword: newPassword,  // ✅ ถ้ามี oldPassword ต้องเพิ่มตรงนี้
         },

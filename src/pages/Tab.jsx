@@ -18,7 +18,7 @@ const Tab = () => {
           return;
         }
 
-        const response = await fetch("http://localhost:3000/api/users/profile", {
+        const response = await fetch("https://project-safezone.onrender.com/api/users/profile", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

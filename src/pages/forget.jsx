@@ -31,7 +31,7 @@ const Forget = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/otps/send-otp", {
+      await axios.post("https://project-safezone.onrender.com/api/otps/send-otp", {
         email: form.email_address,
       });
 
@@ -59,7 +59,7 @@ const Forget = () => {
 
     try {
       // 🔹 ตรวจสอบ OTP ก่อน
-      await axios.post("http://localhost:3000/api/otps/verify-otp", {
+      await axios.post("https://project-safezone.onrender.com/api/otps/verify-otp", {
         email: form.email_address,
         otp: form.otp,
       });
@@ -73,7 +73,7 @@ const Forget = () => {
         });
 
       // 🔹 ขอ Token สำหรับเปลี่ยนรหัสผ่าน
-      const response = await axios.post("http://localhost:3000/api/users/forgot", {
+      const response = await axios.post("https://project-safezone.onrender.com/api/users/forgot", {
         email: form.email_address,
       });
 

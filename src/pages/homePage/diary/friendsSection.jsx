@@ -24,7 +24,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
 
   const fetchAcceptedFriends = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
+      const res = await fetch('https://project-safezone.onrender.com/api/closefriends/getaccepted', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -53,7 +53,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
 
   const fetchShowStatus = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/closefriends/getAllStatusFriend', {
+      const res = await fetch('https://project-safezone.onrender.com/api/closefriends/getAllStatusFriend', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -81,7 +81,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
 
   const fetchAllUsers = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/users/allusers', {
+      const res = await fetch('https://project-safezone.onrender.com/api/users/allusers', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -127,7 +127,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
 
   const addFriend = async (friend) => {
     try {
-      const res = await fetch("http://localhost:3000/api/closefriends/addfriend", {
+      const res = await fetch("https://project-safezone.onrender.com/api/closefriends/addfriend", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -169,7 +169,7 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
 
   const deleteFriend = async (token, friendid) => {
     try {
-      const res = await fetch('http://localhost:3000/api/closefriends/deletefrined', {
+      const res = await fetch('https://project-safezone.onrender.com/api/closefriends/deletefrined', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

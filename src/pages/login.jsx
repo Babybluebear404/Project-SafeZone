@@ -18,7 +18,7 @@ const Login = () => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const res = await fetch("http://localhost:3000/api/users/google-login", {
+        const res = await fetch("https://project-safezone.onrender.com/api/users/google-login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const Login = () => {
     if (token) {
       const fetchData = async () => {
         try {
-          const response = await fetch("http://localhost:3000/api/questions/getquestion", {
+          const response = await fetch("https://project-safezone.onrender.com/api/questions/getquestion", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const Login = () => {
     const loginData = { email, password };
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/login", {
+      const response = await fetch("https://project-safezone.onrender.com/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

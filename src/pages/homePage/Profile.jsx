@@ -24,7 +24,7 @@ const Profile = (userService) => {
           return;
         }
 
-        const response = await fetch("http://localhost:3000/api/users/profile", {
+        const response = await fetch("https://project-safezone.onrender.com/api/users/profile", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const Profile = (userService) => {
         profile: selectedImage.id
       };
 
-      const response = await fetch("http://localhost:3000/api/users/updateprofile", {
+      const response = await fetch("https://project-safezone.onrender.com/api/users/updateprofile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

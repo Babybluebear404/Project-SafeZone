@@ -18,7 +18,7 @@ export const Friendary = () => {
 
     const fetchAcceptedFriends = async () => {
         try {
-            const res = await fetch('http://localhost:3000/api/closefriends/getaccepted', {
+            const res = await fetch('https://project-safezone.onrender.com/api/closefriends/getaccepted', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ export const Friendary = () => {
 
     const fetchSharedDiaries = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/diaries/getsharediary", {
+            const res = await fetch("https://project-safezone.onrender.com/api/diaries/getsharediary", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,

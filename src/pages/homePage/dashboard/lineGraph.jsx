@@ -17,7 +17,7 @@ export const LineGraph = ({ data }) => {
 
     const fetchFeelingData = async (day, token) => {
         try {
-            const res = await fetch(`http://localhost:3000/api/diaries/feeling?day=${day}`, {
+            const res = await fetch(`https://project-safezone.onrender.com/api/diaries/feeling?day=${day}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

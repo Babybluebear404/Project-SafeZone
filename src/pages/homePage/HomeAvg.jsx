@@ -12,7 +12,7 @@ export const AverageEmotion = ({ data, COLORS }) => {
     const fetchTodayFeeling = async () => {
         const today = dayjs().format("YYYY-MM-DD"); // รูปแบบวัน: 2025-06-01
         try {
-            const res = await fetch(`http://localhost:3000/api/diaries/getdiary?day=${today}`, {
+            const res = await fetch(`https://project-safezone.onrender.com/api/diaries/getdiary?day=${today}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
