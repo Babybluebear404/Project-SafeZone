@@ -217,6 +217,8 @@ export const FriendSection = ({ setAddfrienSec, addfriendSec, setCurrentPage }) 
             onClick={() => setCurrentPage("Diary") & setSearchTerm("") & setAddfrienSec(false)}
           />
           <h2>Add Friends</h2>
+          <div></div>
+          <div className="text-general" style={{ fontSize: '12px' }}>โปรดค้นหาชื่อผู้ใช้ด้วย UserID</div>
         </div>
         <input type="text"
           placeholder="Search..."
