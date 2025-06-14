@@ -1,6 +1,6 @@
 const Addfriend = require('../../application/useCases/closefriend/addFriend');
 const DeleteFriend = require('../../application/useCases/closefriend/deleteFriend');
-const GetAcceptedFriend = require('../../application/useCases/closefriend/getAcceptedFriend');
+const GetAcceptedFriend = require('../../application/useCases/closefriend/GetAcceptedFriend');
 const GetPendingFriend = require('../../application/useCases/closefriend/getPendingFriend');
 const UpdateFriend = require('../../application/useCases/closefriend/updateSatusFriend');
 const getAllStatusFriend = require('../../application/useCases/closefriend/getAllStatusFriend');
