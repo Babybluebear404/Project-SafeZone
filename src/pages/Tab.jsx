@@ -50,22 +50,22 @@ const Tab = () => {
           <span className="logo-text">SafeZone</span>
         </div>
         <nav className="nav-links">
-          <a href="/HomeLogin" className="nav-item active">Home</a>
-          <a href="/dashboard" className="nav-item">DashBoard</a>
-          <a href="/diary" className="nav-item">Diary</a>
-          <a href="/friendFeed" className="nav-item">Friendary</a>
-          <a href="/AboutUs" className="nav-item">About Us</a>
-          <a href="/info" className="nav-item"><FaCircleInfo /></a>
-          <a href="/notification" className="nav-item"><IoNotifications /></a>
+          <Link href="/HomeLogin" className="nav-item active">Home</Link>
+          <Link href="/dashboard" className="nav-item">DashBoard</Link>
+          <Link href="/diary" className="nav-item">Diary</Link>
+          <Link href="/friendFeed" className="nav-item">Friendary</Link>
+          <Link href="/AboutUs" className="nav-item">About Us</Link>
+          <Link href="/info" className="nav-item"><FaCircleInfo /></Link>
+          <Link href="/notification" className="nav-item"><IoNotifications /></Link>
         </nav>
 
-        <a href="/Profile">
+        <Link href="/Profile">
           {selectedImage ? (
             <img src={selectedImage.src} alt={selectedImage.name} className="profile-picture-placeholder" />
           ) : (
             <div className="profile-picture-placeholder"></div>
           )}
-        </a>
+        </Link>
       </header>
     </div>
   );

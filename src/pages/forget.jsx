@@ -150,7 +150,7 @@ const Forget = () => {
         </button>
       </form>
       <p className="login-link">
-        I remember my password? <a href="/login">Login</a>
+        I remember my password? <Link href="/login">Login</Link>
       </p>
     </div>
   );

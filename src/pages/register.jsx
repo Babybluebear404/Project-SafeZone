@@ -3,6 +3,8 @@ import "../style/register.css";
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const SignUp = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", passwordConfirm: "" });
@@ -121,7 +123,7 @@ const SignUp = () => {
         </button>
       </form>
       <p className="alreadyTxt">
-        Already have an account? <a href="/login" >Login</a>
+        Already have an account? <Link href="/login" >Login</Link>
       </p>
     </div>
   );
