@@ -29,7 +29,7 @@ const AboutUs = () => {
       </div>
       
       <div className="cat-lick-container">
-        <img src="/src/assets/CatLick.png" alt="Cat Lick" className="cat-lick" />
+        <img src="/assets/CatLick.PNG" alt="Cat Lick" className="cat-lick" />
       </div>
       {/*<div className="chocolate-container">
         <img src="/src/assets/Chocolate.png" alt="Cat Chocolate" className="chocolate" />

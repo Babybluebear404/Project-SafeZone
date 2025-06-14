@@ -86,7 +86,7 @@ const HomeLogin = () => {
         </div>
       )}
       <div className="cat-eye2-container">
-        <img src="/assets/CatEye2.png" alt="Cat Eye2" className="cat-eye2" />
+        <img src="/assets/CatEye2.PNG" alt="Cat Eye2" className="cat-eye2" />
       </div>
     </div>
   );
