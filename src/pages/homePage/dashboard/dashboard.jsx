@@ -4,7 +4,6 @@ import "../../../style/dashboard.css"
 import { LineGraphYear } from "./barGraph";
 import { LineGraph } from "./lineGraph";
 import { AverageEmotion } from "./avg";
-import { PieMonth } from "./pieChart";
 
 const Dashboard = () => {
     const [data, setData] = useState([]);
@@ -47,11 +46,6 @@ const Dashboard = () => {
                 {/*<LineGraphYear
                     data={data}
                     COLORS={COLORS}  />*/}
-            </div>
-            <div className="piePerYear">
-                <PieMonth
-                    data={data}
-                    COLORS={COLORS} />
             </div>
             <div className="CF-container">
                 <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="CF" />

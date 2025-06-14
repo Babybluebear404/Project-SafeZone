@@ -8,15 +8,15 @@ import { toast } from 'react-toastify';
 const Q8 = () => {
   const [cookies] = useCookies(["token"]);
   const questions = [
-    "ในช่วง 1 เดือนที่ผ่านมา มีบางช่วงไหม ที่รู้สึกว่าถ้าหายไปหรือไม่ต้องอยู่ตรงนี้แล้ว อาจจะดีกว่า",
-    "ในช่วง 1 เดือนที่ผ่านมา มีบางครั้งไหม ที่รู้สึกอยากทำร้ายตัวเองหรือรู้สึกว่าการเจ็บกายจะทำให้ใจสบายขึ้นบ้าง",
-    "ในช่วง 1 เดือนที่ผ่านมา เคยมีช่วงที่คิดถึงเรื่องการจากไปหรือความคิดแบบนั้นผ่านเข้ามาในใจไหม",
-    "ตอนนี้คุณคิดว่าคุณพอจะควบคุมความคิดแบบนั้นได้ไหม หรือรู้สึกมั่นใจว่าคงจะไม่ลงมือทำอะไรตามความคิดนั้นในตอนนี้",
-    "ในช่วง 1 เดือนที่ผ่านมา เคยคิดวางแผนหรือลองคิดไว้จริงจังว่าจะจากไปอย่างไรบ้างไหม",
-    "ในช่วง 1 เดือนที่ผ่านมา มีช่วงที่ได้เริ่มเตรียมอะไรบางอย่างไว้ เพื่อทำร้ายตัวเองหรือจากไปอย่างตั้งใจบ้างไหม",
-    "ในช่วง 1 เดือนที่ผ่านมา มีบางช่วงที่อาจเผลอทำร้ายตัวเองบ้างไหม แม้จะไม่ได้ตั้งใจให้ถึงกับหายไปก็ตาม",
-    "ในช่วง 1 เดือนที่ผ่านมา มีเหตุการณ์ไหนที่ได้ลองพยายามทำอะไรบางอย่าง เพื่อตั้งใจจะจากไปจริง ๆ บ้างไหม",
-    "ตั้งแต่อดีตจนถึงตอนนี้ เคยมีช่วงหนึ่งไหม ที่เคยพยายามจะจากไปจริง ๆ"
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ เคยรู้สึกว่าถ้าหายไปหรือไม่ต้องอยู่ตรงนี้แล้ว อาจจะดีกว่า",
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ เคยรู้สึกหรือทำให้ตัวเองบาดเจ็บ",
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ เคยมีความคิดเกี่ยวกับการจากไปของตัวเอง",
+    "คุณสามารถควบคุมความคิดเกี่ยวกับการจากไปของตัวเองได้หรือไม่ หรือบอกได้ไหมว่าคุณจะไม่ทำตามความคิดนั้น",
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ เคยมีความคิดเกี่ยวกับแผนการการจากไปของตัวเอง",
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ มีช่วงที่ได้เริ่มเตรียมอะไรบางอย่างไว้ เพื่อทำร้ายตัวเองหรือจากไปอย่างตั้งใจบ้างไหม",
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ เคยได้ทำให้ตัวเองบาดเจ็บแต่ไม่ได้ตั้งใจที่จะทำให้ถึงกับตัวเองต้องจากไป",
+    "ในช่วง 1 เดือนที่ผ่านมารวมถึงจนถึงวันนี้ เคยได้พยายามทำร้ายตัวเองโดยตั้งใจที่ทำให้ตัวเองจากไป",
+    "ตลอดระยะเวลาที่ผ่านมาจนถึงวันนี้ เคยพยายามทำให้ตัวเองจากไปจริง ๆ บ้างไหม"
   ];
 
   const scoring = [
@@ -34,27 +34,55 @@ const Q8 = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [scores, setScores] = useState(Array(questions.length).fill(null));
   const [result, setResult] = useState(null);
-  const [showPopup, setShowPopup] = useState(false); 
-  const navigate = useNavigate(); 
-
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
   const handleAnswer = (index, score) => {
     const updatedScores = [...scores];
     updatedScores[index] = score;
     setScores(updatedScores);
 
-   
-    if (index < questions.length - 1) {
+    // ถ้าเป็นข้อ 3 (index === 2)
+    if (index === 2) {
+      if (score === 0) {
+        // ข้าม 3.1 แล้วไปข้อ 4 (index 4)
+        setCurrentQuestionIndex(4);
+      } else {
+        // ไปที่ 3.1 (index 3)
+        setCurrentQuestionIndex(3);
+      }
+    }
+    else if (index === 3 && scores[2] !== 0) {
+      // หลังจาก 3.1 ไปที่ข้อ 4 (index 4)
+      setCurrentQuestionIndex(4);
+    }
+    else if (index < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
+    }
+    else {
       calculateResult(updatedScores);
     }
   };
 
+
   const handleBack = () => {
-    if (currentQuestionIndex > 0) {
+    if (currentQuestionIndex === 4) {
+      // ถ้าย้อนกลับจากข้อ 4
+      if (scores[2] === 0) {
+        // ข้ามข้อ 3.1 → ย้อนกลับไปข้อ 3
+        setCurrentQuestionIndex(2);
+      } else {
+        // เคยตอบข้อ 3 ว่า "ใช่" → แสดง 3.1 → ย้อนกลับไป 3.1
+        setCurrentQuestionIndex(3);
+      }
+    } else if (currentQuestionIndex === 3) {
+      // กรณีอยู่ที่ข้อ 3.1 แล้วกด Back → ย้อนกลับไปข้อ 3
+      setCurrentQuestionIndex(2);
+    } else if (currentQuestionIndex > 0) {
+      // ข้ออื่นๆ ทั่วไป
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
+
 
   const calculateResult = (scores) => {
     const totalScore = scores.reduce((sum, score) => sum + (score || 0), 0);
@@ -63,20 +91,20 @@ const Q8 = () => {
       setResult("ไม่มีแนวโน้มจะฆ่าตัวตายในปัจจุบัน");
     } else if (totalScore <= 8) {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับน้อย");
-      setShowPopup(true); 
+      setShowPopup(true);
     } else if (totalScore <= 16) {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับปานกลาง");
-      setShowPopup(true); 
+      setShowPopup(true);
     } else {
       setResult("มีแนวโน้มจะฆ่าตัวตายในปัจจุบันในระดับรุนแรง");
-      setShowPopup(true); 
+      setShowPopup(true);
     }
 
     sessionStorage.setItem("q8Answer", JSON.stringify(totalScore));
   };
 
   const closePopup = () => {
-    setShowPopup(false); 
+    setShowPopup(false);
   };
 
   const handleNext = async () => {
@@ -91,38 +119,28 @@ const Q8 = () => {
     }
 
     const requestData = { Q2: q2Answers, Q9: q9Answers, Q8: q8Answers };
-    
+
     try {
       const response = await fetch("http://localhost:3000/api/questions/savequestion", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(requestData),
       });
 
       if (response.ok) {
-          toast.success("Your depression screening results have been saved.",
+        toast.success("Your depression screening results have been saved.",
           {
             position: "top-center",
             autoClose: 2000,
             closeButton: false,
             hideProgressBar: true,
           });
-        } else {
-          const errorData = await response.json();
-          toast.error(`Error: ${errorData.error}`,
-          {
-            position: "top-center",
-            autoClose: 2000,
-            closeButton: false,
-            hideProgressBar: true,
-          });
-        }
-        navigate("/HomeLogin");
-      }   catch (error) {
-        toast.error(`Error: ${error}`,
+      } else {
+        const errorData = await response.json();
+        toast.error(`Error: ${errorData.error}`,
           {
             position: "top-center",
             autoClose: 2000,
@@ -130,6 +148,22 @@ const Q8 = () => {
             hideProgressBar: true,
           });
       }
+      navigate("/HomeLogin");
+    } catch (error) {
+      toast.error(`Error: ${error}`,
+        {
+          position: "top-center",
+          autoClose: 2000,
+          closeButton: false,
+          hideProgressBar: true,
+        });
+    }
+  };
+
+  const getQuestionNumber = (index) => {
+    if (index === 3) return "3.1"; // ข้อพิเศษ 3.1
+    if (index > 3) return index;   // หลังจาก 3.1 → ข้อ 4, 5, 6, ...
+    return index + 1;              // ข้อ 1–3
   };
 
   return (
@@ -142,12 +176,14 @@ const Q8 = () => {
                 key={index}
                 className={`step-circle ${currentQuestionIndex === index ? "active" : currentQuestionIndex > index ? "completed" : ""}`}
               >
-                {index + 1}
+                {index === 3 ? "3.1" : index > 3 ? index : index + 1}
               </div>
             ))}
           </div>
           <h1 className="title">แบบประเมินการฆ่าตัวตาย (8Q)</h1>
-          <p className="question">ข้อ {currentQuestionIndex + 1} : {questions[currentQuestionIndex]}</p>
+          <p className="question">
+            ข้อ {getQuestionNumber(currentQuestionIndex)} : {questions[currentQuestionIndex]}
+          </p>
           <div className="answers-row">
             {scoring[currentQuestionIndex].map((score, scoreIndex) => (
               <button
@@ -188,7 +224,7 @@ const Q8 = () => {
               สายด่วนสุขภาพจิต: 1323 <br /><br />
               ติดต่อ: ภาควิชาจิตเวชศาสตร์ <br />
               ที่อยู่: ชั้น 3 อาคารสิรินธร โรงพยาบาลมหาวิทยาลัยนเรศวร มหาวิทยาลัยนเรศวร
-              ตำบลท่าโพธิ์ อำเภอเมือง จังหวัดพิษณุโลก 65000. 
+              ตำบลท่าโพธิ์ อำเภอเมือง จังหวัดพิษณุโลก 65000.
               คลินิกจิตเวช: 0-5596-5702-3 <br /><br />
               ศูนย์สุขภาวะนิสิต มหาวิทยาลัยนเรศวร
             </p>
