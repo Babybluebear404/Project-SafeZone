@@ -8,6 +8,7 @@ import "../style/Login.css";
 // import liff from '@line/liff';
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode"; // ใช้สำหรับถอดรหัส JWT
+import { Link } from "react-router-dom";
 
 
 const Login = () => {
@@ -166,12 +167,12 @@ const Login = () => {
           <input type="password" name="password" placeholder="Password" className="input" required />
           <div className="options-center">
             <span>Remember me</span>
-            <a href="/forget" className="link">Forget Password</a>
+            <Link to="/forget" className="link">Forget Password</Link>
           </div>
           <button type="submit" className="login-button">Log in</button>
         </form>
         <p className="signup">
-          Don’t have an account? <a href="/register" className="link">Sign up</a>
+          Don’t have an account? <Link to="/register" className="link">Sign up</Link>
         </p>
       </div>
     </div>
