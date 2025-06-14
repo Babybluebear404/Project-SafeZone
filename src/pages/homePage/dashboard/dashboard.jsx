@@ -48,10 +48,10 @@ const Dashboard = () => {
                     COLORS={COLORS}  />*/}
             </div>
             <div className="CF-container">
-                <img src="/assets/Cat&Fish.png" alt="Cat and Fish" className="CF" />
+                <img src="/assets/cat-fish.png" alt="Cat and Fish" className="CF" />
             </div>
             <div className="cat-tongue-container">
-                <img src="/assets/CatTongue.PNG" alt="Cat Tongue" className="cat-tongue" />
+                <img src="/assets/cat-tongue.png" alt="Cat Tongue" className="cat-tongue" />
             </div>
         </div>
 

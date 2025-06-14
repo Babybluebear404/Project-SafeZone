@@ -5,7 +5,6 @@ import Tab from "../Tab";
 import { AverageEmotion } from "./HomeAvg";
 import { EmotionSummary } from "./Home3&7";
 
-
 const HomeLogin = () => {
   const [data, setData] = useState([]);
   
@@ -39,7 +38,7 @@ const HomeLogin = () => {
       <Tab/>
 
       <div className="cat-fish-container">
-        <img src="/assets/Cat&Fish.png" alt="Cat and Fish" className="cat-fish" />
+        <img src="/assets/cat-fish.png" alt="Cat and Fish" className="cat-fish" />
       </div>
 
       
@@ -86,7 +85,7 @@ const HomeLogin = () => {
         </div>
       )}
       <div className="cat-eye2-container">
-        <img src="/assets/CatEye2.PNG" alt="Cat Eye2" className="cat-eye2" />
+        <img src="/assets/cat-eye.png" alt="Cat Eye2" className="cat-eye2" />
       </div>
     </div>
   );
