@@ -6,6 +6,8 @@ import "../style/Forget.css";
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode"; // ใช้สำหรับถอดรหัส JWT
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+
 
 
 const Forget = () => {
@@ -150,7 +152,7 @@ const Forget = () => {
         </button>
       </form>
       <p className="login-link">
-        I remember my password? <Link href="/login">Login</Link>
+        I remember my password? <Link to="/login">Login</Link>
       </p>
     </div>
   );
