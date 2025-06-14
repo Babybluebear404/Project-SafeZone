@@ -1,4 +1,4 @@
-class MySQLquestionRepository {
+class MySQLQuestionRepository {
     constructor(connection) {
         this.connection = connection;  // ควรใช้ connection ที่มาจาก mysql2/promise
     }
@@ -15,4 +15,4 @@ class MySQLquestionRepository {
     }
 }
 
-module.exports = MySQLquestionRepository;
+module.exports = MySQLQuestionRepository;
