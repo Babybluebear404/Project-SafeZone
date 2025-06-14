@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
 import '../../style/Profile.css';
 import { useCookies } from "react-cookie";
-import imageTemplates from '../../components/imageTemplates';
 import { toast } from 'react-toastify';
 
 
