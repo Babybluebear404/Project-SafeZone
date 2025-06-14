@@ -39,7 +39,7 @@ const HomeLogin = () => {
       <Tab/>
 
       <div className="cat-fish-container">
-        <img src="/src/assets/Cat&Fish.png" alt="Cat and Fish" className="cat-fish" />
+        <img src="/assets/Cat&Fish.png" alt="Cat and Fish" className="cat-fish" />
       </div>
 
       
@@ -86,7 +86,7 @@ const HomeLogin = () => {
         </div>
       )}
       <div className="cat-eye2-container">
-        <img src="/src/assets/CatEye2.png" alt="Cat Eye2" className="cat-eye2" />
+        <img src="/assets/CatEye2.png" alt="Cat Eye2" className="cat-eye2" />
       </div>
     </div>
   );

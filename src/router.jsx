@@ -32,7 +32,6 @@ const elements = createRoutesFromElements (
         <Route path="/forget" element={<Forget/>} />
         <Route path="/ChangePassword" element={<ChangePassword/>} />
         
-        //กำหนดให้ Route ที่อยู่ในนี้ต้อง login ก่อนเสมอ
         <Route path="/depression-screening" element={<PrivateRoute element={<DepressionScreening />} />} />
         <Route path="/HomeLogin" element={<PrivateRoute element={<HomeLogin />} />} />
         <Route path="/Q9" element={<PrivateRoute element={<Q9 />} />} />

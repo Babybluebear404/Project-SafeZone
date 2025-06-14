@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { FaCircleInfo } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
 import "../style/Tab.css";
@@ -9,6 +9,7 @@ import { useCookies } from "react-cookie";
 const Tab = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [cookies] = useCookies(["token"]);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -29,7 +30,9 @@ const Tab = () => {
         if (response.ok) {
           const json = await response.json();
           const profileData = json.data;
-          const selecImage = imageTemplates.find((image) => String(image.id) === String(profileData?.profile));
+          const selecImage = imageTemplates.find(
+            (image) => String(image.id) === String(profileData?.profile)
+          );
           setSelectedImage(selecImage || null);
         } else {
           console.error("❌ Error fetching profile");
@@ -40,7 +43,7 @@ const Tab = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [cookies.token]);
 
   return (
     <div className="home-container">
@@ -49,24 +52,75 @@ const Tab = () => {
           <div className="logo-placeholder"></div>
           <span className="logo-text">SafeZone</span>
         </div>
+
         <nav className="nav-links">
-          <Link to="/HomeLogin" className="nav-item active">Home</Link>
-          <Link to="/dashboard" className="nav-item">DashBoard</Link>
-          <Link to="/diary" className="nav-item">Diary</Link>
-          <Link to="/friendFeed" className="nav-item">Friendary</Link>
-          <Link to="/AboutUs" className="nav-item">About Us</Link>
-          <Link to="/info" className="nav-item"><FaCircleInfo /></Link>
-          <Link to="/notification" className="nav-item"><IoNotifications /></Link>
+          {/* ใช้ NavLink เพื่อจัดการ active class อัตโนมัติ */}
+          <NavLink
+            to="/HomeLogin"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            DashBoard
+          </NavLink>
+
+          <NavLink
+            to="/diary"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Diary
+          </NavLink>
+
+          <NavLink
+            to="/friendFeed"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Friendary
+          </NavLink>
+
+          <NavLink
+            to="/AboutUs"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            About Us
+          </NavLink>
+
+          <NavLink
+            to="/info"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            <FaCircleInfo />
+          </NavLink>
+
+          <NavLink
+            to="/notification"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            <IoNotifications />
+          </NavLink>
         </nav>
 
         <Link to="/Profile">
           {selectedImage ? (
-            <img src={selectedImage.src} alt={selectedImage.name} className="profile-picture-placeholder" />
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.name}
+              className="profile-picture-placeholder"
+            />
           ) : (
             <div className="profile-picture-placeholder"></div>
           )}
         </Link>
       </header>
+
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 };
