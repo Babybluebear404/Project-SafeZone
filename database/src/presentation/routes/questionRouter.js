@@ -4,9 +4,9 @@ const connection = require('../../infrastructure/database/config');  // กา�
 
 const QuestionController = require('../controllers/questionController');
 const QuestionService = require('../../domain/services/questionService');
-const MySQLquestionRepository = require('../../infrastructure/repositories/MySQLquestionRepository');
+const MySQLQuestionRepository = require('../../infrastructure/repositories/MySQLquestionRepository');
 
-const questionRepository = new MySQLquestionRepository(connection);
+const questionRepository = new MySQLQuestionRepository(connection);
 const questionService = new QuestionService(questionRepository);
 const questionController = new QuestionController(questionService);
 
