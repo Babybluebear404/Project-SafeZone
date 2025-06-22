@@ -169,7 +169,12 @@ export const LineGraph = ({ data }) => {
                             />
                         </YAxis>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <Tooltip />
+                        <Tooltip 
+                            formatter={(value, name) => {
+                                const labels = ['', 'แย่มาก', 'ไม่ดีเลย', 'ก็ดีนะ', 'ดี', 'สุดยอด'];
+                                return [labels[value] || value, 'ระดับอารมณ์'];
+                            }}
+                        />
                         <ReferenceLine x="Page C" stroke="green" label="Min PAGE" />
                         <ReferenceLine y={4000} label="Max" stroke="red" strokeDasharray="3 3" />
                         <Area type="monotone" dataKey="feeling" stroke="#57a3d5" fill="#57a3d5" />
