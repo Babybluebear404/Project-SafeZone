@@ -4,6 +4,7 @@ import "../../../style/dashboard.css"
 import { LineGraphYear } from "./barGraph";
 import { LineGraph } from "./lineGraph";
 import { AverageEmotion } from "./avg";
+import { ProgressBarEmotion } from "./progressBar";
 
 const Dashboard = () => {
     const [data, setData] = useState([]);
@@ -26,6 +27,9 @@ const Dashboard = () => {
                 <div className="TitleSub">
                     <h1 className="Title">Dashboard</h1>
                     <span>แสดงภาพรวมของระดับอารมณ์ที่คุณได้เลือกไว้ภายใน Diary ในระยะเวลาต่าง ๆ ที่ผ่านมารวมถึงการให้ประเมินระดับอารมณ์จาก Diary ของ AI</span>
+                    <div className="emotion-7day-progress">
+                    <ProgressBarEmotion COLORS={COLORS} />
+                    </div>
                 </div>
                 <div className="avg-emotionDay">
                     <AverageEmotion
