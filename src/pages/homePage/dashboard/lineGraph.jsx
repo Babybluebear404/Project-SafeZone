@@ -41,8 +41,6 @@ export const LineGraph = ({ data }) => {
     // คำนวณจำนวนวันที่เลือกจาก dropdown
     const getDaysAgo = (selectedOption) => {
         switch (selectedOption) {
-            case "oneWeekAgo":
-                return 7;
             case "twoWeekAgo":
                 return 14;
             case "oneMonthAgo":
@@ -132,7 +130,6 @@ export const LineGraph = ({ data }) => {
             <div className="dropdownChartSelected">
                 <label htmlFor="dropdown">เลือกจำนวนวันย้อนหลัง:</label>
                 <select id="dropdown" className="dropdown" value={selected} onChange={handleSelectChange}>
-                    <option value="oneWeekAgo">1 สัปดาห์ที่ผ่านมา</option>
                     <option value="twoWeekAgo">2 สัปดาห์ที่ผ่านมา</option>
                     <option value="oneMonthAgo">1 เดือนที่ผ่านมา</option>
                     <option value="threeMonthAgo">3 เดือนที่ผ่านมา</option>
