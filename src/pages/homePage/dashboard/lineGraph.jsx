@@ -153,10 +153,18 @@ export const LineGraph = ({ data }) => {
                                 className="description-chart"
                                 position="insideBottom" />
                         </XAxis>
-                        <YAxis domain={[1, 5]} >
+                        <YAxis 
+                            domain={[1, 5]} 
+                            tickFormatter={(value) => {
+                                const labels = ['', 'แย่มาก', 'ไม่ดีเลย', 'ก็ดีนะ', 'ดี', 'สุดยอด'];
+                                return labels[value] || '';
+                            }}
+                            ticks={[1, 2, 3, 4, 5]}
+                        >
                             <Label
                                 value="ระดับอารมณ์"
                                 angle={-90}
+                                dx={-25}    
                                 className="description-chart"
                             />
                         </YAxis>
