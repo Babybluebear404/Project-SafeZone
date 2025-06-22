@@ -12,7 +12,7 @@ export const LineGraph = ({ data }) => {
     let thisDay = today.getDate();
     let thisMonth = today.getMonth();
     let thisYear = today.getFullYear();
-    const [selected, setSelected] = useState("sevenDayAgo");
+    const [selected, setSelected] = useState("twoWeekAgo");
     const [filteredData, setFilteredData] = useState([]);
 
     const fetchFeelingData = async (day, token) => {
@@ -41,8 +41,6 @@ export const LineGraph = ({ data }) => {
     // คำนวณจำนวนวันที่เลือกจาก dropdown
     const getDaysAgo = (selectedOption) => {
         switch (selectedOption) {
-            case "sevenDayAgo":
-                return 7;
             case "twoWeekAgo":
                 return 14;
             case "oneMonthAgo":
@@ -132,7 +130,6 @@ export const LineGraph = ({ data }) => {
             <div className="dropdownChartSelected">
                 <label htmlFor="dropdown">เลือกจำนวนวันย้อนหลัง:</label>
                 <select id="dropdown" className="dropdown" value={selected} onChange={handleSelectChange}>
-                    <option value="sevenDayAgo">7 วันที่ผ่านมา</option>
                     <option value="twoWeekAgo">2 สัปดาห์ที่ผ่านมา</option>
                     <option value="oneMonthAgo">1 เดือนที่ผ่านมา</option>
                     <option value="threeMonthAgo">3 เดือนที่ผ่านมา</option>
