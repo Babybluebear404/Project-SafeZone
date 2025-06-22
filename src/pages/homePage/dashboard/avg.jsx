@@ -138,15 +138,15 @@ export const AverageEmotion = ({ data, COLORS }) => {
                 {getEmojiIcon((feeling * 100) / 5)}
                 <span className="description-chart">{labelMessage(feeling)}</span>
             </div>
-            <div className="avg-Label" style={{ backgroundImage: averageColor }}>
-                <span className="description-chart">ระดับอารมณ์<br/>โดยเฉลี่ยใน 1 สัปดาห์</span>
-                {getEmojiIcon(percentage)}
-                <span className="description-chart">{averageMood.toFixed(2)}</span>
-            </div>
             <div className="avg-Model" style={{ backgroundColor: colorEmoji[aifeeling - 1] }}>
                 <span className="description-chart">ผลประเมินระดับอารมณ์จาก AI ของวันนี้</span>
                 {getEmojiIcon((aifeeling * 100) / 5)}
                 <span className="description-chart">{labelMessage(aifeeling)}</span>
+            </div>
+            <div className="avg-Label" style={{ backgroundImage: averageColor }}>
+                <span className="description-chart">ระดับอารมณ์<br/>โดยเฉลี่ยใน 1 สัปดาห์</span>
+                {getEmojiIcon(percentage)}
+                <span className="description-chart">{averageMood.toFixed(2)}</span>
             </div>
         </div>
     )
